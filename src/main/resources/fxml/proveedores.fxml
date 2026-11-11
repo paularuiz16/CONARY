@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.ProveedoresController"
+      spacing="12" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+
+    <!-- Encabezado -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="PROVEEDORES Y CUENTAS POR PAGAR" styleClass="titulo-principal"/>
+            <Label text="Directorio de distribuidores, productos que surten y pagos pendientes." styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnPagar" text="💳 Registrar Pago a Proveedor" onAction="#handleRegistrarPago" styleClass="button-success"/>
+        <Button fx:id="btnNuevo" text="➕ Nuevo Proveedor" onAction="#handleNuevoProveedor" styleClass="button"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Barra de Busqueda -->
+    <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+        <Label text="Buscar Proveedor:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+        <TextField fx:id="txtBuscar" promptText="Nombre del proveedor o producto..." prefWidth="300"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblTotalDeuda" text="Total Cuentas por Pagar: $ 0.00" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c; -fx-font-size: 13px;"/>
+    </HBox>
+
+    <SplitPane dividerPositions="0.68" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <!-- Lado Izquierdo: Tabla -->
+        <VBox spacing="8">
+            <TableView fx:id="tblProveedores" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="45" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colNombre" text="Proveedor" prefWidth="170"/>
+                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="110"/>
+                    <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="130"/>
+                    <TableColumn fx:id="colProductos" text="Productos que Surte" prefWidth="170"/>
+                    <TableColumn fx:id="colSaldo" text="Saldo Adeudado" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                </columns>
+                <placeholder>
+                    <Label text="No hay proveedores registrados."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- Lado Derecho: Formulario de Proveedor -->
+        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+            <Label fx:id="lblTituloForm" text="Nuevo Proveedor" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1e293b;"/>
+            <Separator/>
+
+            <VBox spacing="3">
+                <Label text="Nombre de la Empresa / Proveedor:*"/>
+                <TextField fx:id="txtNombre" promptText="Ej: Distribuidora Norma"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Teléfono:"/>
+                <TextField fx:id="txtTelefono" promptText="Ej: 320 987 6543"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Dirección:"/>
+                <TextField fx:id="txtDireccion" promptText="Ej: Carrera 15 # 8-30"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Productos que Surte:"/>
+                <TextArea fx:id="txtProductos" promptText="Ej: Cuadernos, carpetas, resmas de papel..." prefRowCount="3" wrapText="true"/>
+            </VBox>
+
+            <CheckBox fx:id="chkActivo" text="Proveedor Activo" selected="true" style="-fx-padding: 5 0 5 0;"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleLimpiarForm" styleClass="button-secondary"/>
+                <Button fx:id="btnGuardar" text="Guardar Proveedor" onAction="#handleGuardarProveedor" styleClass="button-success"/>
+            </HBox>
+        </VBox>
+    </SplitPane>
+
+</VBox>
+

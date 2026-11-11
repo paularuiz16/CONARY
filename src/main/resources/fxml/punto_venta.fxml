@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.PuntoVentaController"
+      spacing="12" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+
+    <!-- Encabezado de Ventas -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="PUNTO DE VENTA Y FACTURACIÓN" styleClass="titulo-principal"/>
+            <Label text="Registra ventas de mostrador en efectivo o a crédito (fiado)." styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnNuevaVenta" text="🔄 Nueva Venta (Limpiar)" onAction="#handleLimpiarVenta" styleClass="button-secondary"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Seccion de Busqueda y Agregar Producto -->
+    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="Buscar Producto:" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 11px;"/>
+            <ComboBox fx:id="cmbProductos" promptText="Selecciona o escribe el nombre del producto..."
+                      maxWidth="Infinity" editable="true" prefHeight="35"/>
+        </VBox>
+
+        <VBox spacing="3" prefWidth="100">
+            <Label text="Cantidad:" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 11px;"/>
+            <TextField fx:id="txtCantidad" text="1" alignment="CENTER" prefHeight="35"/>
+        </VBox>
+
+        <VBox spacing="3" alignment="BOTTOM_CENTER">
+            <Label text="" style="-fx-font-size: 11px;"/>
+            <Button fx:id="btnAgregarItem" text="➕ Agregar al Carrito" onAction="#handleAgregarItem"
+                    prefHeight="35" styleClass="button"/>
+        </VBox>
+    </HBox>
+
+    <!-- Tabla del Carrito de Compras -->
+    <TableView fx:id="tblCarrito" VBox.vgrow="ALWAYS" prefHeight="250">
+        <columns>
+            <TableColumn fx:id="colProducto" text="Producto" prefWidth="280"/>
+            <TableColumn fx:id="colPrecio" text="Precio Unitario" prefWidth="130" style="-fx-alignment: CENTER-RIGHT;"/>
+            <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="90" style="-fx-alignment: CENTER;"/>
+            <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="140" style="-fx-alignment: CENTER-RIGHT;"/>
+            <TableColumn fx:id="colAccion" text="Acción" prefWidth="90" style="-fx-alignment: CENTER;"/>
+        </columns>
+        <placeholder>
+            <Label text="El carrito está vacío. Agrega productos arriba para iniciar la venta." style="-fx-text-fill: #94a3b8;"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Panel Inferior: Cliente, Tipo de Pago y Total -->
+    <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+
+        <!-- Opciones de Cobro -->
+        <VBox spacing="8" prefWidth="380">
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <RadioButton fx:id="rbContado" text="Efectivo / Contado" selected="true" style="-fx-font-weight: bold;"/>
+                <RadioButton fx:id="rbFiado" text="A Crédito (Fiado)" style="-fx-font-weight: bold; -fx-text-fill: #b45309;"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Cliente:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+                <ComboBox fx:id="cmbClientes" promptText="Selecciona cliente..." HBox.hgrow="ALWAYS" maxWidth="Infinity" prefHeight="32"/>
+            </HBox>
+
+            <Label fx:id="lblInfoCredito" text="" style="-fx-font-size: 11px; -fx-text-fill: #0369a1;" wrapText="true"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Total de la Venta y Boton Cobrar -->
+        <VBox alignment="CENTER_RIGHT" spacing="5">
+            <Label text="TOTAL A PAGAR" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+            <Label fx:id="lblTotalVenta" text="\$ 0.00" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+            <Button fx:id="btnCobrar" text="✅ Registrar Venta" onAction="#handleRegistrarVenta"
+                    prefWidth="220" prefHeight="42" styleClass="button-success" style="-fx-font-size: 14px;"/>
+        </VBox>
+    </HBox>
+
+</VBox>
+

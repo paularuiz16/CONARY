@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.ClientesController"
+      spacing="12" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+
+    <!-- Encabezado -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="CLIENTES Y CONTROL DE FIADOS" styleClass="titulo-principal"/>
+            <Label text="Administración de cuentas por cobrar, límites de crédito y abonos de deuda." styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnAbonar" text="💰 Registrar Abono a Deuda" onAction="#handleRegistrarAbono" styleClass="button-success"/>
+        <Button fx:id="btnNuevo" text="➕ Nuevo Cliente" onAction="#handleNuevoCliente" styleClass="button"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Barra de Busqueda -->
+    <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+        <Label text="Buscar Cliente:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+        <TextField fx:id="txtBuscar" promptText="Nombre o teléfono..." prefWidth="280"/>
+        <CheckBox fx:id="chkSoloDeudores" text="Solo clientes con saldo pendiente" style="-fx-text-fill: #b45309; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblTotalDeuda" text="Total Cartera Fiada: $ 0.00" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c; -fx-font-size: 13px;"/>
+    </HBox>
+
+    <SplitPane dividerPositions="0.68" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <!-- Lado Izquierdo: Tabla -->
+        <VBox spacing="8">
+            <TableView fx:id="tblClientes" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="45" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colNombre" text="Nombre Completo" prefWidth="180"/>
+                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="110"/>
+                    <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="140"/>
+                    <TableColumn fx:id="colFiado" text="Fiado Aut." prefWidth="85" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colLimite" text="Límite Crédito" prefWidth="105" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colSaldo" text="Deuda Actual" prefWidth="110" style="-fx-alignment: CENTER-RIGHT;"/>
+                </columns>
+                <placeholder>
+                    <Label text="No hay clientes registrados."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- Lado Derecho: Formulario de Cliente -->
+        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+            <Label fx:id="lblTituloForm" text="Nuevo Cliente" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1e293b;"/>
+            <Separator/>
+
+            <VBox spacing="3">
+                <Label text="Nombre Completo:*"/>
+                <TextField fx:id="txtNombre" promptText="Ej: Doña Carmen Gómez"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Teléfono:"/>
+                <TextField fx:id="txtTelefono" promptText="Ej: 310 123 4567"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Dirección:"/>
+                <TextField fx:id="txtDireccion" promptText="Ej: Calle 5 # 4-20"/>
+            </VBox>
+
+            <CheckBox fx:id="chkFiadoAutorizado" text="Autorizar Crédito / Fiado" style="-fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+
+            <VBox spacing="3">
+                <Label text="Límite de Crédito ($):"/>
+                <TextField fx:id="txtLimiteCredito" promptText="0.00"/>
+            </VBox>
+
+            <CheckBox fx:id="chkActivo" text="Cliente Activo" selected="true" style="-fx-padding: 5 0 5 0;"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleLimpiarForm" styleClass="button-secondary"/>
+                <Button fx:id="btnGuardar" text="Guardar Cliente" onAction="#handleGuardarCliente" styleClass="button-success"/>
+            </HBox>
+        </VBox>
+    </SplitPane>
+
+</VBox>
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.MainController"
+            stylesheets="@../css/styles.css"
+            prefWidth="1100" prefHeight="700">
+
+    <!-- BARRA SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #0f172a; -fx-padding: 10 20 10 20; -fx-border-color: #1e293b; -fx-border-width: 0 0 1 0;">
+
+            <Label text="PAPELERÍA DE ROSITA" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label text="| CONARY" style="-fx-text-fill: #94a3b8; -fx-font-size: 13px;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Estado de Caja -->
+            <HBox alignment="CENTER" spacing="8" style="-fx-background-color: #1e293b; -fx-background-radius: 4; -fx-padding: 4 10 4 10;">
+                <Label text="Turno Caja:" style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+                <Label fx:id="lblEstadoCaja" text="CERRADA" style="-fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            </HBox>
+
+            <!-- Usuario Activo -->
+            <HBox alignment="CENTER" spacing="8" style="-fx-background-color: #1e293b; -fx-background-radius: 4; -fx-padding: 4 10 4 10;">
+                <Label text="Usuario:" style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+                <Label fx:id="lblUsuarioLogueado" text="Rosita (ADMIN)" style="-fx-text-fill: #38bdf8; -fx-font-weight: bold; -fx-font-size: 12px;"/>
+            </HBox>
+
+            <!-- Boton Cerrar Sesion -->
+            <Button fx:id="btnCerrarSesion" text="Salir" onAction="#handleCerrarSesion"
+                    styleClass="button-danger" style="-fx-font-size: 11px; -fx-padding: 5 12 5 12;"/>
+        </HBox>
+    </top>
+
+    <!-- BARRA LATERAL (MENU) -->
+    <left>
+        <VBox spacing="6" styleClass="sidebar" prefWidth="210" style="-fx-padding: 15 10 15 10;">
+
+            <Label text="MÓDULOS" style="-fx-text-fill: #64748b; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 0 0 6 6;"/>
+
+            <Button fx:id="btnNavVenta" text="🛒  Punto de Venta" onAction="#mostrarPuntoVenta"
+                    maxWidth="Infinity" styleClass="sidebar-button, sidebar-button-active"/>
+
+            <Button fx:id="btnNavInventario" text="📦  Inventario" onAction="#mostrarInventario"
+                    maxWidth="Infinity" styleClass="sidebar-button"/>
+
+            <Button fx:id="btnNavClientes" text="👥  Clientes y Fiados" onAction="#mostrarClientes"
+                    maxWidth="Infinity" styleClass="sidebar-button"/>
+
+            <Button fx:id="btnNavProveedores" text="🚚  Proveedores" onAction="#mostrarProveedores"
+                    maxWidth="Infinity" styleClass="sidebar-button"/>
+
+            <Button fx:id="btnNavCaja" text="💵  Caja y Arqueo" onAction="#mostrarCaja"
+                    maxWidth="Infinity" styleClass="sidebar-button"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Separator style="-fx-opacity: 0.2;"/>
+            <Label text="Windows 8 | 2 GB RAM" style="-fx-text-fill: #475569; -fx-font-size: 10px; -fx-alignment: CENTER;" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <!-- AREA CENTRAL DE CONTENIDO DINAMICO -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #f1f5f9; -fx-padding: 15;">
+            <!-- Aqui se cargaran las vistas individuales de cada modulo -->
+        </StackPane>
+    </center>
+
+</BorderPane>
+

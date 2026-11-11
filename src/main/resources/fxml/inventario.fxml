@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.InventarioController"
+      spacing="12" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+
+    <!-- Encabezado -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="GESTIÓN DE INVENTARIO Y PRODUCTOS" styleClass="titulo-principal"/>
+            <Label text="Control de existencias, precios de compra/venta y alertas de stock mínimo." styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnNuevo" text="➕ Nuevo Producto" onAction="#handleNuevoProducto" styleClass="button-success"/>
+        <Button fx:id="btnExportarExcel" text="📊 Exportar a Excel" onAction="#handleExportarExcel" styleClass="button-secondary"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Barra de Filtros y Busqueda -->
+    <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+        <Label text="Buscar:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+        <TextField fx:id="txtBuscar" promptText="Nombre o categoría del producto..." prefWidth="280"/>
+        <CheckBox fx:id="chkSoloStockBajo" text="Solo productos con Stock Bajo" style="-fx-text-fill: #b91c1c; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblTotalProductos" text="Total productos: 0" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+    </HBox>
+
+    <!-- Contenido: Tabla y Formulario Lateral -->
+    <SplitPane dividerPositions="0.65" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <!-- Lado Izquierdo: Tabla -->
+        <VBox spacing="8">
+            <TableView fx:id="tblProductos" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colNombre" text="Nombre del Producto" prefWidth="200"/>
+                    <TableColumn fx:id="colCategoria" text="Categoría" prefWidth="110"/>
+                    <TableColumn fx:id="colPrecioCompra" text="P. Compra" prefWidth="95" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colPrecioVenta" text="P. Venta" prefWidth="95" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colStockActual" text="Stock" prefWidth="70" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colStockMinimo" text="Mín." prefWidth="60" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colEstadoStock" text="Alerta" prefWidth="90" style="-fx-alignment: CENTER;"/>
+                </columns>
+                <placeholder>
+                    <Label text="No hay productos registrados en el inventario."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- Lado Derecho: Formulario de Registro / Edicion -->
+        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+            <Label fx:id="lblTituloForm" text="Nuevo Producto" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1e293b;"/>
+            <Separator/>
+
+            <VBox spacing="3">
+                <Label text="Nombre:*"/>
+                <TextField fx:id="txtNombre" promptText="Ej: Cuaderno 100 hojas cuadriculado"/>
+            </VBox>
+
+            <VBox spacing="3">
+                <Label text="Categoría:"/>
+                <TextField fx:id="txtCategoria" promptText="Ej: ESCOLAR, OFICINA, PAPELERIA"/>
+            </VBox>
+
+            <HBox spacing="10">
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Precio Compra:"/>
+                    <TextField fx:id="txtPrecioCompra" promptText="0.00"/>
+                </VBox>
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Precio Venta:*"/>
+                    <TextField fx:id="txtPrecioVenta" promptText="0.00"/>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="10">
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Stock Actual:"/>
+                    <TextField fx:id="txtStockActual" promptText="0"/>
+                </VBox>
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Stock Mínimo:"/>
+                    <TextField fx:id="txtStockMinimo" promptText="5"/>
+                </VBox>
+            </HBox>
+
+            <CheckBox fx:id="chkActivo" text="Producto Activo" selected="true" style="-fx-padding: 5 0 5 0;"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleLimpiarForm" styleClass="button-secondary"/>
+                <Button fx:id="btnGuardar" text="Guardar Producto" onAction="#handleGuardarProducto" styleClass="button-success"/>
+            </HBox>
+        </VBox>
+    </SplitPane>
+
+</VBox>
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.LoginController"
+      alignment="CENTER" spacing="20"
+      style="-fx-background-color: #0f172a;"
+      stylesheets="@../css/styles.css"
+      prefWidth="420" prefHeight="480">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Tarjeta Central de Login -->
+    <VBox alignment="CENTER" spacing="15" maxWidth="360"
+          style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 30; -fx-border-color: #334155; -fx-border-radius: 8;">
+
+        <Label text="PAPELERÍA DE ROSITA" styleClass="titulo-principal" style="-fx-font-size: 18px; -fx-text-fill: #1e293b;"/>
+        <Label text="Sistema de Gestión Comercial (CONARY)" styleClass="subtitulo" style="-fx-font-size: 11px;"/>
+
+        <Separator prefWidth="280"/>
+
+        <!-- Mensaje de estado/error -->
+        <Label fx:id="lblMensaje" text="" visible="false" managed="false"
+               style="-fx-text-fill: #ef4444; -fx-font-size: 12px;" wrapText="true"/>
+
+        <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+            <Label text="Usuario:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+            <TextField fx:id="txtUsername" promptText="Ej: rosita o gladys" prefHeight="35"/>
+        </VBox>
+
+        <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+            <Label text="Contraseña:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+            <PasswordField fx:id="txtPassword" promptText="Ingresa tu contraseña" prefHeight="35"/>
+        </VBox>
+
+        <Button fx:id="btnIngresar" text="Iniciar Sesión" onAction="#handleLogin"
+                prefWidth="280" prefHeight="38" style="-fx-font-size: 13px; -fx-background-color: #2563eb;"/>
+
+        <Label text="Usuarios semilla: rosita / gladys" style="-fx-font-size: 11px; -fx-text-fill: #94a3b8;"/>
+    </VBox>
+
+</VBox>
+

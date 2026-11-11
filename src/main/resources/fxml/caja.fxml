@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.conary.rosita.controller.CajaController"
+      spacing="14" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+
+    <!-- Encabezado -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox>
+            <Label text="CONTROL DE CAJA Y ARQUEO DIARIO" styleClass="titulo-principal"/>
+            <Label text="Apertura y cierre de turnos, cálculo de tirilla y cuadre de efectivo." styleClass="subtitulo"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnRefrescar" text="🔄 Actualizar Cifras" onAction="#handleRefrescarCaja" styleClass="button-secondary"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Panel Superior: Estado y Acciones de Caja Activa -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+
+        <!-- Tarjeta de Estado del Turno Actual -->
+        <VBox spacing="8" prefWidth="350" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-background-radius: 6;">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="ESTADO DEL TURNO:" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 11px;"/>
+                <Label fx:id="lblEstadoTurno" text="CERRADA" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #ef4444;"/>
+            </HBox>
+
+            <Label fx:id="lblFechaApertura" text="Fecha Apertura: --" style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+            <Label fx:id="lblMontoBase" text="Monto Base Inicial: $ 0.00" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+
+            <Separator/>
+
+            <!-- Formulario de Apertura (visible solo si cerrada) -->
+            <VBox fx:id="panelApertura" spacing="8">
+                <Label text="Monto Base Inicial ($):" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                <TextField fx:id="txtMontoInicial" promptText="Ej: 50000" prefHeight="35"/>
+                <Button fx:id="btnAbrirCaja" text="🔓 Abrir Turno de Caja" onAction="#handleAbrirCaja"
+                        maxWidth="Infinity" prefHeight="38" styleClass="button-success"/>
+            </VBox>
+        </VBox>
+
+        <!-- Tarjeta de Arqueo y Cierre (visible si abierta) -->
+        <VBox fx:id="panelCierre" spacing="10" HBox.hgrow="ALWAYS"
+              style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-background-radius: 6;">
+
+            <Label text="ARQUEO Y CUADRE EN TIEMPO REAL" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #1e293b;"/>
+            <Separator/>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Total Tirilla (Esperado en Caja):" style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                    <Label fx:id="lblTotalTirilla" text="\$ 0.00" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0369a1;"/>
+                    <Label text="(Base + Ventas contado + Abonos - Pagos a proveedores)" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;"/>
+                </VBox>
+
+                <VBox spacing="4" prefWidth="180">
+                    <Label text="Efectivo Físico Contado ($):" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                    <TextField fx:id="txtEfectivoContado" promptText="0.00" prefHeight="35"/>
+                </VBox>
+
+                <VBox spacing="4" alignment="BOTTOM_CENTER">
+                    <Button fx:id="btnCerrarCaja" text="🔒 Cerrar Turno / Arqueo" onAction="#handleCerrarCaja"
+                            prefHeight="35" styleClass="button-danger"/>
+                </VBox>
+            </HBox>
+
+            <Label fx:id="lblDiferencia" text="Diferencia: $ 0.00" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Historial de Turnos de Caja -->
+    <VBox spacing="6" VBox.vgrow="ALWAYS">
+        <Label text="HISTORIAL DE TURNOS Y ARQUEOS ANTERIORES" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #334155;"/>
+        <TableView fx:id="tblHistorialCaja" VBox.vgrow="ALWAYS" prefHeight="220">
+            <columns>
+                <TableColumn fx:id="colIdCaja" text="Turno #" prefWidth="60" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="colApertura" text="Fecha y Hora Apertura" prefWidth="170"/>
+                <TableColumn fx:id="colCierre" text="Fecha y Hora Cierre" prefWidth="170"/>
+                <TableColumn fx:id="colBase" text="Base Inicial" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                <TableColumn fx:id="colTirilla" text="Total Tirilla" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                <TableColumn fx:id="colContado" text="Efectivo Físico" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                <TableColumn fx:id="colDiferencia" text="Diferencia" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+            </columns>
+            <placeholder>
+                <Label text="No hay registros históricos de turnos de caja."/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>
+

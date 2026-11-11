@@ -1,0 +1,9 @@
+# Directorios de compilacion
+target/
+bin/
+*.class
+
+# Archivos temporales del sistema
+*.log
+Thumbs.db
+.DS_Store

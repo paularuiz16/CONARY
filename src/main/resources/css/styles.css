@@ -1,0 +1,173 @@
+/* ====================================================================
+   ESTILOS GENERALES PAPELERIA DE ROSITA (LIGERO - WINDOWS 8)
+   Optimizado para no ralentizar el renderizado en PCs de 2 GB de RAM
+   ==================================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f4f6f9;
+}
+
+/* Encabezados y Titulos */
+.titulo-principal {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.subtitulo {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748b;
+}
+
+/* Botones */
+.button {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 7 14 7 14;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2563eb;
+}
+
+.button-success {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button-success:hover {
+    -fx-background-color: #059669;
+}
+
+.button-danger {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 7 14 7 14;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: #dc2626;
+}
+
+.button-secondary {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #334155;
+    -fx-font-weight: bold;
+    -fx-padding: 7 14 7 14;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #cbd5e1;
+}
+
+/* Campos de Texto y Entradas */
+.text-field,
+.password-field,
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 10 6 10;
+}
+
+.text-field:focused,
+.password-field:focused,
+.combo-box:focused {
+    -fx-border-color: #3b82f6;
+}
+
+/* Tablas */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 4;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8fafc;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-border-color: transparent transparent #cbd5e1 transparent;
+    -fx-padding: 6 8 6 8;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fbfcfe;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e0f2fe;
+    -fx-text-fill: #0369a1;
+}
+
+/* Barra Lateral / Menu */
+.sidebar {
+    -fx-background-color: #1e293b;
+}
+
+.sidebar-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 13px;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-padding: 10 16 10 16;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #334155;
+    -fx-text-fill: #ffffff;
+}
+
+.sidebar-button-active {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* Tarjetas y Contenedores */
+.tarjeta {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 16;
+}
+
+/* Indicadores de Estado */
+.alerta-stock-bajo {
+    -fx-text-fill: #b91c1c;
+    -fx-font-weight: bold;
+}
+
+.caja-abierta {
+    -fx-text-fill: #15803d;
+    -fx-font-weight: bold;
+}
+
+.caja-cerrada {
+    -fx-text-fill: #b91c1c;
+    -fx-font-weight: bold;
+}
