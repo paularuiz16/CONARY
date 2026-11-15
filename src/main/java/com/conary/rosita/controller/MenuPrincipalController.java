@@ -454,7 +454,7 @@ public class MenuPrincipalController {
     @FXML
     public void mostrarInventario() {
         activarBoton(btnNavInventario);
-        cargarVistaEnContenido("/fxml/inventario.fxml");
+        cargarVistaEnContenido("/fxml/productos.fxml");
     }
 
     @FXML
@@ -572,7 +572,8 @@ public class MenuPrincipalController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(node);
 
-            boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath);
+            boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath)
+                    || "/fxml/productos.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

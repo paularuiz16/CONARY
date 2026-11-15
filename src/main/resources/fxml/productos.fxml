@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ProductosController"
+            styleClass="productos-root">
+
+    <!-- ENCABEZADO SUPERIOR CONTEXTUAL -->
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="12" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="productos-header-card">
+                <Button fx:id="btnVolverMenu" text="←  Volver al Menú" onAction="#volverAlMenuPrincipal"
+                        styleClass="productos-btn-volver"/>
+
+                <StackPane styleClass="productos-header-icon-circle">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                             content="M 7.5 1.5 L 1.5 1.5 L 1.5 7.5 L 8.5 14.5 C 9.1 15.1 10.1 15.1 10.7 14.5 L 14.5 10.7 C 15.1 10.1 15.1 9.1 14.5 8.5 L 7.5 1.5 Z M 4.8 4.8 C 4.3 4.8 3.9 4.4 3.9 3.9 C 3.9 3.4 4.3 3.0 4.8 3.0 C 5.3 3.0 5.7 3.4 5.7 3.9 C 5.7 4.4 5.3 4.8 4.8 4.8 Z"/>
+                </StackPane>
+
+                <Label text="Productos y precios" styleClass="productos-header-title"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="productos-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#46220F"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita  •  Administradora"
+                           styleClass="productos-user-pill-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CONTENIDO CENTRAL: BUSCADOR, FILTRO, TABLA Y PIE DE TABLA -->
+    <center>
+        <VBox spacing="0" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="0" right="18" bottom="10" left="18"/>
+            </padding>
+
+            <VBox spacing="12" styleClass="productos-main-card" VBox.vgrow="ALWAYS">
+
+                <!-- Barra de Busqueda, Filtro de Estado y Accion Primaria -->
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <!-- Campo de Busqueda -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="productos-search-box" HBox.hgrow="ALWAYS">
+                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.7"
+                                 content="M 6.5 1 C 3.46 1 1 3.46 1 6.5 C 1 9.54 3.46 12 6.5 12 C 9.54 12 12 9.54 12 6.5 C 12 3.46 9.54 1 6.5 1 Z M 10.5 10.5 L 14.5 14.5"/>
+                        <TextField fx:id="txtBuscar" promptText="Buscar por nombre o código..."
+                                   styleClass="productos-search-input" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <!-- Selector de Estado -->
+                    <HBox alignment="CENTER_LEFT" spacing="8" styleClass="productos-filter-box">
+                        <SVGPath fill="transparent" stroke="#6B4C35" strokeWidth="1.5"
+                                 content="M 1 2 L 13 2 L 8.2 7.5 L 8.2 12.5 L 5.8 13.7 L 5.8 7.5 L 1 2 Z"/>
+                        <ComboBox fx:id="cmbFiltroEstado" prefWidth="245" styleClass="productos-filter-combo"/>
+                    </HBox>
+
+                    <!-- Boton Primario: Registrar Producto Nuevo -->
+                    <Button fx:id="btnRegistrar" text="  Registrar producto nuevo"
+                            onAction="#handleRegistrarProducto" styleClass="productos-btn-primary">
+                        <graphic>
+                            <StackPane>
+                                <Circle radius="8.5" fill="transparent" stroke="#FAF6F0" strokeWidth="1.5"/>
+                                <SVGPath fill="transparent" stroke="#FAF6F0" strokeWidth="1.6"
+                                         content="M -4 0 L 4 0 M 0 -4 L 0 4"/>
+                            </StackPane>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- Tabla Principal de Productos -->
+                <TableView fx:id="tblProductos" styleClass="productos-table" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colCodigo" text="Código" prefWidth="120" minWidth="105" maxWidth="140"/>
+                        <TableColumn fx:id="colNombre" text="Nombre del producto" prefWidth="370" minWidth="260"/>
+                        <TableColumn fx:id="colCategoria" text="Categoría" prefWidth="140" minWidth="110" maxWidth="180"/>
+                        <TableColumn fx:id="colPrecioVenta" text="Precio de venta" prefWidth="145" minWidth="120" maxWidth="175"/>
+                        <TableColumn fx:id="colExistencias" text="Existencias" prefWidth="115" minWidth="95" maxWidth="135"/>
+                        <TableColumn fx:id="colEstado" text="Estado" prefWidth="165" minWidth="145" maxWidth="195"/>
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="8" style="-fx-padding: 32;">
+                            <Label text="No se encontraron productos con el filtro actual."
+                                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6B4C35;"/>
+                            <Label text="Pruebe cambiando el texto de búsqueda o el filtro de estado."
+                                   style="-fx-font-size: 14px; -fx-text-fill: #8D7B6A;"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+
+                <!-- Pie de Tabla: Conteo y Paginacion -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="productos-footer-bar">
+                    <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.5"
+                             content="M 1 3 L 3 3 M 5 3 L 13 3 M 1 7 L 3 7 M 5 7 L 13 7 M 1 11 L 3 11 M 5 11 L 13 11"/>
+                    <Label fx:id="lblConteo" text="Mostrando 0 de 0 productos" styleClass="productos-footer-count"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="6">
+                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.4"
+                                 content="M 1 2 L 11 2 L 11 9 L 1 9 Z M 4 12 L 8 12 M 6 9 L 6 12"/>
+                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.4"
+                                 content="M 6 1 C 3.24 1 1 3.24 1 6 C 1 8.76 3.24 11 6 11 C 8.76 11 11 8.76 11 6 C 11 3.24 8.76 1 6 1 Z M 3.8 6.2 L 5.3 7.7 L 8.4 4.4"/>
+                        <Label text="Datos guardados en este equipo" styleClass="productos-footer-saved"/>
+                    </HBox>
+
+                    <Button fx:id="btnAnteriorPagina" text="←  Anterior" onAction="#handlePaginaAnterior"
+                            styleClass="productos-btn-page"/>
+                    <Button fx:id="btnSiguientePagina" text="Siguiente  →" onAction="#handlePaginaSiguiente"
+                            styleClass="productos-btn-page"/>
+                </HBox>
+
+            </VBox>
+        </VBox>
+    </center>
+
+    <!-- BARRA INFERIOR FIJA DE SELECCION Y ACCIONES CONTEXTUALES -->
+    <bottom>
+        <VBox>
+            <padding>
+                <Insets top="0" right="18" bottom="12" left="18"/>
+            </padding>
+
+            <HBox fx:id="barraSeleccion" alignment="CENTER_LEFT" spacing="12" styleClass="productos-selection-bar">
+                <StackPane styleClass="productos-selection-icon-box">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.5"
+                             content="M 1 2 L 9 2 M 1 6 L 9 6 M 1 10 L 6 10 M 8.5 9.5 L 12.5 5.5 L 14 7 L 10 11 L 8.2 11.3 Z"/>
+                </StackPane>
+
+                <Label fx:id="lblProductoSeleccionado"
+                       text="Seleccione un producto de la tabla para ver sus opciones"
+                       styleClass="productos-selection-label" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+
+                <!-- 3 Botones en una sola linea -->
+                <HBox alignment="CENTER_RIGHT" spacing="10">
+                    <Button fx:id="btnModificar" text="  Modificar precio o datos"
+                            onAction="#handleModificarProducto" styleClass="productos-btn-outline">
+                        <graphic>
+                            <SVGPath fill="transparent" stroke="#46220F" strokeWidth="1.5"
+                                     content="M 9.5 1.5 L 12.5 4.5 L 4.5 12.5 L 1.5 12.5 L 1.5 9.5 L 9.5 1.5 Z"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnAjustarStock" text="  Ajustar existencias"
+                            onAction="#handleAjustarExistencias" styleClass="productos-btn-outline">
+                        <graphic>
+                            <SVGPath fill="transparent" stroke="#46220F" strokeWidth="1.5"
+                                     content="M 1 3 L 9 3 L 9 11 L 1 11 Z M 3 6 L 7 6 M 12 2 L 12 7 M 10.5 3.5 L 12 2 L 13.5 3.5 M 14.5 11 L 14.5 6 M 13 9.5 L 14.5 11 L 16 9.5"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnDarBaja" text="  Dar de baja"
+                            onAction="#handleDarDeBaja" styleClass="productos-btn-danger-soft">
+                        <graphic>
+                            <SVGPath fill="transparent" stroke="#B93838" strokeWidth="1.5"
+                                     content="M 1 2 L 13 2 L 13 5 L 1 5 Z M 2 5 L 2 12 L 12 12 L 12 5 M 7 6.5 L 7 10.5 M 5.2 8.8 L 7 10.5 L 8.8 8.8"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
