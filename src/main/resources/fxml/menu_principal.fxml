@@ -175,8 +175,8 @@
                                 <StackPane styleClass="dashboard-module-icon-circle">
                                     <SVGPath fill="#704214" content="M 8.5 1 L 2.5 1 C 1.67 1 1 1.67 1 2.5 L 1 8.5 C 1 9.05 1.22 9.55 1.59 9.91 L 7.59 15.91 C 8.37 16.69 9.63 16.69 10.41 15.91 L 15.91 10.41 C 16.69 9.63 16.69 8.37 15.91 7.59 L 9.91 1.59 C 9.55 1.22 9.05 1 8.5 1 Z M 4.25 5.5 C 3.56 5.5 3 4.94 3 4.25 C 3 3.56 3.56 3 4.25 3 C 4.94 3 5.5 3.56 5.5 4.25 C 5.5 4.94 4.94 5.5 4.25 5.5 Z"/>
                                 </StackPane>
-                                <Label text="4. Productos y precios" styleClass="dashboard-module-title"/>
-                                <Label text="(Ver y modificar)" styleClass="dashboard-module-subtitle"/>
+                                <Label fx:id="lblTituloModuloProductos" text="4. Productos y precios" styleClass="dashboard-module-title"/>
+                                <Label fx:id="lblSubtituloModuloProductos" text="(Ver y modificar)" styleClass="dashboard-module-subtitle"/>
                             </VBox>
                         </graphic>
                     </Button>

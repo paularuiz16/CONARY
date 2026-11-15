@@ -35,7 +35,7 @@
                              content="M 7.5 1.5 L 1.5 1.5 L 1.5 7.5 L 8.5 14.5 C 9.1 15.1 10.1 15.1 10.7 14.5 L 14.5 10.7 C 15.1 10.1 15.1 9.1 14.5 8.5 L 7.5 1.5 Z M 4.8 4.8 C 4.3 4.8 3.9 4.4 3.9 3.9 C 3.9 3.4 4.3 3.0 4.8 3.0 C 5.3 3.0 5.7 3.4 5.7 3.9 C 5.7 4.4 5.3 4.8 4.8 4.8 Z"/>
                 </StackPane>
 
-                <Label text="Productos y precios" styleClass="productos-header-title"/>
+                <Label fx:id="lblTituloVista" text="Productos y precios" styleClass="productos-header-title"/>
 
                 <Label fx:id="lblSubtituloFiltro"
                        text="Estos productos no aparecen al vender. Puede volver a activarlos."
@@ -67,34 +67,42 @@
             <VBox spacing="12" styleClass="productos-main-card" VBox.vgrow="ALWAYS">
 
                 <!-- Barra de Busqueda, Filtro de Estado y Accion Primaria -->
-                <HBox alignment="CENTER_LEFT" spacing="12">
-                    <!-- Campo de Busqueda -->
-                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="productos-search-box" HBox.hgrow="ALWAYS">
-                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.7"
-                                 content="M 6.5 1 C 3.46 1 1 3.46 1 6.5 C 1 9.54 3.46 12 6.5 12 C 9.54 12 12 9.54 12 6.5 C 12 3.46 9.54 1 6.5 1 Z M 10.5 10.5 L 14.5 14.5"/>
-                        <TextField fx:id="txtBuscar" promptText="Buscar por nombre o código..."
-                                   styleClass="productos-search-input" HBox.hgrow="ALWAYS"/>
+                <VBox spacing="5">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <!-- Campo de Busqueda -->
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="productos-search-box" HBox.hgrow="ALWAYS">
+                            <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.7"
+                                     content="M 6.5 1 C 3.46 1 1 3.46 1 6.5 C 1 9.54 3.46 12 6.5 12 C 9.54 12 12 9.54 12 6.5 C 12 3.46 9.54 1 6.5 1 Z M 10.5 10.5 L 14.5 14.5"/>
+                            <TextField fx:id="txtBuscar" promptText="Buscar por nombre o código..."
+                                       styleClass="productos-search-input" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+
+                        <!-- Selector de Estado -->
+                        <HBox fx:id="boxFiltroEstado" alignment="CENTER_LEFT" spacing="8" styleClass="productos-filter-box">
+                            <SVGPath fill="transparent" stroke="#6B4C35" strokeWidth="1.5"
+                                     content="M 1 2 L 13 2 L 8.2 7.5 L 8.2 12.5 L 5.8 13.7 L 5.8 7.5 L 1 2 Z"/>
+                            <ComboBox fx:id="cmbFiltroEstado" prefWidth="245" styleClass="productos-filter-combo"/>
+                        </HBox>
+
+                        <!-- Boton Primario: Registrar Producto Nuevo -->
+                        <Button fx:id="btnRegistrar" text="  Registrar producto nuevo"
+                                onAction="#handleRegistrarProducto" styleClass="productos-btn-primary">
+                            <graphic>
+                                <StackPane>
+                                    <Circle radius="8.5" fill="transparent" stroke="#FAF6F0" strokeWidth="1.5"/>
+                                    <SVGPath fill="transparent" stroke="#FAF6F0" strokeWidth="1.6"
+                                             content="M -4 0 L 4 0 M 0 -4 L 0 4"/>
+                                </StackPane>
+                            </graphic>
+                        </Button>
                     </HBox>
 
-                    <!-- Selector de Estado -->
-                    <HBox alignment="CENTER_LEFT" spacing="8" styleClass="productos-filter-box">
-                        <SVGPath fill="transparent" stroke="#6B4C35" strokeWidth="1.5"
-                                 content="M 1 2 L 13 2 L 8.2 7.5 L 8.2 12.5 L 5.8 13.7 L 5.8 7.5 L 1 2 Z"/>
-                        <ComboBox fx:id="cmbFiltroEstado" prefWidth="245" styleClass="productos-filter-combo"/>
-                    </HBox>
-
-                    <!-- Boton Primario: Registrar Producto Nuevo -->
-                    <Button fx:id="btnRegistrar" text="  Registrar producto nuevo"
-                            onAction="#handleRegistrarProducto" styleClass="productos-btn-primary">
-                        <graphic>
-                            <StackPane>
-                                <Circle radius="8.5" fill="transparent" stroke="#FAF6F0" strokeWidth="1.5"/>
-                                <SVGPath fill="transparent" stroke="#FAF6F0" strokeWidth="1.6"
-                                         content="M -4 0 L 4 0 M 0 -4 L 0 4"/>
-                            </StackPane>
-                        </graphic>
-                    </Button>
-                </HBox>
+                    <!-- Texto de ayuda visible en modo Vendedora -->
+                    <Label fx:id="lblAyudaBusquedaVendedora"
+                           text="Escriba parte del nombre del producto."
+                           visible="false" managed="false"
+                           styleClass="productos-search-help-vendedora"/>
+                </VBox>
 
                 <!-- Tabla Principal de Productos -->
                 <TableView fx:id="tblProductos" styleClass="productos-table" VBox.vgrow="ALWAYS">
@@ -147,7 +155,7 @@
 
     <!-- BARRA INFERIOR FIJA DE SELECCION Y ACCIONES CONTEXTUALES -->
     <bottom>
-        <VBox>
+        <VBox fx:id="boxBarraInferiorContenedor">
             <padding>
                 <Insets top="0" right="18" bottom="12" left="18"/>
             </padding>

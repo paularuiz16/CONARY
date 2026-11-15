@@ -2075,6 +2075,12 @@
     -fx-padding: 0 0 0 15px;
 }
 
+.productos-search-help-vendedora {
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 13px;
+    -fx-padding: 2px 0 0 4px;
+}
+
 
 
 

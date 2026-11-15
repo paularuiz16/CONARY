@@ -23,6 +23,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
@@ -67,12 +68,15 @@ public class ProductosController {
     }
 
     @FXML private Button btnVolverMenu;
+    @FXML private Label lblTituloVista;
     @FXML private Label lblSubtituloFiltro;
     @FXML private Label lblUsuarioHeader;
 
     @FXML private TextField txtBuscar;
+    @FXML private HBox boxFiltroEstado;
     @FXML private ComboBox<String> cmbFiltroEstado;
     @FXML private Button btnRegistrar;
+    @FXML private Label lblAyudaBusquedaVendedora;
 
     @FXML private TableView<Producto> tblProductos;
     @FXML private TableColumn<Producto, Producto> colCodigo;
@@ -86,6 +90,7 @@ public class ProductosController {
     @FXML private Button btnAnteriorPagina;
     @FXML private Button btnSiguientePagina;
 
+    @FXML private VBox boxBarraInferiorContenedor;
     @FXML private HBox barraSeleccion;
     @FXML private Label lblProductoSeleccionado;
     @FXML private Button btnModificar;
@@ -111,8 +116,14 @@ public class ProductosController {
 
         if (iniciarConFiltroPocasExistencias) {
             iniciarConFiltroPocasExistencias = false;
-            cmbFiltroEstado.getSelectionModel().select(FILTRO_POCAS_EXISTENCIAS);
+            if (!esModoVendedora() && cmbFiltroEstado != null) {
+                cmbFiltroEstado.getSelectionModel().select(FILTRO_POCAS_EXISTENCIAS);
+            }
         }
+    }
+
+    private boolean esModoVendedora() {
+        return SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador();
     }
 
     private void configurarEncabezadoUsuario() {
@@ -136,11 +147,38 @@ public class ProductosController {
     }
 
     private void configurarRestriccionesPorRol() {
-        boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+        boolean esAdmin = !esModoVendedora();
+
+        if (lblTituloVista != null) {
+            lblTituloVista.setText(esAdmin ? "Productos y precios" : "Consultar productos");
+        }
+        if (txtBuscar != null) {
+            txtBuscar.setPromptText(esAdmin ? "Buscar por nombre o código..." : "Buscar por nombre de producto...");
+        }
+        if (boxFiltroEstado != null) {
+            boxFiltroEstado.setVisible(esAdmin);
+            boxFiltroEstado.setManaged(esAdmin);
+        }
+        if (cmbFiltroEstado != null) {
+            cmbFiltroEstado.setVisible(esAdmin);
+            cmbFiltroEstado.setManaged(esAdmin);
+        }
         if (btnRegistrar != null) {
             btnRegistrar.setVisible(esAdmin);
             btnRegistrar.setManaged(esAdmin);
             btnRegistrar.setDisable(!esAdmin);
+        }
+        if (lblAyudaBusquedaVendedora != null) {
+            lblAyudaBusquedaVendedora.setVisible(!esAdmin);
+            lblAyudaBusquedaVendedora.setManaged(!esAdmin);
+        }
+        if (boxBarraInferiorContenedor != null) {
+            boxBarraInferiorContenedor.setVisible(esAdmin);
+            boxBarraInferiorContenedor.setManaged(esAdmin);
+        }
+        if (barraSeleccion != null) {
+            barraSeleccion.setVisible(esAdmin);
+            barraSeleccion.setManaged(esAdmin);
         }
         if (btnModificar != null) {
             btnModificar.setVisible(esAdmin);
@@ -185,8 +223,24 @@ public class ProductosController {
     }
 
     private void configurarTabla() {
+        final boolean modoVendedora = esModoVendedora();
         tblProductos.setItems(paginaActualItems);
         tblProductos.setFixedCellSize(56.0);
+
+        if (colEstado != null) {
+            colEstado.setVisible(!modoVendedora);
+        }
+        if (colExistencias != null) {
+            if (modoVendedora) {
+                colExistencias.setPrefWidth(220);
+                colExistencias.setMinWidth(190);
+                colExistencias.setMaxWidth(260);
+            } else {
+                colExistencias.setPrefWidth(115);
+                colExistencias.setMinWidth(95);
+                colExistencias.setMaxWidth(135);
+            }
+        }
 
         tblProductos.setRowFactory(tv -> new TableRow<Producto>() {
             @Override
@@ -198,7 +252,7 @@ public class ProductosController {
             }
         });
 
-        // 1. Columna Codigo (con indicador circular en la fila seleccionada)
+        // 1. Columna Codigo (con indicador circular en la fila seleccionada para Administradora)
         colCodigo.setCellValueFactory(data -> new SimpleObjectProperty<Producto>(data.getValue()));
         colCodigo.setCellFactory(col -> new TableCell<Producto, Producto>() {
             private final Circle dot = new Circle(4.2, Color.web("#9E5827"));
@@ -217,7 +271,7 @@ public class ProductosController {
                     setText(null);
                 } else {
                     TableRow<?> row = getTableRow();
-                    boolean filaSeleccionada = row != null && row.isSelected();
+                    boolean filaSeleccionada = !modoVendedora && row != null && row.isSelected();
                     dot.setVisible(filaSeleccionada);
                     dot.setManaged(filaSeleccionada);
                     lblCode.setText(formatearCodigo(prod.getIdProducto()));
@@ -279,15 +333,45 @@ public class ProductosController {
             }
         });
 
-        // 5. Columna Existencias (solo numero entero)
+        // 5. Columna Existencias (en modo Vendedora incluye insignia "Pocas existencias" a la derecha)
         colExistencias.setCellValueFactory(data -> new SimpleObjectProperty<Producto>(data.getValue()));
         colExistencias.setCellFactory(col -> new TableCell<Producto, Producto>() {
             @Override
             protected void updateItem(Producto prod, boolean empty) {
                 super.updateItem(prod, empty);
                 if (empty || prod == null) {
+                    setGraphic(null);
                     setText(null);
+                } else if (modoVendedora) {
+                    setAlignment(Pos.CENTER);
+                    Label lblNum = new Label(String.valueOf(prod.getStockActual()));
+                    lblNum.getStyleClass().add(prod.isStockBajo() ? "productos-cell-existencias-bajo" : "productos-cell-existencias");
+
+                    if (prod.isStockBajo()) {
+                        Label icon = new Label("\u26A0");
+                        icon.getStyleClass().add("badge-pocas-existencias-icon");
+                        Label text = new Label("Pocas\nexistencias");
+                        text.setTextAlignment(TextAlignment.CENTER);
+                        text.setAlignment(Pos.CENTER);
+                        text.getStyleClass().add("badge-pocas-existencias-text");
+
+                        HBox pill = new HBox(6, icon, text);
+                        pill.setAlignment(Pos.CENTER);
+                        pill.getStyleClass().add("badge-pocas-existencias");
+                        pill.setMaxWidth(128);
+
+                        HBox contenedor = new HBox(10, lblNum, pill);
+                        contenedor.setAlignment(Pos.CENTER);
+                        setGraphic(contenedor);
+                        setText(null);
+                    } else {
+                        setGraphic(null);
+                        setText(String.valueOf(prod.getStockActual()));
+                        getStyleClass().removeAll("productos-cell-existencias", "productos-cell-existencias-bajo");
+                        getStyleClass().add("productos-cell-existencias");
+                    }
                 } else {
+                    setGraphic(null);
                     setText(String.valueOf(prod.getStockActual()));
                     setAlignment(Pos.CENTER);
                     getStyleClass().removeAll("productos-cell-existencias", "productos-cell-existencias-bajo");
@@ -348,13 +432,17 @@ public class ProductosController {
     public void cargarCatalogoDesdeBaseDeDatos() {
         catalogoCompleto.clear();
         try {
-            List<Producto> desdeBD = productoDAO.listarTodos(false);
+            boolean soloActivos = esModoVendedora();
+            List<Producto> desdeBD = productoDAO.listarTodos(soloActivos);
             if (desdeBD != null) {
                 catalogoCompleto.addAll(desdeBD);
             }
         } catch (SQLException e) {
-            AlertaUtil.mostrarError("Error de Base de Datos",
-                    "No se pudo consultar el catálogo de productos en MySQL: " + e.getMessage());
+            System.err.println("[ProductosController] Error al consultar catalogo en MySQL: " + e.getMessage());
+            if (tblProductos != null && tblProductos.getScene() != null && tblProductos.getScene().getWindow() != null) {
+                AlertaUtil.mostrarError("Error de Base de Datos",
+                        "No se pudo consultar el catálogo de productos en MySQL: " + e.getMessage());
+            }
         }
         aplicarFiltroYPaginacion();
     }
@@ -410,7 +498,8 @@ public class ProductosController {
         }
 
         // Actualizar etiqueta de conteo en el pie de tabla
-        boolean esVistaDadosBaja = FILTRO_DADOS_DE_BAJA.equals(estadoSeleccionado);
+        boolean modoVendedora = esModoVendedora();
+        boolean esVistaDadosBaja = !modoVendedora && FILTRO_DADOS_DE_BAJA.equals(estadoSeleccionado);
         if (lblSubtituloFiltro != null) {
             lblSubtituloFiltro.setVisible(esVistaDadosBaja);
             lblSubtituloFiltro.setManaged(esVistaDadosBaja);
@@ -431,8 +520,11 @@ public class ProductosController {
             btnSiguientePagina.setDisable(paginaActual >= totalPaginas - 1);
         }
 
-        // Seleccionar el producto objetivo o el primero de la pagina por defecto
-        if (productoObjetivo != null && paginaActualItems.contains(productoObjetivo)) {
+        // En modo Vendedora (solo lectura) no se autoselecciona fila ni se muestra barra inferior
+        if (modoVendedora) {
+            tblProductos.getSelectionModel().clearSelection();
+            actualizarBarraSeleccion(null);
+        } else if (productoObjetivo != null && paginaActualItems.contains(productoObjetivo)) {
             tblProductos.getSelectionModel().select(productoObjetivo);
         } else if (!paginaActualItems.isEmpty()) {
             tblProductos.getSelectionModel().selectFirst();
@@ -443,6 +535,9 @@ public class ProductosController {
     }
 
     private boolean cumpleFiltroEstado(Producto p, String filtroEstado) {
+        if (esModoVendedora()) {
+            return p.isActivo();
+        }
         if (FILTRO_ACTIVOS.equals(filtroEstado)) {
             return p.isActivo();
         } else if (FILTRO_POCAS_EXISTENCIAS.equals(filtroEstado)) {
@@ -466,9 +561,25 @@ public class ProductosController {
     }
 
     private void actualizarBarraSeleccion(Producto sel) {
+        if (esModoVendedora()) {
+            if (lblSubtituloFiltro != null) {
+                lblSubtituloFiltro.setVisible(false);
+                lblSubtituloFiltro.setManaged(false);
+            }
+            if (boxBarraInferiorContenedor != null) {
+                boxBarraInferiorContenedor.setVisible(false);
+                boxBarraInferiorContenedor.setManaged(false);
+            }
+            if (barraSeleccion != null) {
+                barraSeleccion.setVisible(false);
+                barraSeleccion.setManaged(false);
+            }
+            return;
+        }
+
         boolean haySeleccion = sel != null;
         boolean esInactivo = haySeleccion && !sel.isActivo();
-        boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+        boolean esAdmin = !esModoVendedora();
         String estadoFiltro = cmbFiltroEstado != null && cmbFiltroEstado.getValue() != null
                 ? cmbFiltroEstado.getValue()
                 : FILTRO_ACTIVOS;

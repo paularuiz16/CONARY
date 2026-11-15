@@ -92,6 +92,8 @@ public class MenuPrincipalController {
 
     @FXML protected Button btnNavVenta;
     @FXML protected Button btnNavInventario;
+    @FXML protected Label lblTituloModuloProductos;
+    @FXML protected Label lblSubtituloModuloProductos;
     @FXML protected Button btnNavClientes;
     @FXML protected Button btnNavProveedores;
     @FXML protected Button btnNavCaja;
@@ -155,6 +157,7 @@ public class MenuPrincipalController {
 
         refrescarEstadoCaja();
         refrescarAlertasReales();
+        aplicarRestriccionesPorRol();
     }
 
     private String construirSaludoSegunHora(String nombre) {
@@ -179,6 +182,12 @@ public class MenuPrincipalController {
 
     private void aplicarRestriccionesPorRol() {
         boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+        if (lblTituloModuloProductos != null) {
+            lblTituloModuloProductos.setText(esAdmin ? "4. Productos y precios" : "4. Consultar productos");
+        }
+        if (lblSubtituloModuloProductos != null) {
+            lblSubtituloModuloProductos.setText(esAdmin ? "(Ver y modificar)" : "(Ver precios y existencias)");
+        }
         if (btnNavReportes != null) {
             btnNavReportes.setOpacity(esAdmin ? 1.0 : 0.6);
         }
