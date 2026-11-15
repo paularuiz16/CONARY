@@ -171,3 +171,520 @@
     -fx-text-fill: #b91c1c;
     -fx-font-weight: bold;
 }
+
+/* ====================================================================
+   MODULO: INICIO DE SESION (PALETA CORPORATIVA CONARY)
+   ==================================================================== */
+
+.login-bg {
+    -fx-background-color: #FAF6F0;
+}
+
+.login-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 32px 40px 32px 40px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.08), 18, 0, 0, 6);
+}
+
+.login-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.login-subtitle {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #46220F;
+}
+
+.login-divider {
+    -fx-background-color: #F0C095;
+    -fx-min-height: 1.5px;
+    -fx-max-height: 1.5px;
+    -fx-pref-width: 85px;
+    -fx-max-width: 85px;
+}
+
+.login-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.login-helper {
+    -fx-font-size: 12px;
+    -fx-text-fill: #46220F;
+}
+
+.login-input {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-size: 15px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #AA7444;
+    -fx-padding: 8px 14px 8px 14px;
+}
+
+.login-input:focused {
+    -fx-border-color: #704214;
+    -fx-border-width: 1.8px;
+}
+
+.login-password-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.login-password-container-focused {
+    -fx-border-color: #704214;
+    -fx-border-width: 1.8px;
+}
+
+.login-password-inner {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 15px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #AA7444;
+    -fx-padding: 8px 42px 8px 14px;
+}
+
+.login-password-inner:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.login-eye-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 6px 12px 6px 8px;
+    -fx-cursor: hand;
+}
+
+.login-eye-btn:hover {
+    -fx-background-color: transparent;
+}
+
+.login-error-box {
+    -fx-background-color: #E6AA77;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px 16px 12px 16px;
+}
+
+.login-error-icon {
+    -fx-background-color: #46220F;
+    -fx-background-radius: 50%;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-width: 20px;
+    -fx-max-height: 20px;
+    -fx-alignment: center;
+    -fx-text-fill: #E6AA77;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Georgia", serif;
+}
+
+.login-error-text {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.login-btn-primary {
+    -fx-background-color: #704214;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.18), 8, 0, 0, 2);
+}
+
+.login-btn-primary:hover {
+    -fx-background-color: #5A340F;
+}
+
+.login-footer {
+    -fx-font-size: 11px;
+    -fx-text-fill: #46220F;
+}
+
+/* ====================================================================
+   MODULO: SPLASH SCREEN (CARGA INICIAL CONARY)
+   ==================================================================== */
+
+.splash-root {
+    -fx-background-color: radial-gradient(center 50% 45%, radius 75%, #FAF6F0, #F3E8D8);
+    -fx-border-color: #E6D5C1;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.splash-status-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #46220F;
+}
+
+.splash-progress-bar {
+    -fx-pref-width: 420px;
+    -fx-min-height: 6px;
+    -fx-pref-height: 6px;
+    -fx-max-height: 6px;
+}
+
+.splash-progress-bar > .track {
+    -fx-background-color: #E8D8C5;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+}
+
+.splash-progress-bar > .bar {
+    -fx-background-color: #B56A27;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4px;
+    -fx-padding: 0;
+}
+
+.splash-footer-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6B4C35;
+}
+
+/* ====================================================================
+   MODULO: MENU PRINCIPAL / DASHBOARD (PALETA CORPORATIVA CONARY)
+   ==================================================================== */
+
+.dashboard-bg {
+    -fx-background-color: #FAF6F0;
+}
+
+.dashboard-header-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10px 20px 10px 20px;
+}
+
+.dashboard-brand-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-user-pill {
+    -fx-background-color: #F5ECE0;
+    -fx-background-radius: 24px;
+    -fx-border-radius: 24px;
+    -fx-padding: 5px 16px 5px 8px;
+}
+
+.dashboard-user-avatar {
+    -fx-background-color: #46220F;
+    -fx-background-radius: 50%;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-max-width: 32px;
+    -fx-max-height: 32px;
+    -fx-alignment: center;
+}
+
+.dashboard-user-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-user-role {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7A5C43;
+}
+
+.dashboard-btn-salir {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #C86D51;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 18px 7px 18px;
+    -fx-cursor: hand;
+}
+
+.dashboard-btn-salir:hover {
+    -fx-background-color: #FDF2EE;
+    -fx-border-color: #B05236;
+}
+
+.dashboard-btn-volver {
+    -fx-background-color: #F5ECE0;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 14px 6px 14px;
+    -fx-cursor: hand;
+}
+
+.dashboard-btn-volver:hover {
+    -fx-background-color: #EEDCC5;
+}
+
+.dashboard-row-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 20px 12px 20px;
+}
+
+.dashboard-store-icon-box {
+    -fx-background-color: #F5ECE0;
+    -fx-background-radius: 12px;
+    -fx-min-width: 46px;
+    -fx-min-height: 46px;
+    -fx-max-width: 46px;
+    -fx-max-height: 46px;
+    -fx-alignment: center;
+}
+
+.dashboard-kicker {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.dashboard-greeting {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-greeting-sub {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B4C35;
+}
+
+.dashboard-date-box {
+    -fx-background-color: #F7F1E8;
+    -fx-border-color: #E6D7C3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 9px 18px 9px 16px;
+}
+
+.dashboard-date-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7A5C43;
+}
+
+.dashboard-date-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-module-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E6D7C3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 14px 16px 18px 16px;
+    -fx-cursor: hand;
+    -fx-content-display: GRAPHIC_ONLY;
+}
+
+.dashboard-module-card:hover {
+    -fx-background-color: #FDF9F3;
+    -fx-border-color: #AA7444;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.07), 10, 0, 0, 3);
+}
+
+.dashboard-module-card-primary {
+    -fx-background-color: #E6D7C3, #46220F, #FFFFFF;
+    -fx-background-insets: 0, 0 0 0 0, 4 1 1 1;
+    -fx-background-radius: 14px, 14px, 10px 10px 13px 13px;
+    -fx-border-color: transparent;
+    -fx-padding: 12px 16px 18px 16px;
+    -fx-cursor: hand;
+    -fx-content-display: GRAPHIC_ONLY;
+}
+
+.dashboard-module-card-primary:hover {
+    -fx-background-color: #AA7444, #46220F, #FDF9F3;
+    -fx-background-insets: 0, 0 0 0 0, 4 1 1 1;
+    -fx-background-radius: 14px, 14px, 10px 10px 13px 13px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.09), 12, 0, 0, 3);
+}
+
+.dashboard-badge-principal {
+    -fx-background-color: #361909;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 3px 10px 3px 10px;
+}
+
+.dashboard-module-icon-circle {
+    -fx-background-color: #F5ECE0;
+    -fx-background-radius: 50%;
+    -fx-min-width: 46px;
+    -fx-min-height: 46px;
+    -fx-max-width: 46px;
+    -fx-max-height: 46px;
+    -fx-alignment: center;
+}
+
+.dashboard-module-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-module-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7A5C43;
+}
+
+.dashboard-alert-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px 10px 16px;
+}
+
+.dashboard-alert-text {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-btn-outline {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 14px 5px 14px;
+    -fx-cursor: hand;
+}
+
+.dashboard-btn-outline:hover {
+    -fx-background-color: #F7F1E8;
+    -fx-border-color: #704214;
+}
+
+.dashboard-caja-icon-ok {
+    -fx-background-color: #46220F;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-alignment: center;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-caja-icon-warn {
+    -fx-background-color: #B91C1C;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-alignment: center;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-caja-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-caja-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.dashboard-backup-pill {
+    -fx-background-color: #F5ECE0;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 14px 6px 12px;
+}
+
+.dashboard-backup-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #46220F;
+}
+
+.dashboard-link-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #704214 transparent;
+    -fx-border-width: 0 0 1.2px 0;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 2px 2px 2px;
+    -fx-cursor: hand;
+}
+
+.dashboard-link-btn:hover {
+    -fx-text-fill: #704214;
+}
+
+.dashboard-help-icon {
+    -fx-background-color: #F5ECE0;
+    -fx-border-color: #D6C2AC;
+    -fx-border-width: 1px;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-min-width: 28px;
+    -fx-min-height: 28px;
+    -fx-max-width: 28px;
+    -fx-max-height: 28px;
+    -fx-alignment: center;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-help-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #46220F;
+}
+
+
