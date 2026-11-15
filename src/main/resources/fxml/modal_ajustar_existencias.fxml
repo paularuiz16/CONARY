@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.AjustarExistenciasController"
+           styleClass="modal-prod-backdrop">
+    <padding>
+        <Insets top="14" right="14" bottom="14" left="14"/>
+    </padding>
+
+    <VBox spacing="16" prefWidth="500" maxWidth="500" styleClass="modal-prod-card">
+
+        <!-- Cabecera del Modal -->
+        <HBox alignment="CENTER_LEFT" spacing="14">
+            <StackPane styleClass="modal-prod-icon-box">
+                <SVGPath fill="transparent" stroke="#5C3419" strokeWidth="1.6"
+                         content="M 8 1 L 15 4.8 L 15 12.2 L 8 16 L 1 12.2 L 1 4.8 L 8 1 Z M 1 4.8 L 8 8.6 L 15 4.8 M 8 8.6 L 8 16"/>
+            </StackPane>
+            <VBox spacing="2">
+                <Label text="Ajustar existencias" styleClass="modal-prod-title"/>
+                <Label text="Actualización manual del conteo físico en tienda" styleClass="modal-prod-subtitle"/>
+            </VBox>
+        </HBox>
+
+        <!-- Tarjeta de Producto Seleccionado -->
+        <VBox spacing="4" styleClass="modal-prod-product-box">
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Circle radius="3.8" fill="#6B3A19"/>
+                <Label fx:id="lblProductoResumen"
+                       text="Cuaderno cosido 100 hojas cuadriculado · PRD-001"
+                       wrapText="true" styleClass="modal-prod-product-name"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="0">
+                <Label text="El sistema dice que hay " styleClass="modal-prod-system-stock-label"/>
+                <Label fx:id="lblStockSistema" text="3 unidades" styleClass="modal-prod-system-stock-bold"/>
+                <Label text="." styleClass="modal-prod-system-stock-label"/>
+            </HBox>
+        </VBox>
+
+        <!-- Campo de Conteo Fisico -->
+        <VBox spacing="6">
+            <Label text="¿Cuántas hay realmente? Cuéntelas en el estante."
+                   styleClass="modal-prod-section-label"/>
+            <StackPane styleClass="modal-prod-count-box">
+                <TextField fx:id="txtCantidadReal" text="0" alignment="CENTER"
+                           styleClass="modal-prod-count-input"/>
+                <Label text="UNIDADES" mouseTransparent="true"
+                       StackPane.alignment="CENTER_RIGHT" styleClass="modal-prod-unidades-tag">
+                    <StackPane.margin>
+                        <Insets right="18"/>
+                    </StackPane.margin>
+                </Label>
+            </StackPane>
+        </VBox>
+
+        <!-- Franja de Calculo Automatico en Tiempo Real -->
+        <HBox fx:id="boxResumenDiferencia" alignment="CENTER_LEFT" spacing="10"
+              styleClass="modal-prod-diff-amber">
+            <Label fx:id="lblIconoDiferencia" text="⚠" styleClass="modal-prod-diff-icon"/>
+            <Label fx:id="lblTextoDiferencia"
+                   text="El conteo coincide con el sistema (0 unidades)."
+                   wrapText="true" styleClass="modal-prod-diff-text" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Selector de Motivo (Cuadricula 2x2) -->
+        <VBox spacing="8">
+            <Label text="¿Por qué cambia?" styleClass="modal-prod-section-label"/>
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50.0" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="50.0" hgrow="ALWAYS"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES"/>
+                    <RowConstraints vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <children>
+                    <ToggleButton fx:id="btnMotivoInventario" text="✓   Conté el inventario"
+                                  selected="true" maxWidth="Infinity"
+                                  GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                  styleClass="modal-prod-reason-toggle"/>
+                    <ToggleButton fx:id="btnMotivoDanado" text="•   Se dañó"
+                                  maxWidth="Infinity"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                  styleClass="modal-prod-reason-toggle"/>
+                    <ToggleButton fx:id="btnMotivoPerdido" text="•   Se perdió"
+                                  maxWidth="Infinity"
+                                  GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                  styleClass="modal-prod-reason-toggle"/>
+                    <ToggleButton fx:id="btnMotivoOtro" text="•   Otro motivo"
+                                  maxWidth="Infinity"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                  styleClass="modal-prod-reason-toggle"/>
+                </children>
+            </GridPane>
+        </VBox>
+
+        <!-- Botones Inferiores (50% / 50%) -->
+        <HBox spacing="12" alignment="CENTER">
+            <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleCancelar"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="modal-prod-btn-cancel"/>
+            <Button fx:id="btnGuardar" text="✓   Guardar ajuste" onAction="#handleGuardarAjuste"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="modal-prod-btn-save"/>
+        </HBox>
+
+    </VBox>
+</StackPane>

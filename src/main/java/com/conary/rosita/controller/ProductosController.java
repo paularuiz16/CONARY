@@ -10,7 +10,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,8 +26,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -43,7 +52,7 @@ public class ProductosController {
 
     public static final String FILTRO_ACTIVOS = "Estado: Todos (Activos)";
     public static final String FILTRO_POCAS_EXISTENCIAS = "Estado: Pocas existencias";
-    public static final String FILTRO_DADOS_DE_BAJA = "Estado: Dados de baja (Inactivos)";
+    public static final String FILTRO_DADOS_DE_BAJA = "Estado: Dados de baja";
     public static final String FILTRO_TODOS = "Estado: Todos";
 
     private static boolean iniciarConFiltroPocasExistencias = false;
@@ -58,6 +67,7 @@ public class ProductosController {
     }
 
     @FXML private Button btnVolverMenu;
+    @FXML private Label lblSubtituloFiltro;
     @FXML private Label lblUsuarioHeader;
 
     @FXML private TextField txtBuscar;
@@ -81,6 +91,7 @@ public class ProductosController {
     @FXML private Button btnModificar;
     @FXML private Button btnAjustarStock;
     @FXML private Button btnDarBaja;
+    @FXML private Button btnReactivar;
 
     private final ProductoDAO productoDAO = new ProductoDAO();
     private final List<Producto> catalogoCompleto = new ArrayList<Producto>();
@@ -142,6 +153,11 @@ public class ProductosController {
         if (btnDarBaja != null) {
             btnDarBaja.setVisible(esAdmin);
             btnDarBaja.setManaged(esAdmin);
+        }
+        if (btnReactivar != null) {
+            btnReactivar.setVisible(false);
+            btnReactivar.setManaged(false);
+            btnReactivar.setDisable(!esAdmin);
         }
     }
 
@@ -294,14 +310,12 @@ public class ProductosController {
 
                 setAlignment(Pos.CENTER);
                 if (!prod.isActivo()) {
-                    Label icon = new Label("\u2298");
-                    icon.getStyleClass().add("badge-dado-baja-icon");
                     Label text = new Label("Dado de baja");
                     text.getStyleClass().add("badge-dado-baja-text");
-                    HBox pill = new HBox(6, icon, text);
+                    HBox pill = new HBox(text);
                     pill.setAlignment(Pos.CENTER);
                     pill.getStyleClass().add("badge-dado-baja");
-                    pill.setMaxWidth(138);
+                    pill.setMaxWidth(124);
                     setGraphic(pill);
                     setText(null);
                 } else if (prod.isStockBajo()) {
@@ -396,8 +410,17 @@ public class ProductosController {
         }
 
         // Actualizar etiqueta de conteo en el pie de tabla
+        boolean esVistaDadosBaja = FILTRO_DADOS_DE_BAJA.equals(estadoSeleccionado);
+        if (lblSubtituloFiltro != null) {
+            lblSubtituloFiltro.setVisible(esVistaDadosBaja);
+            lblSubtituloFiltro.setManaged(esVistaDadosBaja);
+        }
         if (lblConteo != null) {
-            lblConteo.setText("Mostrando " + paginaActualItems.size() + " de " + totalFiltrados + " productos");
+            if (esVistaDadosBaja) {
+                lblConteo.setText("Mostrando " + paginaActualItems.size() + " de " + totalFiltrados + " productos dados de baja");
+            } else {
+                lblConteo.setText("Mostrando " + paginaActualItems.size() + " de " + totalFiltrados + " productos");
+            }
         }
 
         // Habilitar / deshabilitar botones de paginacion
@@ -444,11 +467,26 @@ public class ProductosController {
 
     private void actualizarBarraSeleccion(Producto sel) {
         boolean haySeleccion = sel != null;
+        boolean esInactivo = haySeleccion && !sel.isActivo();
         boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+        String estadoFiltro = cmbFiltroEstado != null && cmbFiltroEstado.getValue() != null
+                ? cmbFiltroEstado.getValue()
+                : FILTRO_ACTIVOS;
+        boolean mostrarSubtituloInactivos = FILTRO_DADOS_DE_BAJA.equals(estadoFiltro) || esInactivo;
+
+        if (lblSubtituloFiltro != null) {
+            lblSubtituloFiltro.setVisible(mostrarSubtituloInactivos);
+            lblSubtituloFiltro.setManaged(mostrarSubtituloInactivos);
+        }
 
         if (lblProductoSeleccionado != null) {
             if (!haySeleccion) {
                 lblProductoSeleccionado.setText("Seleccione un producto de la tabla para ver sus opciones");
+            } else if (esInactivo) {
+                String resumenInactivo = "Seleccionado: " + sel.getNombre()
+                        + "  ·  " + formatearCodigo(sel.getIdProducto())
+                        + "  ·  Dado de baja";
+                lblProductoSeleccionado.setText(resumenInactivo);
             } else {
                 String resumen = "Seleccionado: " + sel.getNombre()
                         + "  ·  " + formatearCodigo(sel.getIdProducto())
@@ -458,15 +496,29 @@ public class ProductosController {
             }
         }
 
+        boolean mostrarBotonesActivos = esAdmin && !esInactivo;
+        boolean mostrarBotonReactivar = esAdmin && esInactivo;
+
         if (btnModificar != null) {
+            btnModificar.setVisible(mostrarBotonesActivos);
+            btnModificar.setManaged(mostrarBotonesActivos);
             btnModificar.setDisable(!haySeleccion || !esAdmin);
         }
         if (btnAjustarStock != null) {
+            btnAjustarStock.setVisible(mostrarBotonesActivos);
+            btnAjustarStock.setManaged(mostrarBotonesActivos);
             btnAjustarStock.setDisable(!haySeleccion || !esAdmin);
         }
         if (btnDarBaja != null) {
+            btnDarBaja.setVisible(mostrarBotonesActivos);
+            btnDarBaja.setManaged(mostrarBotonesActivos);
             btnDarBaja.setDisable(!haySeleccion || !esAdmin);
-            btnDarBaja.setText(haySeleccion && !sel.isActivo() ? "  Reactivar producto" : "  Dar de baja");
+            btnDarBaja.setText("  Dar de baja");
+        }
+        if (btnReactivar != null) {
+            btnReactivar.setVisible(mostrarBotonReactivar);
+            btnReactivar.setManaged(mostrarBotonReactivar);
+            btnReactivar.setDisable(!haySeleccion || !esAdmin);
         }
     }
 
@@ -531,28 +583,200 @@ public class ProductosController {
 
     @FXML
     public void handleAjustarExistencias() {
-        if (productoSeleccionado == null) {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede ajustar existencias.");
+            return;
+        }
+        Producto seleccionado = obtenerProductoSeleccionadoActual();
+        if (seleccionado == null) {
             AlertaUtil.mostrarAdvertencia("Seleccione un producto",
                     "Primero toque o haga clic sobre un producto de la tabla.");
             return;
         }
-        AlertaUtil.mostrarInfo("Ajustar existencias",
-                "Producto seleccionado: " + productoSeleccionado.getNombre()
-              + " (Existencias actuales: " + productoSeleccionado.getStockActual() + ").\n"
-              + "Modal de ajuste de inventario listo para conectar en el Paso 2.");
+
+        try {
+            FXMLLoader loader = crearLoaderFXML("/fxml/modal_ajustar_existencias.fxml");
+            Parent root = loader.load();
+            AjustarExistenciasController ctrl = loader.getController();
+            if (ctrl != null) {
+                ctrl.setProducto(seleccionado);
+            }
+
+            Stage modalStage = crearStageModal("Ajustar existencias", root);
+            modalStage.showAndWait();
+
+            if (ctrl != null && ctrl.isAjusteGuardado()) {
+                idProductoSeleccionarAlCargar = seleccionado.getIdProducto();
+                cargarCatalogoDesdeBaseDeDatos();
+                MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+                if (menu != null) {
+                    menu.refrescarAlertasReales();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertaUtil.mostrarError("Error de Ventana",
+                    "No se pudo abrir la ventana de ajuste de existencias: " + e.getMessage());
+        }
     }
 
     @FXML
     public void handleDarDeBaja() {
-        if (productoSeleccionado == null) {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede dar de baja o reactivar productos.");
+            return;
+        }
+        Producto seleccionado = obtenerProductoSeleccionadoActual();
+        if (seleccionado == null) {
             AlertaUtil.mostrarAdvertencia("Seleccione un producto",
                     "Primero toque o haga clic sobre un producto de la tabla.");
             return;
         }
-        AlertaUtil.mostrarInfo("Dar de baja / Estado del producto",
-                "Producto seleccionado: " + productoSeleccionado.getNombre()
-              + " (" + formatearCodigo(productoSeleccionado.getIdProducto()) + ").\n"
-              + "Confirmación de baja lista para conectar en el Paso 2.");
+
+        // Si el producto ya esta inactivo, abre el modal de reactivacion
+        if (!seleccionado.isActivo()) {
+            handleReactivarProducto();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = crearLoaderFXML("/fxml/modal_dar_baja.fxml");
+            Parent root = loader.load();
+            DarBajaProductoController ctrl = loader.getController();
+            if (ctrl != null) {
+                ctrl.setProducto(seleccionado);
+            }
+
+            Stage modalStage = crearStageModal("¿Dar de baja este producto?", root);
+            modalStage.showAndWait();
+
+            if (ctrl != null && ctrl.isBajaConfirmada()) {
+                idProductoSeleccionarAlCargar = -1;
+                cargarCatalogoDesdeBaseDeDatos();
+                if (tblProductos != null) {
+                    tblProductos.getSelectionModel().clearSelection();
+                }
+                actualizarBarraSeleccion(null);
+
+                MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+                if (menu != null) {
+                    menu.refrescarAlertasReales();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertaUtil.mostrarError("Error de Ventana",
+                    "No se pudo abrir la confirmación para dar de baja: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleReactivarProducto() {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede volver a activar productos.");
+            return;
+        }
+        Producto seleccionado = obtenerProductoSeleccionadoActual();
+        if (seleccionado == null) {
+            AlertaUtil.mostrarAdvertencia("Seleccione un producto",
+                    "Primero toque o haga clic sobre un producto dado de baja en la tabla.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = crearLoaderFXML("/fxml/modal_reactivar_producto.fxml");
+            Parent root = loader.load();
+            ReactivarProductoController ctrl = loader.getController();
+            if (ctrl != null) {
+                ctrl.setProducto(seleccionado);
+            }
+
+            Stage modalStage = crearStageModal("¿Volver a activar este producto?", root);
+            modalStage.showAndWait();
+
+            if (ctrl != null && ctrl.isReactivacionConfirmada()) {
+                idProductoSeleccionarAlCargar = seleccionado.getIdProducto();
+                cargarCatalogoDesdeBaseDeDatos();
+
+                MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+                if (menu != null) {
+                    menu.refrescarAlertasReales();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertaUtil.mostrarError("Error de Ventana",
+                    "No se pudo abrir la ventana para volver a activar el producto: " + e.getMessage());
+        }
+    }
+
+    private Producto obtenerProductoSeleccionadoActual() {
+        Producto sel = tblProductos != null
+                ? tblProductos.getSelectionModel().getSelectedItem()
+                : productoSeleccionado;
+        return sel != null ? sel : productoSeleccionado;
+    }
+
+    private FXMLLoader crearLoaderFXML(String fxmlPath) throws IOException {
+        URL url = getClass().getResource(fxmlPath);
+        if (url == null) {
+            File fallback = new File("src/main/resources" + fxmlPath);
+            if (fallback.exists()) {
+                url = fallback.toURI().toURL();
+            }
+        }
+        if (url == null) {
+            throw new IOException("No se encontró el recurso FXML: " + fxmlPath);
+        }
+        return new FXMLLoader(url);
+    }
+
+    private Stage crearStageModal(String titulo, Parent root) {
+        Stage stage = new Stage();
+        stage.setTitle(titulo);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+
+        if (tblProductos != null && tblProductos.getScene() != null && tblProductos.getScene().getWindow() != null) {
+            final javafx.stage.Window owner = tblProductos.getScene().getWindow();
+            stage.initOwner(owner);
+            final javafx.scene.Node ownerRoot = tblProductos.getScene().getRoot();
+            final javafx.scene.effect.ColorAdjust dim = new javafx.scene.effect.ColorAdjust(0, 0, -0.28, 0);
+            stage.setOnShown(ev -> {
+                if (ownerRoot != null) {
+                    ownerRoot.setEffect(dim);
+                }
+                stage.setX(owner.getX() + (owner.getWidth() - stage.getWidth()) / 2.0);
+                stage.setY(owner.getY() + (owner.getHeight() - stage.getHeight()) / 2.0);
+            });
+            stage.setOnHidden(ev -> {
+                if (ownerRoot != null) {
+                    ownerRoot.setEffect(null);
+                }
+            });
+        }
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        URL cssUrl = getClass().getResource("/css/styles.css");
+        if (cssUrl == null) {
+            File cssFallback = new File("src/main/resources/css/styles.css");
+            if (cssFallback.exists()) {
+                try {
+                    cssUrl = cssFallback.toURI().toURL();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+        stage.setScene(scene);
+        return stage;
     }
 
     @FXML
