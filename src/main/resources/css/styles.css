@@ -687,4 +687,406 @@
     -fx-text-fill: #46220F;
 }
 
+/* Estados para Caja Cerrada y Tarjeta Vender Inactiva */
+.dashboard-module-card-locked {
+    -fx-background-color: #F5EFE6;
+    -fx-border-color: #D5C3AE;
+    -fx-border-width: 1.4px;
+    -fx-border-style: segments(6, 5) line-cap round;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 12px 16px 16px 16px;
+    -fx-cursor: hand;
+    -fx-content-display: GRAPHIC_ONLY;
+}
+
+.dashboard-module-card-locked:hover {
+    -fx-background-color: #EFE6D8;
+    -fx-border-color: #B89F84;
+}
+
+.dashboard-badge-inactivo {
+    -fx-background-color: #8D7B6A;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 3px 10px 3px 10px;
+}
+
+.dashboard-module-icon-circle-locked {
+    -fx-background-color: #E8DEC8;
+    -fx-background-radius: 50%;
+    -fx-min-width: 46px;
+    -fx-min-height: 46px;
+    -fx-max-width: 46px;
+    -fx-max-height: 46px;
+    -fx-alignment: center;
+}
+
+.dashboard-module-title-locked {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7A6552;
+}
+
+.dashboard-module-subtitle-locked {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8D7B6A;
+}
+
+.dashboard-vender-warn-pill {
+    -fx-background-color: #FAF6F0;
+    -fx-border-color: #E2D3C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 3px 12px 3px 8px;
+}
+
+.dashboard-vender-warn-dot {
+    -fx-background-color: #704214;
+    -fx-background-radius: 50%;
+    -fx-min-width: 15px;
+    -fx-min-height: 15px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
+    -fx-alignment: center;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.dashboard-vender-warn-text {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.dashboard-caja-icon-lock-box {
+    -fx-background-color: #F5ECE0;
+    -fx-background-radius: 50%;
+    -fx-min-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-width: 34px;
+    -fx-max-height: 34px;
+    -fx-alignment: center;
+}
+
+.dashboard-badge-apertura {
+    -fx-background-color: #F5E5D3;
+    -fx-text-fill: #8C4A15;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 2px 8px 2px 8px;
+}
+
+.dashboard-btn-abrir-caja {
+    -fx-background-color: #704214;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 18px 8px 16px;
+    -fx-cursor: hand;
+}
+
+.dashboard-btn-abrir-caja:hover {
+    -fx-background-color: #5A340F;
+}
+
+/* ====================================================================
+   MODULO 2: CAJA Y CIERRE DEL DIA (PALETA CORPORATIVA CONARY)
+   ==================================================================== */
+
+.caja-root-bg {
+    -fx-background-color: #FAF6F0;
+}
+
+.caja-top-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10px 20px 10px 20px;
+}
+
+.caja-btn-volver-header {
+    -fx-background-color: #FAF6F0;
+    -fx-border-color: #E6D7C3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 14px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.caja-btn-volver-header:hover {
+    -fx-background-color: #F0E4D4;
+    -fx-border-color: #AA7444;
+}
+
+.caja-header-icon-box {
+    -fx-background-color: #F5DEC9;
+    -fx-background-radius: 10px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-alignment: center;
+}
+
+.caja-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.caja-header-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.caja-card-center {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EFE5D8;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 28px 36px 28px 36px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.07), 18, 0, 0, 5);
+}
+
+.caja-pill-kicker {
+    -fx-background-color: #F8E8D8;
+    -fx-background-radius: 14px;
+    -fx-padding: 4px 12px 4px 12px;
+    -fx-text-fill: #704214;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.caja-card-main-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.caja-card-subtext {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B4C35;
+}
+
+.caja-input-big-container {
+    -fx-background-color: #FDF3EA;
+    -fx-border-color: #EED9C4;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 6px 14px 6px 16px;
+}
+
+.caja-input-big-prefix {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.caja-input-big-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #B59578;
+    -fx-padding: 4px 8px 4px 6px;
+}
+
+.caja-input-big-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.caja-ref-box {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.caja-btn-primary {
+    -fx-background-color: #5C330F;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 11px 20px 11px 20px;
+    -fx-cursor: hand;
+}
+
+.caja-btn-primary:hover {
+    -fx-background-color: #46220F;
+}
+
+.caja-btn-secondary {
+    -fx-background-color: #FAF1E6;
+    -fx-border-color: transparent;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-cursor: hand;
+}
+
+.caja-btn-secondary:hover {
+    -fx-background-color: #EFE0CE;
+}
+
+.caja-info-highlight-box {
+    -fx-background-color: #FCE9DA;
+    -fx-background-radius: 12px;
+    -fx-padding: 16px 20px 16px 20px;
+}
+
+.caja-mini-stat-box {
+    -fx-background-color: #FAF2E8;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+/* Vista Operativa de Arqueo (2 Columnas) */
+.caja-status-strip {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8px 16px 8px 16px;
+}
+
+.caja-column-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 18px 22px 18px 22px;
+}
+
+.caja-column-card-right {
+    -fx-background-color: #E8DDD0, #46220F, #FFFFFF;
+    -fx-background-insets: 0, 0 0 0 0, 4 1 1 1;
+    -fx-background-radius: 14px, 14px, 10px 10px 13px 13px;
+    -fx-padding: 18px 22px 18px 22px;
+}
+
+.caja-section-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.caja-row-soft {
+    -fx-background-color: #FAF2E8;
+    -fx-background-radius: 8px;
+    -fx-padding: 9px 14px 9px 14px;
+}
+
+.caja-row-bordered {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EFE5D8;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 9px 14px 9px 14px;
+}
+
+.caja-total-esperado-box {
+    -fx-background-color: #F7E5D4;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px 18px 12px 16px;
+}
+
+.caja-total-esperado-amount {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.caja-arqueo-input-readonly {
+    -fx-background-color: #FAF1E6;
+    -fx-border-color: #E6D5C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-padding: 8px 14px 8px 14px;
+}
+
+.caja-arqueo-input-active {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #46220F;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-padding: 8px 14px 8px 14px;
+}
+
+.caja-diff-box-warn {
+    -fx-background-color: #FDF0E1;
+    -fx-border-color: #EED4B7;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.caja-diff-box-ok {
+    -fx-background-color: #EAF7EE;
+    -fx-border-color: #B7DFC2;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.caja-movimiento-item {
+    -fx-background-color: #FAF4EC;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 12px 6px 12px;
+}
+
+.caja-modal-overlay {
+    -fx-background-color: rgba(45, 25, 12, 0.52);
+}
+
+.caja-modal-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 28px 32px 24px 32px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 24, 0, 0, 8);
+}
+
+
+
 

@@ -173,8 +173,8 @@ public class LoginController {
                 System.err.println("[LoginController] Aviso: No se pudo verificar la caja: " + e.getMessage());
             }
 
-            // Navegar a la pantalla principal
-            App.cambiarEscena("/fxml/main.fxml", "Papelería de Rosita - Sistema CONARY", 1180, 780);
+            // Navegar a la pantalla del Menu Principal
+            App.cambiarEscena("/fxml/menu_principal.fxml", "Papelería de Rosita - Sistema CONARY", 1180, 780);
 
         } catch (SQLException e) {
             btnIngresar.setDisable(false);

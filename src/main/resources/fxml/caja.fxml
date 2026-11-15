@@ -3,94 +3,627 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.conary.rosita.controller.CajaController"
-      spacing="14" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.CajaController"
+           styleClass="caja-root-bg"
+           stylesheets="@../css/styles.css"
+           maxWidth="Infinity" maxHeight="Infinity">
 
-    <!-- Encabezado -->
-    <HBox alignment="CENTER_LEFT" spacing="15">
-        <VBox>
-            <Label text="CONTROL DE CAJA Y ARQUEO DIARIO" styleClass="titulo-principal"/>
-            <Label text="Apertura y cierre de turnos, cálculo de tirilla y cuadre de efectivo." styleClass="subtitulo"/>
-        </VBox>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="btnRefrescar" text="🔄 Actualizar Cifras" onAction="#handleRefrescarCaja" styleClass="button-secondary"/>
+    <!-- Elementos legacy invisibles preservados para compatibilidad 100% con @FXML -->
+    <HBox visible="false" managed="false">
+        <Label fx:id="lblEstadoTurno" text="CERRADA"/>
+        <Label fx:id="lblFechaApertura" text="--"/>
+        <Button fx:id="btnRefrescar" onAction="#handleRefrescarCaja"/>
     </HBox>
 
-    <Separator/>
+    <!-- ESTRUCTURA PRINCIPAL DE LA PANTALLA DE CAJA -->
+    <BorderPane maxWidth="Infinity" maxHeight="Infinity">
 
-    <!-- Panel Superior: Estado y Acciones de Caja Activa -->
-    <HBox spacing="15" alignment="CENTER_LEFT">
+        <!-- ==============================================================
+             BARRA SUPERIOR CONTEXTUAL (HEADER)
+             ============================================================== -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="caja-top-bar">
+                <BorderPane.margin>
+                    <Insets bottom="12"/>
+                </BorderPane.margin>
 
-        <!-- Tarjeta de Estado del Turno Actual -->
-        <VBox spacing="8" prefWidth="350" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-background-radius: 6;">
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label text="ESTADO DEL TURNO:" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 11px;"/>
-                <Label fx:id="lblEstadoTurno" text="CERRADA" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #ef4444;"/>
+                <Button text="←  Volver al Menú" onAction="#handleVolverMenu"
+                        styleClass="caja-btn-volver-header"/>
+
+                <Separator orientation="VERTICAL" prefHeight="28"/>
+
+                <StackPane styleClass="caja-header-icon-box">
+                    <SVGPath fill="#704214"
+                             content="M 2 1 C 1.17 1 0.5 1.67 0.5 2.5 L 0.5 13.5 C 0.5 14.33 1.17 15 2 15 L 12 15 C 12.83 15 13.5 14.33 13.5 13.5 L 13.5 2.5 C 13.5 1.67 12.83 1 12 1 L 2 1 Z M 2.5 3 L 11.5 3 L 11.5 6 L 2.5 6 L 2.5 3 Z M 3.5 8 L 5.5 8 L 5.5 9.5 L 3.5 9.5 L 3.5 8 Z M 6 8 L 8 8 L 8 9.5 L 6 9.5 L 6 8 Z M 8.5 8 L 10.5 8 L 10.5 9.5 L 8.5 9.5 L 8.5 8 Z M 3.5 11 L 5.5 11 L 5.5 12.5 L 3.5 12.5 L 3.5 11 Z M 6 11 L 10.5 11 L 10.5 12.5 L 6 12.5 L 6 11 Z"/>
+                </StackPane>
+
+                <VBox alignment="CENTER_LEFT" spacing="1">
+                    <Label fx:id="lblTituloHeaderCaja" text="Caja y cierre del día" styleClass="caja-header-title"/>
+                    <Label fx:id="lblSubtituloHeaderCaja" text="Domingo, 15 de noviembre de 2026" styleClass="caja-header-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Capsula de Usuario en Sesion -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="dashboard-user-pill">
+                    <StackPane styleClass="dashboard-user-avatar">
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 6 6 C 7.66 6 9 4.66 9 3 C 9 1.34 7.66 0 6 0 C 4.34 0 3 1.34 3 3 C 3 4.66 4.34 6 6 6 Z M 6 7.5 C 3.67 7.5 0 8.67 0 11 L 0 12 L 12 12 L 12 11 C 12 8.67 8.33 7.5 6 7.5 Z"/>
+                    </StackPane>
+                    <VBox alignment="CENTER_LEFT" spacing="0">
+                        <Label fx:id="lblUsuarioHeaderNombre" text="Doña Rosita" styleClass="dashboard-user-name"/>
+                        <Label fx:id="lblUsuarioHeaderRol" text="Administradora" styleClass="dashboard-user-role"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Capsula de Fecha a la derecha (Visible en modo Arqueo) -->
+                <HBox fx:id="boxFechaHeaderDerecha" alignment="CENTER_LEFT" spacing="8"
+                      styleClass="dashboard-date-box">
+                    <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.4"
+                             content="M 2 3 L 12 3 C 12.55 3 13 3.45 13 4 L 13 13 C 13 13.55 12.55 14 12 14 L 2 14 C 1.45 14 1 13.55 1 13 L 1 4 C 1 3.45 1.45 3 2 3 Z M 1 6.5 L 13 6.5 M 4 1.5 L 4 3.5 M 10 1.5 L 10 3.5"/>
+                    <Label fx:id="lblFechaHeaderDerecha" text="Domingo, 15 de noviembre de 2026"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                </HBox>
+            </HBox>
+        </top>
+
+        <!-- ==============================================================
+             CONTENEDOR CENTRAL MULTIVISTA (ESTADOS A, B, C, D)
+             ============================================================== -->
+        <center>
+            <StackPane maxWidth="Infinity" maxHeight="Infinity">
+
+                <!-- ======================================================
+                     ESTADO A: BLOQUEO POR TURNO ANTERIOR PENDIENTE (Mockup 3)
+                     ====================================================== -->
+                <VBox fx:id="paneBloqueoAnterior" alignment="TOP_CENTER" spacing="14"
+                      maxWidth="500" maxHeight="-Infinity" visible="false" managed="false"
+                      styleClass="caja-card-center">
+
+                    <StackPane minWidth="58" minHeight="58" maxWidth="58" maxHeight="58"
+                               style="-fx-background-color: #F6CFB0; -fx-background-radius: 50%;">
+                        <SVGPath fill="#46220F"
+                                 content="M 11 5 L 10 5 L 10 3.5 C 10 1.57 8.43 0 6.5 0 C 4.57 0 3 1.57 3 3.5 L 3 5 L 2 5 C 1.17 5 0.5 5.67 0.5 6.5 L 0.5 12.5 C 0.5 13.33 1.17 14 2 14 L 11 14 C 11.83 14 12.5 13.33 12.5 12.5 L 12.5 6.5 C 12.5 5.67 11.83 5 11 5 Z M 8.3 5 L 4.7 5 L 4.7 3.5 C 4.7 2.51 5.51 1.7 6.5 1.7 C 7.49 1.7 8.3 2.51 8.3 3.5 L 8.3 5 Z"/>
+                    </StackPane>
+
+                    <Label text="🛡  BLOQUEO DE SEGURIDAD • CAJA ANTERIOR PENDIENTE" styleClass="caja-pill-kicker"/>
+
+                    <Label text="No se puede abrir la caja todavía" styleClass="caja-card-main-title"
+                           wrapText="true" textAlignment="CENTER"/>
+                    <Label text="Hay un turno anterior que aún no ha sido cerrado formalmente en el sistema."
+                           styleClass="caja-card-subtext" wrapText="true" textAlignment="CENTER" maxWidth="400"/>
+
+                    <!-- Recuadro de Alerta -->
+                    <VBox spacing="10" styleClass="caja-info-highlight-box">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <StackPane minWidth="28" minHeight="28" maxWidth="28" maxHeight="28"
+                                       style="-fx-background-color: #5C330F; -fx-background-radius: 50%;">
+                                <Label text="⚠" style="-fx-text-fill: #FAF6F0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <Label text="Falta cerrar la caja de ayer. Pida a Doña Rosita que haga el cierre antes de abrir una nueva."
+                                   wrapText="true" maxWidth="360"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+
+                        <VBox spacing="6" style="-fx-background-color: #FDF7F0; -fx-background-radius: 8px; -fx-padding: 10px 12px;">
+                            <Label fx:id="lblTurnoPendienteInfo"
+                                   text="⏱ Turno pendiente: Viernes, 13 de noviembre • Registrado por última vez."
+                                   wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #46220F;"/>
+                            <Label fx:id="lblPermisoAdminAyer"
+                                   text="✓ Como usted ha iniciado sesión como Doña Rosita (Administradora), puede realizar el cierre de inmediato aquí debajo."
+                                   wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #46220F;"/>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Selector de Modo de Visualizacion (Doña Rosita vs Gladys) -->
+                    <HBox alignment="CENTER" spacing="8" styleClass="caja-ref-box">
+                        <Label text="Modo de visualización:" style="-fx-font-size: 11.5px; -fx-text-fill: #6B4C35;"/>
+                        <Button fx:id="btnSimularAdmin" text="Doña Rosita (Admin)"
+                                onAction="#handleSimularVistaAdmin"
+                                style="-fx-background-color: #5C330F; -fx-text-fill: #FAF6F0; -fx-font-size: 11px; -fx-background-radius: 6px; -fx-padding: 4px 10px;"/>
+                        <Button fx:id="btnSimularVendedora" text="Gladys (Vendedora)"
+                                onAction="#handleSimularVistaVendedora"
+                                style="-fx-background-color: #FFFFFF; -fx-text-fill: #46220F; -fx-font-size: 11px; -fx-background-radius: 6px; -fx-padding: 4px 10px;"/>
+                    </HBox>
+
+                    <Button fx:id="btnCerrarCajaAyer" text="🔒  Cerrar la caja de ayer"
+                            onAction="#handleIrACerrarCajaAnterior"
+                            maxWidth="Infinity" styleClass="caja-btn-primary"/>
+
+                    <Button text="←  Volver al Menú Principal" onAction="#handleVolverMenu"
+                            maxWidth="Infinity" styleClass="caja-btn-secondary"/>
+
+                    <Label text="ⓘ Si una vendedora (Gladys) ingresa a esta pantalla, solo verá disponible el botón 'Volver al Menú' hasta que Doña Rosita complete el arqueo."
+                           wrapText="true" textAlignment="CENTER" maxWidth="410"
+                           style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                </VBox>
+
+                <!-- ======================================================
+                     ESTADO B1: FORMULARIO DE APERTURA DE TURNO (Mockup 1)
+                     ====================================================== -->
+                <VBox fx:id="panelApertura" alignment="CENTER_LEFT" spacing="16"
+                      maxWidth="460" maxHeight="-Infinity" visible="false" managed="false"
+                      styleClass="caja-card-center">
+
+                    <Label text="🔒  APERTURA DE TURNO" styleClass="caja-pill-kicker"/>
+
+                    <Label text="¿Con cuánto dinero empieza la caja hoy?"
+                           styleClass="caja-card-main-title" wrapText="true"/>
+
+                    <Label text="Cuente los billetes y las monedas que hay en el cajón y escriba el total."
+                           styleClass="caja-card-subtext" wrapText="true"/>
+
+                    <VBox spacing="6">
+                        <Label text="Monto inicial en efectivo"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+
+                        <HBox alignment="CENTER_LEFT" spacing="6" styleClass="caja-input-big-container">
+                            <Label text="\$" styleClass="caja-input-big-prefix"/>
+                            <TextField fx:id="txtMontoInicial" promptText="50.000"
+                                       HBox.hgrow="ALWAYS" styleClass="caja-input-big-field"/>
+                            <Button text="⌫" onAction="#handleLimpiarMontoInicial"
+                                    style="-fx-background-color: transparent; -fx-text-fill: #704214; -fx-font-size: 15px; -fx-cursor: hand;"/>
+                        </HBox>
+                    </VBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="8" styleClass="caja-ref-box">
+                        <Label text="🕒" style="-fx-font-size: 13px; -fx-text-fill: #704214;"/>
+                        <Label fx:id="lblReferenciaCierreAnterior"
+                               text="Ayer la caja se cerró con $ 250.000 contados."
+                               style="-fx-font-size: 12px; -fx-text-fill: #6B4C35;"/>
+                    </HBox>
+
+                    <Button fx:id="btnAbrirCaja" text="✓  Abrir caja" onAction="#handleAbrirCaja"
+                            maxWidth="Infinity" styleClass="caja-btn-primary">
+                        <VBox.margin>
+                            <Insets top="4"/>
+                        </VBox.margin>
+                    </Button>
+
+                    <Button text="←  Volver al Menú" onAction="#handleVolverMenu"
+                            maxWidth="Infinity" styleClass="caja-btn-secondary"/>
+                </VBox>
+
+                <!-- ======================================================
+                     ESTADO B2: CONFIRMACION "¡CAJA ABIERTA!" (Mockup 4)
+                     ====================================================== -->
+                <VBox fx:id="paneExitoApertura" alignment="TOP_CENTER" spacing="16"
+                      maxWidth="460" maxHeight="-Infinity" visible="false" managed="false"
+                      styleClass="caja-card-center">
+
+                    <Label text="✓  APERTURA DE TURNO EXITOSA" styleClass="caja-pill-kicker"/>
+
+                    <StackPane minWidth="64" minHeight="64" maxWidth="64" maxHeight="64"
+                               style="-fx-background-color: #F6CFB0; -fx-background-radius: 50%;">
+                        <StackPane minWidth="38" minHeight="38" maxWidth="38" maxHeight="38"
+                                   style="-fx-background-color: #46220F; -fx-background-radius: 50%;">
+                            <Label text="✓" style="-fx-text-fill: #FAF6F0; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                        </StackPane>
+                    </StackPane>
+
+                    <Label text="¡Caja abierta!" style="-fx-font-family: 'Georgia', serif; -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                    <Label text="El turno ha sido registrado correctamente y la caja se encuentra lista para atender en mostrador."
+                           styleClass="caja-card-subtext" wrapText="true" textAlignment="CENTER" maxWidth="370"/>
+
+                    <!-- Recuadro de Base Inicial -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="caja-ref-box"
+                          style="-fx-padding: 14px 18px;">
+                        <Label text="💵  Base inicial:" style="-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblExitoBaseInicial" text="\$ 50.000"
+                               style="-fx-font-family: 'Georgia', serif; -fx-font-size: 19px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        <Label fx:id="lblExitoHoraApertura" text="• 8:15 a. m."
+                               style="-fx-font-size: 12px; -fx-text-fill: #6B4C35;"/>
+                    </HBox>
+
+                    <!-- Cajera en turno y Turno N° -->
+                    <HBox spacing="24" alignment="CENTER_LEFT" maxWidth="360">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="Cajera en turno" style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            <Label fx:id="lblExitoCajera" text="Doña Rosita"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </VBox>
+                        <VBox spacing="2">
+                            <Label text="Turno N°" style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            <Label fx:id="lblExitoCodigoTurno" text="TRN-2026-0001"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </VBox>
+                    </HBox>
+
+                    <Button text="🛒  Ir a Vender  →" onAction="#handleIrAVender"
+                            maxWidth="Infinity" styleClass="caja-btn-primary"/>
+
+                    <Button text="←  Volver al Menú" onAction="#handleVolverMenu"
+                            maxWidth="Infinity" styleClass="caja-btn-secondary"/>
+
+                    <HBox alignment="CENTER" spacing="6">
+                        <Label text="ENTER" style="-fx-background-color: #F6E4D2; -fx-background-radius: 4px; -fx-padding: 2px 6px; -fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #704214;"/>
+                        <Label text="Presione Enter para ir directo al mostrador de ventas" style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- ======================================================
+                     ESTADO C: VISTA "LA CAJA DE HOY YA FUE ABIERTA" (Mockup 2)
+                     ====================================================== -->
+                <VBox fx:id="paneYaAbierta" alignment="TOP_CENTER" spacing="14"
+                      maxWidth="480" maxHeight="-Infinity" visible="false" managed="false"
+                      styleClass="caja-card-center">
+
+                    <StackPane minWidth="58" minHeight="58" maxWidth="58" maxHeight="58"
+                               style="-fx-background-color: #F6CFB0; -fx-background-radius: 50%;">
+                        <StackPane minWidth="32" minHeight="32" maxWidth="32" maxHeight="32"
+                                   style="-fx-background-color: #46220F; -fx-background-radius: 50%;">
+                            <Label text="✓" style="-fx-text-fill: #FAF6F0; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+                        </StackPane>
+                    </StackPane>
+
+                    <Label text="•  ESTADO DEL TURNO • ACTIVO" styleClass="caja-pill-kicker"/>
+
+                    <Label text="La caja de hoy ya fue abierta" styleClass="caja-card-main-title"/>
+                    <Label text="El turno operativo ya se encuentra iniciado y listo para recibir clientes en mostrador."
+                           styleClass="caja-card-subtext" wrapText="true" textAlignment="CENTER" maxWidth="390"/>
+
+                    <!-- Recuadro de Informacion del Turno -->
+                    <VBox spacing="8" styleClass="caja-info-highlight-box">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="i" styleClass="login-error-icon"/>
+                            <Label fx:id="lblYaAbiertaResumen"
+                                   text="La caja ya está abierta desde las 8:15 a. m., con base de $ 50.000."
+                                   wrapText="true" maxWidth="350"
+                                   style="-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+                        <Label fx:id="lblYaAbiertaPor" text="   👤 Abierta por: Doña Rosita (Apertura matutina)"
+                               style="-fx-font-size: 12px; -fx-text-fill: #46220F;"/>
+                        <Label text="   💵 Efectivo verificado"
+                               style="-fx-font-size: 12px; -fx-text-fill: #46220F;"/>
+                        <Separator/>
+                        <Label text="🕒 Puede ingresar al mostrador a registrar ventas inmediatamente."
+                               style="-fx-font-size: 12px; -fx-text-fill: #6B4C35;"/>
+                    </VBox>
+
+                    <!-- Mini tarjetas de Puesto y Jornada -->
+                    <HBox spacing="12">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS" styleClass="caja-mini-stat-box">
+                            <Label text="Puesto actual" style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            <Label text="Caja Principal 01" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </VBox>
+                        <VBox spacing="2" HBox.hgrow="ALWAYS" styleClass="caja-mini-stat-box">
+                            <Label text="Turno del día" style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            <Label text="Jornada Continua" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </VBox>
+                    </HBox>
+
+                    <Button text="🛒  Ir a Vender  →" onAction="#handleIrAVender"
+                            maxWidth="Infinity" styleClass="caja-btn-primary"/>
+
+                    <HBox spacing="10">
+                        <Button text="Ir a Arqueo y Cierre" onAction="#handleIrAArqueo"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="caja-btn-secondary"/>
+                        <Button text="←  Volver al Menú Principal" onAction="#handleVolverMenu"
+                                HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="caja-btn-secondary"/>
+                    </HBox>
+                </VBox>
+
+                <!-- ======================================================
+                     ESTADO D: VISTA OPERATIVA DE ARQUEO Y CIERRE (Mockups 5 y 6)
+                     ====================================================== -->
+                <VBox fx:id="panelCierre" spacing="12" maxWidth="Infinity" maxHeight="Infinity"
+                      visible="false" managed="false">
+
+                    <!-- Franja superior de Estado Actual -->
+                    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="caja-status-strip">
+                        <Label text="✓" styleClass="dashboard-caja-icon-ok"/>
+                        <Label fx:id="lblBannerEstadoAbierta"
+                               text="Estado actual: CAJA ABIERTA • Apertura registrada hoy a las 8:15 AM con fondo base inicial de $ 50.000"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                    </HBox>
+
+                    <!-- Dos Columnas: Izquierda (Sistema) y Derecha (Arqueo y Cierre) -->
+                    <HBox spacing="16" VBox.vgrow="ALWAYS">
+
+                        <!-- COLUMNA IZQUIERDA: LO QUE DICE EL SISTEMA -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="caja-column-card">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <SVGPath fill="#704214"
+                                         content="M 2 1 C 1.17 1 0.5 1.67 0.5 2.5 L 0.5 13.5 C 0.5 14.33 1.17 15 2 15 L 12 15 C 12.83 15 13.5 14.33 13.5 13.5 L 13.5 2.5 C 13.5 1.67 12.83 1 12 1 L 2 1 Z M 2.5 3 L 11.5 3 L 11.5 6 L 2.5 6 L 2.5 3 Z"/>
+                                <Label text="Lo que dice el sistema" styleClass="caja-section-title"/>
+                            </HBox>
+
+                            <!-- Fila 1: Fondo base inicial -->
+                            <HBox alignment="CENTER_LEFT" styleClass="caja-row-soft">
+                                <Label text="💵  Fondo base inicial:" style="-fx-font-size: 13px; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblMontoBase" text="\$ 50.000"
+                                       style="-fx-font-family: 'Georgia', serif; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                            </HBox>
+
+                            <!-- Fila 2: (+) Ventas de contado del dia -->
+                            <HBox alignment="CENTER_LEFT" styleClass="caja-row-bordered">
+                                <Label fx:id="lblTituloVentasContado" text="🛒  (+) Ventas de contado del día • 0 ventas:"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblValorVentasContado" text="+ $ 0"
+                                       style="-fx-font-family: 'Georgia', serif; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                            </HBox>
+
+                            <!-- Fila 3: (+) Abonos de clientes recibidos -->
+                            <HBox alignment="CENTER_LEFT" styleClass="caja-row-soft">
+                                <Label text="📓  (+) Abonos de clientes recibidos:"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblValorAbonosRecibidos" text="+ $ 0"
+                                       style="-fx-font-family: 'Georgia', serif; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                            </HBox>
+
+                            <!-- Fila 4: (-) Pagos a proveedores en efectivo -->
+                            <HBox alignment="CENTER_LEFT" styleClass="caja-row-bordered">
+                                <Label text="🚚  (–) Pagos a proveedores en efectivo:"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblValorPagosProveedores" text="– $ 0"
+                                       style="-fx-font-family: 'Georgia', serif; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #9E2A2B;"/>
+                            </HBox>
+
+                            <!-- Caja Destacada: TOTAL ESPERADO EN CAJA -->
+                            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="caja-total-esperado-box">
+                                <StackPane minWidth="34" minHeight="34" maxWidth="34" maxHeight="34"
+                                           style="-fx-background-color: #46220F; -fx-background-radius: 50%;">
+                                    <Label text="=" style="-fx-text-fill: #FAF6F0; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                                <Label text="TOTAL ESPERADO EN CAJA:"
+                                       style="-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblTotalTirilla" text="\$ 50.000" styleClass="caja-total-esperado-amount"/>
+                            </HBox>
+
+                            <!-- Nota de Ventas a Fiado -->
+                            <Label fx:id="lblValorVentasFiado"
+                                   text="ⓘ  Ventas a fiado (no entran a la caja): $ 0"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #6B4C35;"/>
+
+                            <Separator/>
+
+                            <!-- Encabezado Movimientos de hoy -->
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="⇄  Movimientos de hoy"
+                                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Ver todos" onAction="#handleVerHistorialModal"
+                                        styleClass="dashboard-btn-outline" style="-fx-padding: 3px 10px; -fx-font-size: 11.5px;"/>
+                            </HBox>
+
+                            <!-- Lista de Movimientos de hoy -->
+                            <VBox fx:id="boxListaMovimientosHoy" spacing="6" VBox.vgrow="ALWAYS"/>
+                        </VBox>
+
+                        <!-- COLUMNA DERECHA: ARQUEO Y CIERRE DE CAJA -->
+                        <VBox spacing="10" prefWidth="430" minWidth="410" styleClass="caja-column-card-right">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <SVGPath fill="#704214"
+                                         content="M 11 5 L 10 5 L 10 3.5 C 10 1.57 8.43 0 6.5 0 C 4.57 0 3 1.57 3 3.5 L 3 5 L 2 5 C 1.17 5 0.5 5.67 0.5 6.5 L 0.5 12.5 C 0.5 13.33 1.17 14 2 14 L 11 14 C 11.83 14 12.5 13.33 12.5 12.5 L 12.5 6.5 C 12.5 5.67 11.83 5 11 5 Z M 8.3 5 L 4.7 5 L 4.7 3.5 C 4.7 2.51 5.51 1.7 6.5 1.7 C 7.49 1.7 8.3 2.51 8.3 3.5 L 8.3 5 Z"/>
+                                <Label text="Arqueo y cierre de caja" styleClass="caja-section-title"/>
+                            </HBox>
+
+                            <!-- Campo 1: Total de la tirilla de la caja registradora -->
+                            <VBox spacing="3">
+                                <Label text="Total de la tirilla de la caja registradora"
+                                       style="-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                                <TextField fx:id="txtTotalTirillaInput" promptText="\$ 0"
+                                           styleClass="caja-arqueo-input-readonly"/>
+                                <Label text="Es el número del papel de la caja vieja"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            </VBox>
+
+                            <!-- Campo 2: Efectivo que hay contado -->
+                            <VBox spacing="3">
+                                <Label text="Efectivo que hay contado"
+                                       style="-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                                <TextField fx:id="txtEfectivoContado" promptText="Ej: 250000"
+                                           styleClass="caja-arqueo-input-active"/>
+                                <Label text="Cuente los billetes y las monedas del cajón"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                            </VBox>
+
+                            <!-- Recuadro Dinamico de Diferencia (Verde si cuadra / Ambar si falta o sobra) -->
+                            <VBox fx:id="boxCuadreDiferencia" spacing="4" styleClass="caja-diff-box-ok">
+                                <Label fx:id="lblDiferencia"
+                                       text="✓ La caja cuadra. Esperado $ 50.000, contado $ 50.000"
+                                       wrapText="true"
+                                       style="-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-text-fill: #1E6B38;"/>
+                                <Label fx:id="lblSubEstadoTirilla"
+                                       text="✓ La tirilla coincide con el sistema"
+                                       style="-fx-font-size: 11.5px; -fx-text-fill: #1E6B38;"/>
+                            </VBox>
+
+                            <!-- Campo 3: Observaciones (opcional) -->
+                            <VBox spacing="3">
+                                <Label text="Observaciones (opcional)"
+                                       style="-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                                <TextField fx:id="txtObservacionesCierre" promptText="(Sin observaciones)"
+                                           styleClass="caja-arqueo-input-readonly"
+                                           style="-fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 13px; -fx-font-weight: normal;"/>
+                            </VBox>
+
+                            <Region VBox.vgrow="ALWAYS"/>
+
+                            <!-- Boton Cerrar Caja -->
+                            <Button fx:id="btnCerrarCaja" text="✓  Cerrar caja" onAction="#handleCerrarCaja"
+                                    maxWidth="Infinity" styleClass="caja-btn-primary"/>
+
+                            <Label text="Al cerrar, el resumen se guarda y se muestra en pantalla."
+                                   alignment="CENTER" maxWidth="Infinity"
+                                   style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- ======================================================
+                     ESTADO D FINAL: RESUMEN "¡CAJA CERRADA!" (Mockup 8)
+                     ====================================================== -->
+                <VBox fx:id="paneExitoCierre" alignment="TOP_CENTER" spacing="14"
+                      maxWidth="480" maxHeight="-Infinity" visible="false" managed="false"
+                      styleClass="caja-card-center">
+
+                    <Label text="🔒  CIERRE DE TURNO COMPLETADO" styleClass="caja-pill-kicker"/>
+
+                    <StackPane minWidth="60" minHeight="60" maxWidth="60" maxHeight="60"
+                               style="-fx-background-color: #F6CFB0; -fx-background-radius: 50%;">
+                        <StackPane minWidth="34" minHeight="34" maxWidth="34" maxHeight="34"
+                                   style="-fx-background-color: #46220F; -fx-background-radius: 50%;">
+                            <Label text="✓" style="-fx-text-fill: #FAF6F0; -fx-font-size: 17px; -fx-font-weight: bold;"/>
+                        </StackPane>
+                    </StackPane>
+
+                    <Label text="¡Caja cerrada!"
+                           style="-fx-font-family: 'Georgia', serif; -fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                    <Label text="El turno del día ha finalizado con calma. Todos los movimientos y reportes quedaron archivados de forma segura en este equipo."
+                           styleClass="caja-card-subtext" wrapText="true" textAlignment="CENTER" maxWidth="390"/>
+
+                    <!-- Tarjeta Resumen del Arqueo Final -->
+                    <VBox spacing="8" style="-fx-background-color: #FAF1E6; -fx-background-radius: 12px; -fx-padding: 16px 18px;">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="🧾  Resumen del arqueo final"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblResumenCajaNumero" text="Caja N° 1"
+                                   style="-fx-background-color: #FFFFFF; -fx-background-radius: 6px; -fx-padding: 2px 8px; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #FFFFFF; -fx-background-radius: 6px; -fx-padding: 8px 12px;">
+                            <Label text="Total esperado en sistema:" style="-fx-font-size: 12.5px; -fx-text-fill: #6B4C35;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblResumenEsperadoFinal" text="\$ 250.000"
+                                   style="-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #FFFFFF; -fx-background-radius: 6px; -fx-padding: 8px 12px;">
+                            <Label text="Efectivo físico contado:" style="-fx-font-size: 12.5px; -fx-text-fill: #6B4C35;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblResumenContadoFinal" text="\$ 250.000"
+                                   style="-fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #F4D8BD; -fx-background-radius: 8px; -fx-padding: 8px 12px;">
+                            <Label text="ⓘ  Diferencia:" style="-fx-font-size: 12.5px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblResumenDiferenciaBadge" text="✓ Cuadra exacto ($ 0)"
+                                   style="-fx-background-color: #FFFFFF; -fx-background-radius: 6px; -fx-padding: 3px 10px; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                        </HBox>
+
+                        <Label fx:id="lblResumenFechaUsuario"
+                               text="🕒 Domingo, 15 de noviembre de 2026 • Turno: Doña Rosita"
+                               style="-fx-font-size: 11.5px; -fx-text-fill: #6B4C35;"/>
+                    </VBox>
+
+                    <Button text="←  Volver al Menú Principal" onAction="#handleVolverMenu"
+                            maxWidth="Infinity" styleClass="caja-btn-primary"/>
+
+                    <HBox alignment="CENTER" spacing="6">
+                        <Label text="O presione la tecla" style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                        <Label text="ENTER" style="-fx-background-color: #F6E4D2; -fx-background-radius: 4px; -fx-padding: 2px 6px; -fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #704214;"/>
+                        <Label text="en su teclado físico" style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                    </HBox>
+                </VBox>
+
+            </StackPane>
+        </center>
+
+        <!-- ==============================================================
+             PIE DE VENTANA
+             ============================================================== -->
+        <bottom>
+            <BorderPane>
+                <padding>
+                    <Insets top="8" right="4" bottom="0" left="4"/>
+                </padding>
+                <left>
+                    <Label text="💾  Datos guardados en este equipo • Terminal: CAJA-01"
+                           style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                </left>
+                <right>
+                    <Label text="CONARY v1.0"
+                           style="-fx-font-size: 11px; -fx-text-fill: #6B4C35;"/>
+                </right>
+            </BorderPane>
+        </bottom>
+
+    </BorderPane>
+
+    <!-- ==================================================================
+         MODAL SUPERPUESTO 1: CONFIRMACION "¿CERRAR LA CAJA DE HOY?" (Mockup 7)
+         ================================================================== -->
+    <StackPane fx:id="modalConfirmarCierre" visible="false" managed="false"
+               styleClass="caja-modal-overlay">
+        <VBox alignment="TOP_CENTER" spacing="14" maxWidth="420" maxHeight="-Infinity"
+              styleClass="caja-modal-card">
+
+            <StackPane minWidth="56" minHeight="56" maxWidth="56" maxHeight="56"
+                       style="-fx-background-color: #FDEAC9; -fx-background-radius: 50%;">
+                <Label text="⚠" style="-fx-font-size: 24px; -fx-text-fill: #9A4D12;"/>
+            </StackPane>
+
+            <Label text="¿Cerrar la caja de hoy?" styleClass="caja-card-main-title"/>
+            <Label text="Después no podrá vender hasta abrirla otra vez."
+                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+
+            <!-- Comparativa Total Esperado vs Efectivo Contado -->
+            <HBox alignment="CENTER" spacing="18" styleClass="caja-ref-box"
+                  style="-fx-padding: 12px 16px;">
+                <VBox alignment="CENTER" spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="TOTAL ESPERADO" style="-fx-font-size: 10.5px; -fx-font-weight: bold; -fx-text-fill: #7A5C43;"/>
+                    <Label fx:id="lblModalEsperado" text="\$ 250.000"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                </VBox>
+                <Separator orientation="VERTICAL" prefHeight="34"/>
+                <VBox alignment="CENTER" spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="EFECTIVO CONTADO" style="-fx-font-size: 10.5px; -fx-font-weight: bold; -fx-text-fill: #7A5C43;"/>
+                    <Label fx:id="lblModalContado" text="\$ 249.500"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #46220F;"/>
+                </VBox>
             </HBox>
 
-            <Label fx:id="lblFechaApertura" text="Fecha Apertura: --" style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
-            <Label fx:id="lblMontoBase" text="Monto Base Inicial: $ 0.00" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+            <Button text="✓  Sí, cerrar caja" onAction="#handleConfirmarCierreDefinitivo"
+                    maxWidth="Infinity" styleClass="caja-btn-primary"/>
 
-            <Separator/>
+            <Button text="←  No, volver" onAction="#handleCancelarModalCierre"
+                    maxWidth="Infinity" styleClass="dashboard-btn-outline"
+                    style="-fx-padding: 10px 20px;"/>
 
-            <!-- Formulario de Apertura (visible solo si cerrada) -->
-            <VBox fx:id="panelApertura" spacing="8">
-                <Label text="Monto Base Inicial ($):" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
-                <TextField fx:id="txtMontoInicial" promptText="Ej: 50000" prefHeight="35"/>
-                <Button fx:id="btnAbrirCaja" text="🔓 Abrir Turno de Caja" onAction="#handleAbrirCaja"
-                        maxWidth="Infinity" prefHeight="38" styleClass="button-success"/>
-            </VBox>
+            <Label text="🔒 Los datos quedarán protegidos y archivados en este equipo"
+                   style="-fx-font-size: 11px; -fx-text-fill: #7A5C43;"/>
         </VBox>
+    </StackPane>
 
-        <!-- Tarjeta de Arqueo y Cierre (visible si abierta) -->
-        <VBox fx:id="panelCierre" spacing="10" HBox.hgrow="ALWAYS"
-              style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-background-radius: 6;">
-
-            <Label text="ARQUEO Y CUADRE EN TIEMPO REAL" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #1e293b;"/>
-            <Separator/>
-
-            <HBox spacing="20" alignment="CENTER_LEFT">
-                <VBox spacing="4" HBox.hgrow="ALWAYS">
-                    <Label text="Total Tirilla (Esperado en Caja):" style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
-                    <Label fx:id="lblTotalTirilla" text="\$ 0.00" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0369a1;"/>
-                    <Label text="(Base + Ventas contado + Abonos - Pagos a proveedores)" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;"/>
-                </VBox>
-
-                <VBox spacing="4" prefWidth="180">
-                    <Label text="Efectivo Físico Contado ($):" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
-                    <TextField fx:id="txtEfectivoContado" promptText="0.00" prefHeight="35"/>
-                </VBox>
-
-                <VBox spacing="4" alignment="BOTTOM_CENTER">
-                    <Button fx:id="btnCerrarCaja" text="🔒 Cerrar Turno / Arqueo" onAction="#handleCerrarCaja"
-                            prefHeight="35" styleClass="button-danger"/>
-                </VBox>
+    <!-- ==================================================================
+         MODAL SUPERPUESTO 2: HISTORIAL COMPLETO Y MOVIMIENTOS ("Ver todos")
+         ================================================================== -->
+    <StackPane fx:id="modalHistorialTurnos" visible="false" managed="false"
+               styleClass="caja-modal-overlay">
+        <VBox spacing="12" maxWidth="820" maxHeight="520" styleClass="caja-modal-card">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Historial de Turnos y Arqueos de Caja" styleClass="caja-section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Cerrar ✕" onAction="#handleCerrarHistorialModal" styleClass="dashboard-btn-outline"/>
             </HBox>
-
-            <Label fx:id="lblDiferencia" text="Diferencia: $ 0.00" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+            <TableView fx:id="tblHistorialCaja" VBox.vgrow="ALWAYS" prefHeight="380">
+                <columns>
+                    <TableColumn fx:id="colIdCaja" text="Turno #" prefWidth="70" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colApertura" text="Fecha y Hora Apertura" prefWidth="170"/>
+                    <TableColumn fx:id="colCierre" text="Fecha y Hora Cierre" prefWidth="170"/>
+                    <TableColumn fx:id="colBase" text="Base Inicial" prefWidth="115" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colTirilla" text="Total Esperado" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colContado" text="Efectivo Contado" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
+                    <TableColumn fx:id="colDiferencia" text="Diferencia" prefWidth="115" style="-fx-alignment: CENTER-RIGHT;"/>
+                </columns>
+                <placeholder>
+                    <Label text="No hay registros históricos de turnos de caja."/>
+                </placeholder>
+            </TableView>
         </VBox>
-    </HBox>
+    </StackPane>
 
-    <!-- Historial de Turnos de Caja -->
-    <VBox spacing="6" VBox.vgrow="ALWAYS">
-        <Label text="HISTORIAL DE TURNOS Y ARQUEOS ANTERIORES" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #334155;"/>
-        <TableView fx:id="tblHistorialCaja" VBox.vgrow="ALWAYS" prefHeight="220">
-            <columns>
-                <TableColumn fx:id="colIdCaja" text="Turno #" prefWidth="60" style="-fx-alignment: CENTER;"/>
-                <TableColumn fx:id="colApertura" text="Fecha y Hora Apertura" prefWidth="170"/>
-                <TableColumn fx:id="colCierre" text="Fecha y Hora Cierre" prefWidth="170"/>
-                <TableColumn fx:id="colBase" text="Base Inicial" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
-                <TableColumn fx:id="colTirilla" text="Total Tirilla" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
-                <TableColumn fx:id="colContado" text="Efectivo Físico" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
-                <TableColumn fx:id="colDiferencia" text="Diferencia" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
-            </columns>
-            <placeholder>
-                <Label text="No hay registros históricos de turnos de caja."/>
-            </placeholder>
-        </TableView>
-    </VBox>
-
-</VBox>
-
+</StackPane>
