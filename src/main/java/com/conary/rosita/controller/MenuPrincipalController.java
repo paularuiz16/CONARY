@@ -480,15 +480,27 @@ public class MenuPrincipalController {
 
     @FXML
     public void mostrarAbrirCajaDirecto() {
-        CajaController.setModoEntradaSoloApertura(true);
         activarBoton(btnNavCaja);
-        cargarVistaEnContenido("/fxml/caja.fxml");
+        cargarVistaEnContenido("/fxml/abrir_caja.fxml");
     }
 
     @FXML
     public void mostrarCaja() {
-        CajaController.setModoEntradaSoloApertura(false);
         activarBoton(btnNavCaja);
+        try {
+            Caja abierta = cajaDAO.obtenerCajaAbierta();
+            SesionUsuario.setCajaActiva(abierta);
+            if (abierta == null
+                    || (abierta.getFechaApertura() != null
+                        && abierta.getFechaApertura().toLocalDate().isBefore(LocalDate.now()))) {
+                cargarVistaEnContenido("/fxml/abrir_caja.fxml");
+                return;
+            }
+        } catch (SQLException e) {
+            cargarVistaEnContenido("/fxml/abrir_caja.fxml");
+            return;
+        }
+        CajaController.setModoEntradaSoloApertura(false);
         cargarVistaEnContenido("/fxml/caja.fxml");
     }
 
@@ -596,6 +608,7 @@ public class MenuPrincipalController {
             contentArea.getChildren().add(node);
 
             boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath)
+                    || "/fxml/abrir_caja.fxml".equals(fxmlPath)
                     || "/fxml/productos.fxml".equals(fxmlPath)
                     || "/fxml/registrar_producto.fxml".equals(fxmlPath)
                     || "/fxml/modificar_producto.fxml".equals(fxmlPath);

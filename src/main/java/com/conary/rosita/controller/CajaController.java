@@ -61,9 +61,14 @@ public class CajaController {
 
     private static final Locale LOCALE_ES_CO = new Locale("es", "CO");
     private static boolean modoEntradaSoloApertura = false;
+    private static boolean forzarArqueoTurnoPendiente = false;
 
     public static void setModoEntradaSoloApertura(boolean soloApertura) {
         modoEntradaSoloApertura = soloApertura;
+    }
+
+    public static void setForzarArqueoTurnoPendiente(boolean forzar) {
+        forzarArqueoTurnoPendiente = forzar;
     }
 
     // =========================================================================
@@ -281,7 +286,11 @@ public class CajaController {
                         ? cajaActiva.getFechaApertura().toLocalDate()
                         : LocalDate.now();
 
-                if (fechaTurno.isBefore(LocalDate.now())) {
+                if (forzarArqueoTurnoPendiente) {
+                    forzarArqueoTurnoPendiente = false;
+                    cargarDatosOperativosArqueo(cajaActiva);
+                    mostrarVistaUnica(panelCierre, "Caja y cierre del día", true);
+                } else if (fechaTurno.isBefore(LocalDate.now())) {
                     // ESTADO A: Bloqueo por turno de un dia anterior sin cerrar
                     configurarVistaBloqueoAnterior(cajaActiva);
                     mostrarVistaUnica(paneBloqueoAnterior, "Abrir caja", false);
