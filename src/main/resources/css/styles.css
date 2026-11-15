@@ -1477,6 +1477,351 @@
     -fx-opacity: 0.5;
 }
 
+/* ==========================================================================
+   MODULO 4: PRODUCTOS Y PRECIOS — REGISTRAR PRODUCTO (FORMULARIO COMPLETO)
+   ========================================================================== */
+
+.reg-prod-root {
+    -fx-background-color: #FAF3EA;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.reg-prod-header {
+    -fx-background-color: transparent;
+}
+
+.reg-prod-btn-back {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D8C5B2;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 18px 9px 16px;
+    -fx-cursor: hand;
+}
+
+.reg-prod-btn-back:hover {
+    -fx-background-color: #F7EFE5;
+    -fx-border-color: #AA7444;
+}
+
+.reg-prod-header-icon-circle {
+    -fx-background-color: #F4DEC8;
+    -fx-background-radius: 22px;
+    -fx-min-width: 42px;
+    -fx-min-height: 42px;
+    -fx-max-width: 42px;
+    -fx-max-height: 42px;
+}
+
+.reg-prod-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.reg-prod-user-pill {
+    -fx-background-color: #6B3A19;
+    -fx-background-radius: 24px;
+    -fx-padding: 6px 18px 6px 8px;
+}
+
+.reg-prod-user-avatar {
+    -fx-background-color: #875432;
+    -fx-background-radius: 16px;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.reg-prod-user-pill-text {
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Tarjeta Central Blanca */
+.reg-prod-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-padding: 24px 32px 22px 32px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.07), 18, 0, 0, 4);
+}
+
+/* Banner de Validacion por Producto Duplicado */
+.reg-prod-duplicate-banner {
+    -fx-background-color: #FDF3E7;
+    -fx-border-color: #E6AA77;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px 18px 12px 16px;
+}
+
+.reg-prod-duplicate-icon {
+    -fx-text-fill: #D97724;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.reg-prod-duplicate-text {
+    -fx-text-fill: #6E3B16;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Campos y Etiquetas del Formulario */
+.reg-prod-field-label {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.reg-prod-help-text {
+    -fx-text-fill: #7A624E;
+    -fx-font-size: 12px;
+}
+
+.reg-prod-text-input {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DFD2C3;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #9E8C7A;
+    -fx-font-size: 16px;
+    -fx-padding: 11px 14px 11px 14px;
+}
+
+.reg-prod-text-input:focused {
+    -fx-border-color: #704214;
+    -fx-background-color: #FFFFFF;
+}
+
+/* Cuadricula 3x2 de Categorias (ToggleButtons) */
+.reg-prod-cat-toggle {
+    -fx-background-color: #FAF6F0;
+    -fx-border-color: #E2D5C6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 10px 9px 10px;
+    -fx-cursor: hand;
+}
+
+.reg-prod-cat-toggle:hover {
+    -fx-background-color: #F2E8DC;
+    -fx-border-color: #AA7444;
+}
+
+.reg-prod-cat-toggle:selected {
+    -fx-background-color: #6B3A19;
+    -fx-border-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+}
+
+/* Caja de Codigo de Solo Lectura */
+.reg-prod-code-locked {
+    -fx-background-color: #EFECE6;
+    -fx-border-color: #E0D8CE;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px 16px 12px 16px;
+}
+
+.reg-prod-code-locked-text {
+    -fx-text-fill: #7B6F64;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* Cajas de Precio con Prefijo $ */
+.reg-prod-currency-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DFD2C3;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 6px 12px 6px 14px;
+}
+
+.reg-prod-currency-prefix {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.reg-prod-currency-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #9E8C7A;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 4px 5px 2px;
+}
+
+.reg-prod-currency-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Cajas Numericas de Existencias y Stock Minimo */
+.reg-prod-number-input {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DFD2C3;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #9E8C7A;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.reg-prod-number-input:focused {
+    -fx-border-color: #704214;
+    -fx-background-color: #FFFFFF;
+}
+
+/* Nota Informativa Suave */
+.reg-prod-info-note {
+    -fx-background-color: #F8F3EC;
+    -fx-border-color: #EAE0D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px 16px 12px 14px;
+}
+
+.reg-prod-info-note-icon {
+    -fx-font-size: 16px;
+    -fx-text-fill: #D49B35;
+}
+
+.reg-prod-info-note-text {
+    -fx-text-fill: #5C432E;
+    -fx-font-size: 13px;
+}
+
+.reg-prod-separator .line {
+    -fx-border-color: #EFE6DC transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Botones Inferiores */
+.reg-prod-btn-cancel {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #9E7B5C;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 28px 11px 28px;
+    -fx-cursor: hand;
+}
+
+.reg-prod-btn-cancel:hover {
+    -fx-background-color: #F7EFE5;
+    -fx-border-color: #46220F;
+}
+
+.reg-prod-btn-save {
+    -fx-background-color: #6B3A19;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 32px 12px 32px;
+    -fx-cursor: hand;
+}
+
+.reg-prod-btn-save:hover {
+    -fx-background-color: #46220F;
+}
+
+/* Pie de Pagina */
+.reg-prod-footer {
+    -fx-background-color: #F4EAE0;
+    -fx-border-color: #E6D8C8 transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.reg-prod-footer-left {
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.reg-prod-footer-right {
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ==========================================================================
+   MODULO 4: PRODUCTOS Y PRECIOS — MODIFICAR PRODUCTO (CAJAS DE SOLO LECTURA)
+   ========================================================================== */
+
+.mod-prod-code-locked-text {
+    -fx-text-fill: #6B5C4E;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.mod-prod-stock-locked {
+    -fx-background-color: #EFECE6;
+    -fx-border-color: #E0D8CE;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 7px 10px 7px 14px;
+}
+
+.mod-prod-stock-locked-value {
+    -fx-text-fill: #3E2412;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-line-spacing: -2px;
+}
+
+.mod-prod-readonly-badge {
+    -fx-background-color: #FAF8F5;
+    -fx-border-color: #DFD6CC;
+    -fx-border-width: 1px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-padding: 4px 10px 4px 8px;
+}
+
+.mod-prod-readonly-badge-text {
+    -fx-text-fill: #7A695A;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-line-spacing: -2px;
+}
+
+
+
 
 
 

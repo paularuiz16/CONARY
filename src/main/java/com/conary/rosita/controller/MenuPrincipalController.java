@@ -566,14 +566,30 @@ public class MenuPrincipalController {
     }
 
     protected void cargarVistaEnContenido(String fxmlPath) {
+        cargarVistaConControlador(fxmlPath);
+    }
+
+    public <T> T cargarVistaConControlador(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            java.net.URL url = getClass().getResource(fxmlPath);
+            if (url == null) {
+                java.io.File fallback = new java.io.File("src/main/resources" + fxmlPath);
+                if (fallback.exists()) {
+                    url = fallback.toURI().toURL();
+                }
+            }
+            if (url == null) {
+                throw new IOException("No se encontró el recurso FXML: " + fxmlPath);
+            }
+            FXMLLoader loader = new FXMLLoader(url);
             Node node = loader.load();
             contentArea.getChildren().clear();
             contentArea.getChildren().add(node);
 
             boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath)
-                    || "/fxml/productos.fxml".equals(fxmlPath);
+                    || "/fxml/productos.fxml".equals(fxmlPath)
+                    || "/fxml/registrar_producto.fxml".equals(fxmlPath)
+                    || "/fxml/modificar_producto.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);
@@ -582,10 +598,12 @@ public class MenuPrincipalController {
                 btnVolverMenu.setVisible(!usaHeaderPropio);
                 btnVolverMenu.setManaged(!usaHeaderPropio);
             }
+            return loader.getController();
         } catch (IOException e) {
             System.err.println("[MenuPrincipalController] Error cargando vista: " + fxmlPath + ": " + e.getMessage());
             e.printStackTrace();
             AlertaUtil.mostrarError("Error de Navegación", "No se pudo cargar la vista solicitada: " + fxmlPath);
+            return null;
         }
     }
 }

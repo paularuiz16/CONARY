@@ -47,9 +47,14 @@ public class ProductosController {
     public static final String FILTRO_TODOS = "Estado: Todos";
 
     private static boolean iniciarConFiltroPocasExistencias = false;
+    private static int idProductoSeleccionarAlCargar = -1;
 
     public static void setIniciarConFiltroPocasExistencias(boolean activar) {
         iniciarConFiltroPocasExistencias = activar;
+    }
+
+    public static void setIdProductoSeleccionarAlCargar(int idProducto) {
+        idProductoSeleccionarAlCargar = idProducto;
     }
 
     @FXML private Button btnVolverMenu;
@@ -361,6 +366,20 @@ public class ProductosController {
 
         int totalFiltrados = listaFiltrada.size();
         int totalPaginas = Math.max(1, (int) Math.ceil((double) totalFiltrados / FILAS_POR_PAGINA));
+
+        Producto productoObjetivo = null;
+        if (idProductoSeleccionarAlCargar > 0) {
+            for (int i = 0; i < listaFiltrada.size(); i++) {
+                Producto cand = listaFiltrada.get(i);
+                if (cand.getIdProducto() == idProductoSeleccionarAlCargar) {
+                    productoObjetivo = cand;
+                    paginaActual = i / FILAS_POR_PAGINA;
+                    break;
+                }
+            }
+            idProductoSeleccionarAlCargar = -1;
+        }
+
         if (paginaActual >= totalPaginas) {
             paginaActual = totalPaginas - 1;
         }
@@ -389,8 +408,10 @@ public class ProductosController {
             btnSiguientePagina.setDisable(paginaActual >= totalPaginas - 1);
         }
 
-        // Seleccionar el primer producto de la pagina por defecto para mostrar la barra inferior activa
-        if (!paginaActualItems.isEmpty()) {
+        // Seleccionar el producto objetivo o el primero de la pagina por defecto
+        if (productoObjetivo != null && paginaActualItems.contains(productoObjetivo)) {
+            tblProductos.getSelectionModel().select(productoObjetivo);
+        } else if (!paginaActualItems.isEmpty()) {
             tblProductos.getSelectionModel().selectFirst();
         } else {
             tblProductos.getSelectionModel().clearSelection();
@@ -473,21 +494,39 @@ public class ProductosController {
                     "Solo Doña Rosita (Administradora) puede registrar productos nuevos.");
             return;
         }
-        AlertaUtil.mostrarInfo("Registrar producto nuevo",
-                "Formulario modal de registro listo para conectar en el Paso 2.");
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.cargarVistaEnContenido("/fxml/registrar_producto.fxml");
+        }
     }
 
     @FXML
     public void handleModificarProducto() {
-        if (productoSeleccionado == null) {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede modificar precios o datos de productos.");
+            return;
+        }
+        Producto seleccionado = tblProductos != null
+                ? tblProductos.getSelectionModel().getSelectedItem()
+                : productoSeleccionado;
+        if (seleccionado == null) {
+            seleccionado = productoSeleccionado;
+        }
+        if (seleccionado == null) {
             AlertaUtil.mostrarAdvertencia("Seleccione un producto",
                     "Primero toque o haga clic sobre un producto de la tabla.");
             return;
         }
-        AlertaUtil.mostrarInfo("Modificar precio o datos",
-                "Producto seleccionado: " + productoSeleccionado.getNombre()
-              + " (" + formatearCodigo(productoSeleccionado.getIdProducto()) + ").\n"
-              + "Modal de edición listo para conectar en el Paso 2.");
+
+        ModificarProductoController.setProductoPendienteEdicion(seleccionado);
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            ModificarProductoController ctrl = menu.cargarVistaConControlador("/fxml/modificar_producto.fxml");
+            if (ctrl != null) {
+                ctrl.setProducto(seleccionado);
+            }
+        }
     }
 
     @FXML

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.RegistrarProductoController"
+            styleClass="reg-prod-root">
+
+    <!-- ENCABEZADO SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="reg-prod-header">
+            <padding>
+                <Insets top="14" right="24" bottom="10" left="24"/>
+            </padding>
+
+            <!-- Izquierda: Boton Volver a Productos -->
+            <Button fx:id="btnVolverProductos" text="←   Volver a Productos"
+                    onAction="#handleCancelar" styleClass="reg-prod-btn-back"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Centro: Icono circular melocoton + Titulo Registrar producto -->
+            <HBox alignment="CENTER" spacing="12">
+                <StackPane styleClass="reg-prod-header-icon-circle">
+                    <SVGPath fill="#E89A54" stroke="#B56A27" strokeWidth="1.2"
+                             content="M 7.5 1.5 L 1.5 1.5 L 1.5 7.5 L 8.5 14.5 C 9.1 15.1 10.1 15.1 10.7 14.5 L 14.5 10.7 C 15.1 10.1 15.1 9.1 14.5 8.5 L 7.5 1.5 Z M 4.8 4.8 C 4.3 4.8 3.9 4.4 3.9 3.9 C 3.9 3.4 4.3 3.0 4.8 3.0 C 5.3 3.0 5.7 3.4 5.7 3.9 C 5.7 4.4 5.3 4.8 4.8 4.8 Z"/>
+                </StackPane>
+                <Label text="Registrar producto" styleClass="reg-prod-header-title"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Derecha: Capsula con el usuario real en sesion (sin recortes) -->
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="reg-prod-user-pill">
+                <StackPane styleClass="reg-prod-user-avatar">
+                    <SVGPath fill="#FAF6F0"
+                             content="M 0 -4.5 C -2.0 -4.5 -3.6 -2.9 -3.6 -0.9 C -3.6 1.1 -2.0 2.7 0 2.7 C 2.0 2.7 3.6 1.1 3.6 -0.9 C 3.6 -2.9 2.0 -4.5 0 -4.5 Z M 0 4.5 C -3.2 4.5 -6.2 6.1 -6.2 8.5 L 6.2 8.5 C 6.2 6.1 3.2 4.5 0 4.5 Z"/>
+                </StackPane>
+                <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                       styleClass="reg-prod-user-pill-text"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- CONTENIDO CENTRAL: TARJETA BLANCA DE FORMULARIO -->
+    <center>
+        <StackPane alignment="CENTER">
+            <padding>
+                <Insets top="4" right="28" bottom="8" left="28"/>
+            </padding>
+
+            <VBox spacing="18" maxWidth="880" styleClass="reg-prod-card">
+
+                <!-- Banner Superior de Validacion (Duplicado o Advertencia) -->
+                <HBox fx:id="boxAlertaDuplicado" alignment="CENTER_LEFT" spacing="12"
+                      visible="false" managed="false" styleClass="reg-prod-duplicate-banner">
+                    <Label text="⚠" styleClass="reg-prod-duplicate-icon"/>
+                    <Label fx:id="lblAlertaDuplicado"
+                           text="Ya existe un producto con este nombre: Cuaderno cosido 100 hojas cuadriculado (PRD-001). Cambie el nombre o vuelva a la lista."
+                           wrapText="true" styleClass="reg-prod-duplicate-text" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+
+                <!-- Columnas del Formulario -->
+                <HBox spacing="32" VBox.vgrow="ALWAYS">
+
+                    <!-- COLUMNA IZQUIERDA -->
+                    <VBox spacing="16" HBox.hgrow="ALWAYS" prefWidth="420">
+
+                        <!-- 1. Nombre del producto -->
+                        <VBox spacing="6">
+                            <Label text="Nombre del producto" styleClass="reg-prod-field-label"/>
+                            <TextField fx:id="txtNombre"
+                                       promptText="Ej. Cuaderno cosido 100 hojas cuadriculado"
+                                       styleClass="reg-prod-text-input"/>
+                            <Label text="Escríbalo como lo buscará al vender" styleClass="reg-prod-help-text"/>
+                        </VBox>
+
+                        <!-- 2. Categoria (Cuadricula 3x2 con ToggleGroup en controlador) -->
+                        <VBox spacing="6">
+                            <Label text="Categoría" styleClass="reg-prod-field-label"/>
+                            <GridPane hgap="8" vgap="8">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                                    <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                </rowConstraints>
+                                <children>
+                                    <ToggleButton fx:id="btnCatCuadernos" text="✓  Cuadernos"
+                                                  selected="true" maxWidth="Infinity"
+                                                  GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                                  styleClass="reg-prod-cat-toggle"/>
+                                    <ToggleButton fx:id="btnCatEscritura" text="Escritura"
+                                                  maxWidth="Infinity"
+                                                  GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                                  styleClass="reg-prod-cat-toggle"/>
+                                    <ToggleButton fx:id="btnCatPapel" text="Papel"
+                                                  maxWidth="Infinity"
+                                                  GridPane.columnIndex="2" GridPane.rowIndex="0"
+                                                  styleClass="reg-prod-cat-toggle"/>
+
+                                    <ToggleButton fx:id="btnCatOficina" text="Oficina"
+                                                  maxWidth="Infinity"
+                                                  GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                                  styleClass="reg-prod-cat-toggle"/>
+                                    <ToggleButton fx:id="btnCatColores" text="Colores"
+                                                  maxWidth="Infinity"
+                                                  GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                                  styleClass="reg-prod-cat-toggle"/>
+                                    <ToggleButton fx:id="btnCatOtros" text="Otros"
+                                                  maxWidth="Infinity"
+                                                  GridPane.columnIndex="2" GridPane.rowIndex="1"
+                                                  styleClass="reg-prod-cat-toggle"/>
+                                </children>
+                            </GridPane>
+                            <Label text="Organiza sus productos en el mostrador" styleClass="reg-prod-help-text"/>
+                        </VBox>
+
+                        <!-- 3. Codigo (Solo lectura) -->
+                        <VBox spacing="6">
+                            <Label text="Código" styleClass="reg-prod-field-label"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="reg-prod-code-locked">
+                                <SVGPath fill="#D4843E"
+                                         content="M 9.5 4.5 L 8.5 4.5 L 8.5 3.2 C 8.5 1.43 7.07 0 5.3 0 C 3.53 0 2.1 1.43 2.1 3.2 L 2.1 4.5 L 1.1 4.5 C 0.49 4.5 0 4.99 0 5.6 L 0 11.2 C 0 11.81 0.49 12.3 1.1 12.3 L 9.5 12.3 C 10.11 12.3 10.6 11.81 10.6 11.2 L 10.6 5.6 C 10.6 4.99 10.11 4.5 9.5 4.5 Z M 5.3 9.2 C 4.58 9.2 4.0 8.62 4.0 7.9 C 4.0 7.18 4.58 6.6 5.3 6.6 C 6.02 6.6 6.6 7.18 6.6 7.9 C 6.6 8.62 6.02 9.2 5.3 9.2 Z M 6.9 4.5 L 3.7 4.5 L 3.7 3.2 C 3.7 2.32 4.42 1.6 5.3 1.6 C 6.18 1.6 6.9 2.32 6.9 3.2 L 6.9 4.5 Z"/>
+                                <Label text="Se asigna solo al guardar" styleClass="reg-prod-code-locked-text"/>
+                            </HBox>
+                            <Label fx:id="lblAyudaCodigo"
+                                   text="El sistema le dará un código automático como PRD-008"
+                                   styleClass="reg-prod-help-text"/>
+                        </VBox>
+
+                    </VBox>
+
+                    <!-- COLUMNA DERECHA -->
+                    <VBox spacing="16" HBox.hgrow="ALWAYS" prefWidth="390">
+
+                        <!-- Fila 1: Precio de compra y Precio de venta -->
+                        <HBox spacing="14">
+                            <VBox spacing="6" HBox.hgrow="ALWAYS" prefWidth="185">
+                                <Label text="Precio de compra" styleClass="reg-prod-field-label"/>
+                                <HBox alignment="CENTER_LEFT" spacing="6" styleClass="reg-prod-currency-box">
+                                    <Label text="\$" styleClass="reg-prod-currency-prefix"/>
+                                    <TextField fx:id="txtPrecioCompra" promptText="0"
+                                               styleClass="reg-prod-currency-input" HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                                <Label text="Lo que le cuesta a usted" styleClass="reg-prod-help-text"/>
+                            </VBox>
+
+                            <VBox spacing="6" HBox.hgrow="ALWAYS" prefWidth="185">
+                                <Label text="Precio de venta" styleClass="reg-prod-field-label"/>
+                                <HBox alignment="CENTER_LEFT" spacing="6" styleClass="reg-prod-currency-box">
+                                    <Label text="\$" styleClass="reg-prod-currency-prefix"/>
+                                    <TextField fx:id="txtPrecioVenta" promptText="0"
+                                               styleClass="reg-prod-currency-input" HBox.hgrow="ALWAYS"/>
+                                </HBox>
+                                <Label text="Lo que paga el cliente" styleClass="reg-prod-help-text"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Fila 2: Existencias que hay hoy y Avisar cuando queden -->
+                        <HBox spacing="14">
+                            <VBox spacing="6" HBox.hgrow="ALWAYS" prefWidth="185">
+                                <Label text="Existencias que hay hoy" styleClass="reg-prod-field-label"/>
+                                <TextField fx:id="txtExistencias" promptText="0"
+                                           styleClass="reg-prod-number-input"/>
+                                <Label text="Cuántas unidades tiene ahora" styleClass="reg-prod-help-text"/>
+                            </VBox>
+
+                            <VBox spacing="6" HBox.hgrow="ALWAYS" prefWidth="185">
+                                <Label text="Avisar cuando queden" styleClass="reg-prod-field-label"/>
+                                <TextField fx:id="txtStockMinimo" text="5" promptText="5"
+                                           styleClass="reg-prod-number-input"/>
+                                <Label text="Avisa si hay menos de esto" styleClass="reg-prod-help-text"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Nota informativa suave -->
+                        <HBox alignment="TOP_LEFT" spacing="10" styleClass="reg-prod-info-note">
+                            <Label text="💡" styleClass="reg-prod-info-note-icon"/>
+                            <Label text="Al guardar, el producto aparecerá inmediatamente en la lista para registrar ventas rápidas."
+                                   wrapText="true" styleClass="reg-prod-info-note-text" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        </HBox>
+
+                    </VBox>
+                </HBox>
+
+                <Separator styleClass="reg-prod-separator"/>
+
+                <!-- Botones Inferiores Alineados a la Derecha -->
+                <HBox alignment="CENTER_RIGHT" spacing="14">
+                    <Button fx:id="btnCancelar" text="✕   Cancelar"
+                            onAction="#handleCancelar" styleClass="reg-prod-btn-cancel"/>
+                    <Button fx:id="btnGuardar" text="✓   Guardar producto"
+                            onAction="#handleGuardarProducto" styleClass="reg-prod-btn-save"/>
+                </HBox>
+
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- PIE DE PAGINA -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="reg-prod-footer">
+            <padding>
+                <Insets top="8" right="24" bottom="10" left="24"/>
+            </padding>
+            <Circle radius="4.5" fill="#2E9E5B"/>
+            <Label text="Datos guardados en este equipo" styleClass="reg-prod-footer-left"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="CONARY v1.0" styleClass="reg-prod-footer-right"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
