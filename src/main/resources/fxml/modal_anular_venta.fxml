@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.AnularVentaController"
+           styleClass="modal-anular-root">
+
+    <VBox spacing="15" prefWidth="480" maxWidth="480" styleClass="modal-anular-card">
+
+        <!-- Cabecera: Icono circular ambar + Titulo y Subtitulo -->
+        <HBox alignment="CENTER_LEFT" spacing="14">
+            <StackPane minWidth="48" minHeight="48" maxWidth="48" maxHeight="48">
+                <Circle radius="24" fill="#FDEAC9"/>
+                <SVGPath fill="transparent" stroke="#B45309" strokeWidth="2.0"
+                         content="M 0 -9 L 10 8 L -10 8 Z M 0 -3 L 0 2.5 M 0 5.5 L 0 6.2"/>
+            </StackPane>
+
+            <VBox spacing="2">
+                <Label text="¿Anular esta venta?" styleClass="modal-anular-title"/>
+                <Label text="Revise los detalles antes de confirmar la operación"
+                       styleClass="modal-anular-subtitle"/>
+            </VBox>
+        </HBox>
+
+        <!-- Franja Resumen de la Venta -->
+        <VBox spacing="4" styleClass="modal-anular-summary-box">
+            <Label fx:id="lblResumenEncabezado"
+                   text="11:15 a. m. · María Gómez · A fiado · $ 10.000"
+                   wrapText="true" styleClass="modal-anular-summary-main"/>
+            <Label fx:id="lblResumenProductos"
+                   text="Lápiz Mirado N°2 × 10"
+                   wrapText="true" styleClass="modal-anular-summary-sub"/>
+        </VBox>
+
+        <!-- Lista de 3 Consecuencias Claras -->
+        <VBox spacing="10">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="modal-anular-icon-circle">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.5"
+                             content="M 2 7 L 2 12 L 12 12 L 12 7 M 7 2 L 7 9 M 4.5 6.5 L 7 9 L 9.5 6.5"/>
+                </StackPane>
+                <Label text="Los productos vuelven al inventario."
+                       wrapText="true" styleClass="modal-anular-consequence-text"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="modal-anular-icon-circle">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.5"
+                             content="M 1 2.5 C 2.8 1.6 5 1.6 6.8 2.8 C 8.6 1.6 10.8 1.6 12.6 2.5 L 12.6 11.5 C 10.8 10.6 8.6 10.6 6.8 11.8 C 5 10.6 2.8 10.6 1 11.5 Z M 6.8 2.8 L 6.8 11.8"/>
+                </StackPane>
+                <Label fx:id="lblConsecuenciaPago"
+                       text="Se descuenta de la cuenta de María Gómez."
+                       wrapText="true" styleClass="modal-anular-consequence-text"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="modal-anular-icon-circle">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.5"
+                             content="M 7 1 L 2 3.2 L 2 7 C 2 10.2 4.1 12.8 7 13.6 C 9.9 12.8 12 10.2 12 7 L 12 3.2 Z M 4.8 7.2 L 6.4 8.8 L 9.4 5.6"/>
+                </StackPane>
+                <Label text="La venta no se borra: queda marcada como anulada."
+                       wrapText="true" styleClass="modal-anular-consequence-text"/>
+            </HBox>
+        </VBox>
+
+        <!-- Campo Obligatorio de Motivo -->
+        <VBox spacing="5">
+            <HBox alignment="CENTER_LEFT" spacing="2">
+                <Label text="¿Por qué la anula?" styleClass="modal-anular-field-label"/>
+                <Label text=" *" style="-fx-text-fill: #C92A2A; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <TextField fx:id="txtMotivoAnulacion"
+                       promptText="Ej: Se registró dos veces"
+                       styleClass="modal-anular-input"/>
+
+            <Label fx:id="lblAyudaMotivo"
+                   text="Escriba el motivo para guardar en el historial"
+                   styleClass="modal-anular-help"/>
+        </VBox>
+
+        <!-- Botones Inferiores -->
+        <HBox spacing="12">
+            <VBox.margin>
+                <Insets top="4"/>
+            </VBox.margin>
+
+            <Button fx:id="btnVolver" text="←   No, volver"
+                    onAction="#handleCancelar"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    styleClass="modal-anular-btn-back"/>
+
+            <Button fx:id="btnConfirmarAnulacion" text="⊗   Sí, anular venta"
+                    onAction="#handleConfirmarAnulacion"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    styleClass="modal-anular-btn-danger"/>
+        </HBox>
+
+    </VBox>
+
+</StackPane>

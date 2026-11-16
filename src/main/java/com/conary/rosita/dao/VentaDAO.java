@@ -187,6 +187,23 @@ public class VentaDAO {
         }
     }
 
+    /**
+     * Guarda en la descripcion del movimiento los datos del comprobante interno emitido para la venta.
+     */
+    public boolean guardarComprobanteInterno(int idMovimiento, String detalleComprobante) throws SQLException {
+        String sql = "UPDATE movimiento SET descripcion = ? WHERE id_movimiento = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String texto = detalleComprobante != null ? detalleComprobante.trim() : "[COMPROBANTE]";
+            if (texto.length() > 250) {
+                texto = texto.substring(0, 250);
+            }
+            ps.setString(1, texto);
+            ps.setInt(2, idMovimiento);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     public Venta obtenerVentaPorId(int idMovimiento) throws SQLException {
         String sql = "SELECT id_movimiento, fecha, descripcion, id_usuario, nombre_usuario, id_caja, "
                    + "id_cliente, nombre_cliente, es_fiado, anulada, motivo_anulacion, importada, total_venta "

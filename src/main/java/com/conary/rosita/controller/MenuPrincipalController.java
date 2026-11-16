@@ -447,17 +447,15 @@ public class MenuPrincipalController {
     @FXML
     public void mostrarPuntoVenta() {
         refrescarEstadoCaja();
-        if (SesionUsuario.getCajaActiva() == null) {
-            boolean irACaja = AlertaUtil.mostrarConfirmacion("Caja Cerrada — Apertura Requerida",
-                    "No se puede vender sin haber abierto la caja primero.\n\n"
-                  + "¿Desea ir a 'Abrir caja' para ingresar el fondo de inicio?");
-            if (irACaja) {
-                mostrarAbrirCajaDirecto();
-            }
+        Caja abierta = SesionUsuario.getCajaActiva();
+        if (abierta == null
+                || (abierta.getFechaApertura() != null
+                    && abierta.getFechaApertura().toLocalDate().isBefore(LocalDate.now()))) {
+            mostrarAbrirCajaDirecto();
             return;
         }
         activarBoton(btnNavVenta);
-        cargarVistaEnContenido("/fxml/punto_venta.fxml");
+        cargarVistaEnContenido("/fxml/vender.fxml");
     }
 
     @FXML
@@ -606,7 +604,11 @@ public class MenuPrincipalController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(node);
 
-            boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath)
+            boolean usaHeaderPropio = "/fxml/vender.fxml".equals(fxmlPath)
+                    || "/fxml/venta_registrada.fxml".equals(fxmlPath)
+                    || "/fxml/ventas_hoy.fxml".equals(fxmlPath)
+                    || "/fxml/comprobante_venta.fxml".equals(fxmlPath)
+                    || "/fxml/caja.fxml".equals(fxmlPath)
                     || "/fxml/abrir_caja.fxml".equals(fxmlPath)
                     || "/fxml/cierre_caja.fxml".equals(fxmlPath)
                     || "/fxml/productos.fxml".equals(fxmlPath)

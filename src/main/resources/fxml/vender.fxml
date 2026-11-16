@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.VenderController"
+            fx:id="rootPane"
+            styleClass="vender-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         ENCABEZADO SUPERIOR DEL MOSTRADOR DE VENTAS
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="vender-header-bar">
+                <Button fx:id="btnVolverMenu" text="←  Volver al Menú" onAction="#handleVolverMenu"
+                        styleClass="vender-btn-volver"/>
+
+                <Separator orientation="VERTICAL" prefHeight="28"/>
+
+                <StackPane styleClass="vender-header-icon-box">
+                    <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.6"
+                             content="M 1 5 L 2.5 1.5 L 13.5 1.5 L 15 5 Z M 2 5 L 2 14 L 14 14 L 14 5 M 6 14 L 6 9 L 10 9 L 10 14"/>
+                </StackPane>
+
+                <VBox alignment="CENTER_LEFT" spacing="1">
+                    <Label text="Vender" styleClass="vender-header-title"/>
+                    <HBox alignment="CENTER_LEFT" spacing="6">
+                        <Circle radius="4" fill="#1E7B42"/>
+                        <Label fx:id="lblEstadoCajaHeader" text="Caja abierta" styleClass="vender-header-caja-status"/>
+                    </HBox>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Boton Historial de hoy (preparado para Tanda 2) -->
+                <Button fx:id="btnHistorialHoy" text="🧾   Historial de hoy"
+                        onAction="#handleAbrirHistorialHoy"
+                        styleClass="vender-btn-historial"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-user-pill">
+                    <StackPane>
+                        <Circle radius="12" fill="transparent" stroke="#704214" strokeWidth="1.5"/>
+                        <SVGPath fill="#704214"
+                                 content="M 0 -4 C -1.8 -4 -3.2 -2.6 -3.2 -0.8 C -3.2 1 -1.8 2.4 0 2.4 C 1.8 2.4 3.2 1 3.2 -0.8 C 3.2 -2.6 1.8 -4 0 -4 Z M 0 4 C -2.8 4 -5.6 5.4 -5.6 7.6 L 5.6 7.6 C 5.6 5.4 2.8 4 0 4 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioNombre" text="Doña Rosita" styleClass="vender-user-name"/>
+                    <Label fx:id="lblUsuarioRolBadge" text="ADMIN" styleClass="vender-user-badge"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CUERPO PRINCIPAL: 2 COLUMNAS (CATALOGO IZQUIERDA + CARRITO DERECHA)
+         ================================================================== -->
+    <center>
+        <HBox spacing="14" maxWidth="Infinity" maxHeight="Infinity">
+            <padding>
+                <Insets top="0" right="18" bottom="12" left="18"/>
+            </padding>
+
+            <!-- ==========================================================
+                 COLUMNA IZQUIERDA: BUSCADOR, CATEGORIAS Y CATALOGO RAPIDO
+                 ========================================================== -->
+            <VBox spacing="12" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
+
+                <!-- Tarjeta Superior: Buscador Instantaneo + Pildoras de Categoria -->
+                <VBox spacing="10" styleClass="vender-search-card">
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="vender-search-box">
+                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.7"
+                                 content="M 6.5 1 C 3.46 1 1 3.46 1 6.5 C 1 9.54 3.46 12 6.5 12 C 9.54 12 12 9.54 12 6.5 C 12 3.46 9.54 1 6.5 1 Z M 10.5 10.5 L 14.5 14.5"/>
+                        <TextField fx:id="txtBuscarProducto"
+                                   promptText="Buscar producto por nombre o código (ej. Cuaderno, PRD-001)..."
+                                   HBox.hgrow="ALWAYS" styleClass="vender-search-input"/>
+                        <Button fx:id="btnLimpiarBusqueda" text="✕"
+                                onAction="#handleLimpiarBusqueda"
+                                styleClass="vender-btn-clear-search"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="Categoría:" styleClass="vender-cat-label"/>
+                        <ToggleButton fx:id="tbCatTodos" text="⊞  Todos" selected="true" styleClass="vender-cat-pill"/>
+                        <ToggleButton fx:id="tbCatCuadernos" text="📓  Cuadernos" styleClass="vender-cat-pill"/>
+                        <ToggleButton fx:id="tbCatEscritura" text="✎  Escritura" styleClass="vender-cat-pill"/>
+                        <ToggleButton fx:id="tbCatPapel" text="📄  Papel" styleClass="vender-cat-pill"/>
+                        <ToggleButton fx:id="tbCatOficina" text="🗂  Oficina" styleClass="vender-cat-pill"/>
+                        <ToggleButton fx:id="tbCatOtros" text="🏷  Otros" styleClass="vender-cat-pill"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Tarjeta Inferior: Lista de Productos Encontrados -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="vender-catalog-card">
+                    <HBox alignment="CENTER_LEFT">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label text="📦" style="-fx-font-size: 14px; -fx-text-fill: #704214;"/>
+                            <Label fx:id="lblTituloProductosEncontrados"
+                                   text="Productos encontrados (0)"
+                                   styleClass="vender-section-subtitle"/>
+                        </HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="Precios por unidad" styleClass="vender-unit-hint"/>
+                    </HBox>
+
+                    <Separator/>
+
+                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                VBox.vgrow="ALWAYS" styleClass="vender-scroll-clean">
+                        <content>
+                            <VBox fx:id="boxListaProductos" spacing="10">
+                                <padding>
+                                    <Insets top="2" right="4" bottom="4" left="0"/>
+                                </padding>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </VBox>
+
+            <!-- ==========================================================
+                 COLUMNA DERECHA: VENTA ACTUAL (CARRITO) Y FORMA DE PAGO
+                 ========================================================== -->
+            <VBox spacing="10" prefWidth="455" minWidth="435" maxWidth="475"
+                  styleClass="vender-cart-card">
+
+                <!-- Encabezado de Venta Actual -->
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <SVGPath fill="transparent" stroke="#46220F" strokeWidth="1.6"
+                             content="M 2 5 L 14 5 L 12.5 13 L 3.5 13 Z M 5 5 L 6.5 1.5 M 11 5 L 9.5 1.5"/>
+                    <Label text="Venta actual" styleClass="vender-cart-title"/>
+                    <Label fx:id="lblBadgeCantidadCarrito" text="0 productos" styleClass="vender-cart-count-pill"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnVaciarVenta" text="🗑  Vaciar venta"
+                            onAction="#handleVaciarVenta"
+                            styleClass="vender-btn-vaciar"/>
+                </HBox>
+
+                <Separator/>
+
+                <!-- Lista Scrollable de Items en el Carrito -->
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            prefHeight="165" minHeight="125" VBox.vgrow="ALWAYS"
+                            styleClass="vender-scroll-clean">
+                    <content>
+                        <VBox fx:id="boxItemsCarrito" spacing="8">
+                            <padding>
+                                <Insets top="2" right="2" bottom="2" left="0"/>
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Contenedor de Forma de Pago -->
+                <VBox spacing="8" styleClass="vender-pago-section">
+                    <Label text="FORMA DE PAGO" styleClass="vender-kicker-label"/>
+
+                    <HBox spacing="10">
+                        <ToggleButton fx:id="tbPagoContado" text="💵   Contado" selected="true"
+                                      maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                      styleClass="vender-pago-toggle"/>
+                        <ToggleButton fx:id="tbPagoFiado" text="📓   Fiado"
+                                      maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                      styleClass="vender-pago-toggle"/>
+                    </HBox>
+
+                    <!-- ==================================================
+                         SUBPANEL MODO 1: CONTADO (Por defecto)
+                         ================================================== -->
+                    <VBox fx:id="panelPagoContado" spacing="10" visible="true" managed="true">
+
+                        <!-- Franja Venta General -->
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-publico-strip">
+                            <Label text="👤  Venta General (Público mostrador)" styleClass="vender-publico-text"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Cambiar" onAction="#handleCambiarAFiado" styleClass="vender-link-cambiar"/>
+                        </HBox>
+
+                        <!-- Tarjeta de Totales, Valor Recibido y Cambio -->
+                        <VBox spacing="8" styleClass="vender-totals-card">
+                            <HBox alignment="CENTER_LEFT" styleClass="vender-total-row-white">
+                                <Label text="Total a cobrar:" styleClass="vender-total-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblTotalCobrarContado" text="\$ 0" styleClass="vender-total-amount"/>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label text="💵  Valor recibido:" styleClass="vender-recibido-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <HBox alignment="CENTER_RIGHT" spacing="4" styleClass="vender-recibido-input-box">
+                                    <Label text="\$" styleClass="vender-recibido-prefix"/>
+                                    <TextField fx:id="txtValorRecibido" promptText="0" prefWidth="135"
+                                               alignment="CENTER_RIGHT" styleClass="vender-recibido-field"/>
+                                </HBox>
+                            </HBox>
+
+                            <HBox fx:id="boxCambioDevolver" alignment="CENTER_LEFT" styleClass="vender-cambio-bar">
+                                <Label fx:id="lblTituloCambio" text="🔄  Cambio a devolver:" styleClass="vender-cambio-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblValorCambio" text="\$ 0" styleClass="vender-cambio-amount"/>
+                            </HBox>
+                        </VBox>
+
+                        <Button fx:id="btnTerminarVentaContado" text="✓   Terminar venta"
+                                onAction="#handleTerminarVenta"
+                                maxWidth="Infinity" styleClass="vender-btn-submit"/>
+
+                        <Button text="✕   Cancelar venta"
+                                onAction="#handleCancelarVenta"
+                                maxWidth="Infinity" styleClass="vender-btn-cancel"/>
+                    </VBox>
+
+                    <!-- ==================================================
+                         SUBPANEL MODO 2: FIADO
+                         ================================================== -->
+                    <VBox fx:id="panelPagoFiado" spacing="8" visible="false" managed="false">
+
+                        <!-- Buscador de cliente autorizado -->
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-search-box">
+                            <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.6"
+                                     content="M 5.5 1 C 3.0 1 1 3.0 1 5.5 C 1 8.0 3.0 10 5.5 10 C 8.0 10 10 8.0 10 5.5 C 10 3.0 8.0 1 5.5 1 Z M 9 9 L 12.5 12.5"/>
+                            <TextField fx:id="txtBuscarClienteFiado"
+                                       promptText="Cliente: Buscar por nombre o teléfono..."
+                                       HBox.hgrow="ALWAYS" styleClass="vender-fiado-search-input"/>
+                            <Button text="✕" onAction="#handleLimpiarClienteFiado"
+                                    styleClass="vender-btn-clear-search"/>
+                        </HBox>
+
+                        <!-- Sugerencias rapidas de clientes autorizados -->
+                        <VBox fx:id="boxSugerenciasClientes" spacing="4" visible="false" managed="false"/>
+
+                        <!-- Tarjeta Resumen del Cliente Seleccionado -->
+                        <VBox fx:id="cardClienteFiado" spacing="6" styleClass="vender-fiado-client-card">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label fx:id="lblNombreClienteFiado" text="👤  Seleccione un cliente"
+                                       styleClass="vender-fiado-client-name"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblBadgeEstadoFiado" text="Autorizado"
+                                       styleClass="vender-badge-autorizado"/>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Cupo disponible:" styleClass="vender-fiado-meta-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblCupoDisponible" text="\$ 0" styleClass="vender-fiado-meta-value"/>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Debe ahora:" styleClass="vender-fiado-meta-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblDeudaActual" text="\$ 0" styleClass="vender-fiado-meta-value"/>
+                            </HBox>
+
+                            <Separator/>
+
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Después de esta venta debería:" styleClass="vender-fiado-after-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblDeudaDespuesVenta" text="\$ 0" styleClass="vender-fiado-after-amount"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Alerta si supera el cupo disponible o no tiene fiado autorizado -->
+                        <Label fx:id="lblAlertaCupoFiado"
+                               text="⚠ El total supera el cupo disponible del cliente."
+                               visible="false" managed="false" wrapText="true"
+                               styleClass="vender-fiado-alert"/>
+
+                        <!-- Nota informativa -->
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-note-box">
+                            <Label text="📓  Esta venta no entra a la caja. Queda anotada en la cuenta del cliente."
+                                   wrapText="true" styleClass="vender-fiado-note-text"/>
+                        </HBox>
+
+                        <!-- Total a cobrar en modo Fiado -->
+                        <HBox alignment="CENTER_LEFT" styleClass="vender-fiado-total-strip">
+                            <Label text="Total a cobrar:" styleClass="vender-total-label"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblTotalCobrarFiado" text="\$ 0" styleClass="vender-total-amount"/>
+                        </HBox>
+
+                        <Button fx:id="btnTerminarVentaFiado" text="✓   Terminar venta a fiado"
+                                onAction="#handleTerminarVenta"
+                                maxWidth="Infinity" styleClass="vender-btn-submit"/>
+
+                        <Button text="✕   Cancelar venta"
+                                onAction="#handleCancelarVenta"
+                                maxWidth="Infinity" styleClass="vender-btn-cancel"/>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>

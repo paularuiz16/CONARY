@@ -3035,6 +3035,1709 @@
     -fx-text-fill: #7A5C43;
 }
 
+/* ==========================================================================
+   MODULO 1: VENDER (MOSTRADOR PRINCIPAL) — TANDA 1 (vender.fxml)
+   ========================================================================== */
+
+.vender-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.vender-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 8px 16px 8px 14px;
+}
+
+.vender-btn-volver {
+    -fx-background-color: #F7EFE5;
+    -fx-border-color: #E5D4C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 14px 6px 12px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-volver:hover {
+    -fx-background-color: #EDE0CF;
+}
+
+.vender-header-icon-box {
+    -fx-background-color: #FBE9DA;
+    -fx-background-radius: 10px;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+}
+
+.vender-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-header-caja-status {
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E7B42;
+}
+
+.vender-btn-historial {
+    -fx-background-color: #F8F0E6;
+    -fx-border-color: #E3D2BF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 16px 6px 14px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-historial:hover {
+    -fx-background-color: #EDE0CE;
+}
+
+.vender-user-pill {
+    -fx-background-color: #F8EFE5;
+    -fx-border-color: #E7D7C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 5px 12px 5px 10px;
+}
+
+.vender-user-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-user-badge {
+    -fx-background-color: #DFAD7B;
+    -fx-background-radius: 10px;
+    -fx-padding: 2px 8px 2px 8px;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+/* Columna Izquierda: Buscador y Categorias */
+.vender-search-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 12px 14px 12px 14px;
+}
+
+.vender-search-box {
+    -fx-background-color: #FAF3EB;
+    -fx-border-color: #E6D5C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 4px 10px 4px 12px;
+}
+
+.vender-search-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 15px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #8D7B6A;
+}
+
+.vender-search-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.vender-btn-clear-search {
+    -fx-background-color: #EAD8C5;
+    -fx-background-radius: 12px;
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+    -fx-padding: 0;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.vender-btn-clear-search:hover {
+    -fx-background-color: #D9C0A6;
+}
+
+.vender-cat-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.vender-cat-pill {
+    -fx-background-color: #F7EFE6;
+    -fx-border-color: #E5D5C3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 14px 5px 14px;
+    -fx-cursor: hand;
+}
+
+.vender-cat-pill:hover {
+    -fx-background-color: #EFE1D0;
+}
+
+.vender-cat-pill:selected {
+    -fx-background-color: #6B3A19;
+    -fx-border-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+}
+
+/* Lista de Tarjetas de Productos */
+.vender-catalog-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 14px 16px 12px 16px;
+}
+
+.vender-section-subtitle {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-unit-hint {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7A5C43;
+}
+
+.vender-scroll-clean {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.vender-scroll-clean > .viewport {
+    -fx-background-color: transparent;
+}
+
+.vender-prod-card {
+    -fx-background-color: #FCF9F5;
+    -fx-border-color: #EFE4D6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 14px 12px 14px;
+}
+
+.vender-prod-card:hover {
+    -fx-background-color: #FAF3E8;
+    -fx-border-color: #DEC8B0;
+}
+
+.vender-prod-card-agotado {
+    -fx-background-color: #FAF7F4;
+    -fx-border-color: #EFE7DE;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 14px 12px 14px;
+    -fx-opacity: 0.85;
+}
+
+.vender-prod-code-badge {
+    -fx-background-color: #F3E6D8;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 10px 6px 10px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-min-width: 72px;
+    -fx-alignment: CENTER;
+}
+
+.vender-prod-code-badge-disabled {
+    -fx-background-color: #EFE9E2;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 10px 6px 10px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8D7B6A;
+    -fx-min-width: 72px;
+    -fx-alignment: CENTER;
+}
+
+.vender-prod-name {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-prod-name-disabled {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8D7B6A;
+}
+
+.vender-stock-badge-ok {
+    -fx-background-color: #E7F5EC;
+    -fx-background-radius: 10px;
+    -fx-padding: 2px 10px 2px 10px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E7B42;
+}
+
+.vender-stock-badge-bajo {
+    -fx-background-color: #FDF1DF;
+    -fx-border-color: #ECD3B0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 2px 10px 2px 10px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8A4F17;
+}
+
+.vender-stock-badge-agotado {
+    -fx-background-color: #FCE9E9;
+    -fx-background-radius: 10px;
+    -fx-padding: 2px 10px 2px 10px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C94A4A;
+}
+
+.vender-prod-price {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-prod-price-strikethrough {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-fill: #9A8D82;
+}
+
+.vender-btn-agregar {
+    -fx-background-color: #DDA169;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #3B1C0A;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 14px 8px 14px;
+    -fx-min-width: 108px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-agregar:hover {
+    -fx-background-color: #CF8E52;
+}
+
+.vender-btn-agotado {
+    -fx-background-color: #EBE5DE;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #8D7B6A;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 14px 8px 14px;
+    -fx-min-width: 108px;
+}
+
+/* Columna Derecha: Venta Actual y Forma de Pago */
+.vender-cart-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 14px 16px 14px 16px;
+}
+
+.vender-cart-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-cart-count-pill {
+    -fx-background-color: #F5E8DA;
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 10px 2px 10px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.vender-btn-vaciar {
+    -fx-background-color: #FAF3EB;
+    -fx-border-color: #E5D4C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #5C3B23;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 4px 10px 4px 10px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-vaciar:hover {
+    -fx-background-color: #EFE0CE;
+}
+
+.vender-cart-item-row {
+    -fx-background-color: #FAF4EC;
+    -fx-border-color: #EFE3D4;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8px 10px 8px 12px;
+}
+
+.vender-cart-item-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-cart-item-unit {
+    -fx-font-size: 11.5px;
+    -fx-text-fill: #7A5C43;
+}
+
+.vender-stepper-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2D1BE;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 2px 4px 2px 4px;
+}
+
+.vender-stepper-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 1px 7px 1px 7px;
+    -fx-cursor: hand;
+}
+
+.vender-stepper-btn:hover {
+    -fx-background-color: #F4E6D6;
+    -fx-background-radius: 5px;
+}
+
+.vender-stepper-qty {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-cart-item-subtotal {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-btn-remove-item {
+    -fx-background-color: #FCE6E6;
+    -fx-background-radius: 12px;
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+    -fx-padding: 0;
+    -fx-text-fill: #C93B3B;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.vender-btn-remove-item:hover {
+    -fx-background-color: #F8CACA;
+}
+
+/* Selector Forma de Pago */
+.vender-pago-section {
+    -fx-background-color: #FCF9F5;
+    -fx-border-color: #EFE4D6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10px 12px 10px 12px;
+}
+
+.vender-kicker-label {
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7A5C43;
+}
+
+.vender-pago-toggle {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DECBB7;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 14px 8px 14px;
+    -fx-cursor: hand;
+}
+
+.vender-pago-toggle:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.vender-pago-toggle:selected {
+    -fx-background-color: #6B3A19;
+    -fx-border-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+}
+
+/* Modo Contado */
+.vender-publico-strip {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ECE0D1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 6px 10px 6px 10px;
+}
+
+.vender-publico-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #5C3B23;
+}
+
+.vender-link-cambiar {
+    -fx-background-color: transparent;
+    -fx-text-fill: #704214;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-padding: 0 4px 0 4px;
+    -fx-cursor: hand;
+}
+
+.vender-totals-card {
+    -fx-background-color: #FAF2E8;
+    -fx-border-color: #EAD8C4;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 12px 10px 12px;
+}
+
+.vender-total-row-white {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px 8px 12px;
+}
+
+.vender-total-label {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-total-amount {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-recibido-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-recibido-input-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DEC8B0;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 4px 10px 4px 10px;
+}
+
+.vender-recibido-prefix {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-recibido-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-padding: 2px 2px 2px 2px;
+}
+
+.vender-recibido-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.vender-cambio-bar {
+    -fx-background-color: #DFA878;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px 8px 12px;
+}
+
+.vender-cambio-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3B1C0A;
+}
+
+.vender-cambio-amount {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3B1C0A;
+}
+
+/* Modo Fiado */
+.vender-fiado-search-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DEC8B0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 4px 8px 4px 10px;
+}
+
+.vender-fiado-search-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-fiado-search-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.vender-cliente-sugerencia-btn {
+    -fx-background-color: #FAF2E6;
+    -fx-border-color: #E5D2BD;
+    -fx-border-width: 1px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px 5px 10px;
+    -fx-cursor: hand;
+}
+
+.vender-cliente-sugerencia-btn:hover {
+    -fx-background-color: #F0DFCB;
+}
+
+.vender-fiado-client-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EAD8C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 12px 10px 12px;
+}
+
+.vender-fiado-client-name {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.vender-badge-autorizado {
+    -fx-background-color: #E7F5EC;
+    -fx-background-radius: 10px;
+    -fx-padding: 2px 8px 2px 8px;
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E7B42;
+}
+
+.vender-fiado-meta-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.vender-fiado-meta-value {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-fiado-after-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-fiado-after-amount {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9E2A2B;
+}
+
+.vender-fiado-alert {
+    -fx-background-color: #FDECEC;
+    -fx-border-color: #F4CFCF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #B92B2B;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 10px 6px 10px;
+}
+
+.vender-fiado-note-box {
+    -fx-background-color: #FAF2E8;
+    -fx-background-radius: 8px;
+    -fx-padding: 7px 10px 7px 10px;
+}
+
+.vender-fiado-note-text {
+    -fx-font-size: 11.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.vender-fiado-total-strip {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px 8px 12px;
+}
+
+/* Botones de Terminar y Cancelar Venta */
+.vender-btn-submit {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11px 18px 11px 18px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-submit:hover {
+    -fx-background-color: #46220F;
+}
+
+.vender-btn-submit:disabled {
+    -fx-opacity: 0.55;
+}
+
+.vender-btn-cancel {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EAD8C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #B93838;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 14px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.vender-btn-cancel:hover {
+    -fx-background-color: #FDF0F0;
+}
+
+.vender-empty-box {
+    -fx-padding: 32px 16px 32px 16px;
+}
+
+.vender-cart-empty-box {
+    -fx-padding: 22px 12px 22px 12px;
+}
+
+.vender-empty-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.vender-empty-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8D7B6A;
+}
+
+/* ==========================================================================
+   MODULO 1: VENDER — TANDA 2 (venta_registrada.fxml y ventas_hoy.fxml)
+   ========================================================================== */
+
+.venta-reg-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 28px 36px 26px 36px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.06), 20, 0, 0, 6);
+}
+
+.venta-reg-check-circle {
+    -fx-background-color: #DFF5E6;
+    -fx-background-radius: 50%;
+}
+
+.venta-reg-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-subtitle {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.venta-reg-item-row {
+    -fx-padding: 5px 2px 5px 2px;
+}
+
+.venta-reg-item-name {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-item-qty {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #7A5C43;
+}
+
+.venta-reg-item-subtotal {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 15.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-total-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #6B4C35;
+}
+
+.venta-reg-total-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-recibido-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-cambio-box {
+    -fx-background-color: #FCEBE0;
+    -fx-border-color: #EFD2BC;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 18px 12px 16px;
+}
+
+.venta-reg-cambio-label {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.venta-reg-cambio-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.venta-reg-mini-check {
+    -fx-background-color: #18864B;
+    -fx-background-radius: 50%;
+}
+
+.venta-reg-saved-note {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #5C432E;
+}
+
+.venta-reg-btn-primary {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px 20px 12px 20px;
+    -fx-cursor: hand;
+}
+
+.venta-reg-btn-primary:hover {
+    -fx-background-color: #46220F;
+}
+
+.venta-reg-btn-secondary {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-cursor: hand;
+}
+
+.venta-reg-btn-secondary:hover {
+    -fx-background-color: #FAF2E8;
+    -fx-border-color: #46220F;
+}
+
+/* Vista B: Historial "Ventas de hoy" */
+.ventas-hoy-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.ventas-hoy-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 18px 10px 14px;
+}
+
+.ventas-hoy-btn-volver {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DEC8B0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 14px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.ventas-hoy-btn-volver:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.ventas-hoy-header-icon-box {
+    -fx-background-color: #FBE9DA;
+    -fx-background-radius: 10px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.ventas-hoy-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-header-date {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.ventas-hoy-caja-pill {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5D4C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-padding: 6px 14px 6px 12px;
+}
+
+.ventas-hoy-caja-text {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-user-pill {
+    -fx-background-color: #FAF3EB;
+    -fx-border-color: #E8D8C6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 5px 12px 5px 10px;
+}
+
+.ventas-hoy-user-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.ventas-hoy-user-badge {
+    -fx-background-color: #F5DEC7;
+    -fx-background-radius: 10px;
+    -fx-padding: 2px 8px 2px 8px;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B3710;
+}
+
+.ventas-hoy-summary-strip {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 12px 20px 12px 20px;
+}
+
+.ventas-hoy-stat-icon-peach {
+    -fx-background-color: #FBECE0;
+    -fx-background-radius: 10px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.ventas-hoy-stat-icon-green {
+    -fx-background-color: #E7F5EC;
+    -fx-background-radius: 10px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.ventas-hoy-stat-icon-amber {
+    -fx-background-color: #FCEBDD;
+    -fx-background-radius: 10px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.ventas-hoy-stat-kicker {
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7A5C43;
+}
+
+.ventas-hoy-stat-value-brown {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-stat-value-green {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1A5E35;
+}
+
+.ventas-hoy-stat-value-amber {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8C4312;
+}
+
+.ventas-hoy-filter-pill {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3D2BF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 18px 7px 18px;
+    -fx-cursor: hand;
+}
+
+.ventas-hoy-filter-pill:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.ventas-hoy-filter-pill:selected {
+    -fx-background-color: #6B3A19;
+    -fx-border-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+}
+
+.ventas-hoy-search-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3D2BF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 4px 12px 4px 12px;
+}
+
+.ventas-hoy-search-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #8D7B6A;
+}
+
+.ventas-hoy-search-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Tabla de Ventas de Hoy */
+.ventas-hoy-table {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 0;
+}
+
+.ventas-hoy-table .column-header-background {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 12px 12px 0 0;
+    -fx-border-color: transparent transparent #EBD9C6 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.ventas-hoy-table .column-header,
+.ventas-hoy-table .filler {
+    -fx-background-color: transparent;
+    -fx-size: 42px;
+    -fx-border-color: transparent;
+    -fx-padding: 0 12px 0 12px;
+}
+
+.ventas-hoy-table .column-header .label {
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.ventas-hoy-table .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F4ECE2 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 56px;
+}
+
+.ventas-hoy-table .table-row-cell:hover {
+    -fx-background-color: #FDF8F2;
+}
+
+.ventas-hoy-table .table-row-cell:selected {
+    -fx-background-color: #FCEBDD;
+    -fx-border-color: transparent transparent #ECCFB5 transparent;
+    -fx-background-insets: 0;
+}
+
+.ventas-hoy-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 0 12px 0 12px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 14px;
+}
+
+.ventas-hoy-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-cell-hora {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.ventas-hoy-cell-hora-selected {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.ventas-hoy-cell-productos {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-cell-cliente {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #5C432E;
+}
+
+.ventas-hoy-cell-cliente-bold {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-cell-muted {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #9A8D82;
+}
+
+.ventas-hoy-cell-total {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-total-strikethrough {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-fill: #9A8D82;
+}
+
+.ventas-hoy-pill-fiado {
+    -fx-background-color: #F6DFC9;
+    -fx-background-radius: 10px;
+    -fx-padding: 3px 12px 3px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B3710;
+}
+
+.ventas-hoy-pill-comprobante {
+    -fx-background-color: #F6ECE0;
+    -fx-background-radius: 12px;
+    -fx-padding: 3px 12px 3px 12px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C3B23;
+}
+
+.ventas-hoy-pill-anulada {
+    -fx-background-color: #EAEAEA;
+    -fx-background-radius: 12px;
+    -fx-padding: 3px 12px 3px 12px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5A5A5A;
+}
+
+/* Barra Inferior de Seleccion de Venta */
+.ventas-hoy-selection-bar {
+    -fx-background-color: #FAF2E8;
+    -fx-border-color: #EAD8C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10px 16px 10px 16px;
+}
+
+.ventas-hoy-selection-text {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.ventas-hoy-btn-comprobante {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #8C6239;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 18px 9px 18px;
+    -fx-cursor: hand;
+}
+
+.ventas-hoy-btn-comprobante:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.ventas-hoy-btn-comprobante:disabled {
+    -fx-opacity: 0.5;
+}
+
+.ventas-hoy-btn-anular {
+    -fx-background-color: #FCE9E9;
+    -fx-border-color: #F2C9C9;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #B92B2B;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 18px 9px 18px;
+    -fx-cursor: hand;
+}
+
+.ventas-hoy-btn-anular:hover {
+    -fx-background-color: #F8D4D4;
+}
+
+.ventas-hoy-btn-anular:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* ==========================================================================
+   MODULO 1: VENDER — TANDA 3 (modal_anular_venta.fxml y comprobante_venta.fxml)
+   ========================================================================== */
+
+.modal-anular-root {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
+}
+
+.modal-anular-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 26px 30px 24px 30px;
+    -fx-effect: dropshadow(three-pass-box, rgba(35, 18, 8, 0.25), 24, 0, 0, 8);
+}
+
+.modal-anular-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.modal-anular-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B4C35;
+}
+
+.modal-anular-summary-box {
+    -fx-background-color: #FDF3EA;
+    -fx-border-color: #EEDAC5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 16px 12px 16px;
+}
+
+.modal-anular-summary-main {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.modal-anular-summary-sub {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5C432E;
+}
+
+.modal-anular-icon-circle {
+    -fx-background-color: #F6EFE6;
+    -fx-border-color: #EAE0D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+}
+
+.modal-anular-consequence-text {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #3E2412;
+}
+
+.modal-anular-field-label {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.modal-anular-input {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #3E1E0B;
+    -fx-prompt-text-fill: #9A8470;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.modal-anular-input:focused {
+    -fx-border-color: #704214;
+    -fx-border-width: 1.8px;
+}
+
+.modal-anular-input-error {
+    -fx-border-color: #C92A2A;
+    -fx-border-width: 1.8px;
+    -fx-background-color: #FFF8F8;
+}
+
+.modal-anular-help {
+    -fx-font-size: 11.5px;
+    -fx-text-fill: #7A5C43;
+}
+
+.modal-anular-help-error {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C92A2A;
+}
+
+.modal-anular-btn-back {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11px 18px 11px 18px;
+    -fx-cursor: hand;
+}
+
+.modal-anular-btn-back:hover {
+    -fx-background-color: #46220F;
+}
+
+.modal-anular-btn-danger {
+    -fx-background-color: #D92626;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11px 18px 11px 18px;
+    -fx-cursor: hand;
+}
+
+.modal-anular-btn-danger:hover {
+    -fx-background-color: #B81D1D;
+}
+
+/* Pantalla Comprobante de Venta (comprobante_venta.fxml) */
+.comprobante-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.comprobante-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 18px 10px 14px;
+}
+
+.comprobante-btn-volver-top {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DEC8B0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 14px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.comprobante-btn-volver-top:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.comprobante-header-icon-box {
+    -fx-background-color: #FBE9DA;
+    -fx-background-radius: 19px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.comprobante-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-header-date {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-left-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 20px 22px 18px 22px;
+}
+
+.comprobante-right-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 20px 24px 18px 24px;
+}
+
+.comprobante-section-icon {
+    -fx-min-width: 22px;
+    -fx-min-height: 22px;
+    -fx-max-width: 22px;
+    -fx-max-height: 22px;
+}
+
+.comprobante-section-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-section-subtitle {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-input {
+    -fx-background-color: #FCF9F5;
+    -fx-border-color: #E5D4C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #3E1E0B;
+    -fx-prompt-text-fill: #9A8470;
+    -fx-padding: 9px 14px 9px 14px;
+}
+
+.comprobante-input:focused {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.5px;
+}
+
+.comprobante-field-help {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7A5C43;
+}
+
+.comprobante-venta-resumen-box {
+    -fx-background-color: #FDF2E7;
+    -fx-border-color: #EED8C3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 14px 12px 14px;
+}
+
+.comprobante-venta-resumen-icon {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-min-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-width: 34px;
+    -fx-max-height: 34px;
+}
+
+.comprobante-venta-resumen-main {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-venta-resumen-sub {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-btn-primary {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11px 18px 11px 18px;
+    -fx-cursor: hand;
+}
+
+.comprobante-btn-primary:hover {
+    -fx-background-color: #46220F;
+}
+
+.comprobante-btn-secondary {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.4px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 18px 9px 18px;
+    -fx-cursor: hand;
+}
+
+.comprobante-btn-secondary:hover {
+    -fx-background-color: #FAF2E8;
+    -fx-border-color: #46220F;
+}
+
+/* Vista Previa Tipo Recibo Interno */
+.comprobante-receipt-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ECE1D4;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 20px 26px 16px 26px;
+}
+
+.comprobante-receipt-store-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-number-pill {
+    -fx-background-color: #FCEBDD;
+    -fx-background-radius: 12px;
+    -fx-padding: 3px 14px 3px 14px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C300C;
+}
+
+.comprobante-receipt-datetime {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-receipt-client-prefix {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-receipt-client-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-meta-extra {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.comprobante-receipt-item-name {
+    -fx-font-size: 14px;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-item-price {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-total-bar {
+    -fx-background-color: #FDF2E8;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px 18px 12px 18px;
+}
+
+.comprobante-receipt-total-label {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-total-amount {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.comprobante-receipt-legal-note {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+    -fx-padding: 2px 0 0 0;
+}
+
+
+
+
 
 
 
