@@ -286,11 +286,9 @@ public class AbrirCajaController {
                     "Solo Doña Rosita (Administradora) puede cerrar la caja pendiente de un día anterior.");
             return;
         }
-        CajaController.setForzarArqueoTurnoPendiente(true);
-        CajaController.setModoEntradaSoloApertura(false);
         MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
         if (menu != null) {
-            menu.cargarVistaEnContenido("/fxml/caja.fxml");
+            menu.cargarVistaEnContenido("/fxml/cierre_caja.fxml");
         }
     }
 

@@ -500,8 +500,7 @@ public class MenuPrincipalController {
             cargarVistaEnContenido("/fxml/abrir_caja.fxml");
             return;
         }
-        CajaController.setModoEntradaSoloApertura(false);
-        cargarVistaEnContenido("/fxml/caja.fxml");
+        cargarVistaEnContenido("/fxml/cierre_caja.fxml");
     }
 
     @FXML
@@ -609,6 +608,7 @@ public class MenuPrincipalController {
 
             boolean usaHeaderPropio = "/fxml/caja.fxml".equals(fxmlPath)
                     || "/fxml/abrir_caja.fxml".equals(fxmlPath)
+                    || "/fxml/cierre_caja.fxml".equals(fxmlPath)
                     || "/fxml/productos.fxml".equals(fxmlPath)
                     || "/fxml/registrar_producto.fxml".equals(fxmlPath)
                     || "/fxml/modificar_producto.fxml".equals(fxmlPath);
