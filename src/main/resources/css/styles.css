@@ -4735,6 +4735,1121 @@
     -fx-padding: 2px 0 0 0;
 }
 
+/* ==========================================================================
+   MODULO 3: CLIENTES Y FIADO — TANDA 1 (clientes.fxml y registrar_cliente.fxml)
+   ========================================================================== */
+
+.clientes-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.clientes-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 18px 10px 14px;
+}
+
+.clientes-btn-volver {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A88360;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 16px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.clientes-btn-volver:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.clientes-header-icon-box {
+    -fx-background-color: #FBE9DA;
+    -fx-background-radius: 10px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.clientes-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-user-pill {
+    -fx-background-color: #FAF1E6;
+    -fx-border-color: #EAD8C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 22px;
+    -fx-border-radius: 22px;
+    -fx-padding: 5px 16px 5px 8px;
+}
+
+.clientes-user-text {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.clientes-search-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3D2BF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 5px 14px 5px 14px;
+}
+
+.clientes-search-input {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 14px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #8D7B6A;
+}
+
+.clientes-search-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.clientes-filter-pill {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #BC9A79;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 18px 7px 18px;
+    -fx-cursor: hand;
+}
+
+.clientes-filter-pill:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.clientes-filter-pill:selected {
+    -fx-background-color: #6B3A19;
+    -fx-border-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+}
+
+.clientes-btn-registrar {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-padding: 9px 18px 9px 18px;
+    -fx-cursor: hand;
+}
+
+.clientes-btn-registrar:hover {
+    -fx-background-color: #46220F;
+}
+
+/* 2 Tarjetas KPI Superiores */
+.clientes-kpi-strip {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 12px 28px 12px 28px;
+}
+
+.clientes-kpi-icon-circle {
+    -fx-background-color: #FCEBDD;
+    -fx-background-radius: 22px;
+    -fx-min-width: 42px;
+    -fx-min-height: 42px;
+    -fx-max-width: 42px;
+    -fx-max-height: 42px;
+}
+
+.clientes-kpi-label {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.clientes-kpi-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+/* Tabla Principal de Clientes */
+.clientes-table-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 0;
+}
+
+.clientes-table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.clientes-table .column-header-background {
+    -fx-background-color: #F9EBDD;
+    -fx-background-radius: 14px 14px 0 0;
+    -fx-border-color: transparent transparent #EBD8C5 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.clientes-table .column-header,
+.clientes-table .filler {
+    -fx-background-color: transparent;
+    -fx-size: 42px;
+    -fx-border-color: transparent;
+    -fx-padding: 0 14px 0 14px;
+}
+
+.clientes-table .column-header .label {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.clientes-table .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F4ECE2 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 56px;
+}
+
+.clientes-table .table-row-cell:hover {
+    -fx-background-color: #FDF8F2;
+}
+
+.clientes-table .table-row-cell:selected {
+    -fx-background-color: #FCF2E6;
+    -fx-border-color: transparent transparent #EAD5BF transparent;
+    -fx-background-insets: 0;
+}
+
+.clientes-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 0 14px 0 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 14px;
+}
+
+.clientes-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-cell-nombre {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-cell-nombre-selected {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-cell-telefono {
+    -fx-font-size: 14px;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-pill-autorizado {
+    -fx-background-color: #FCE9DB;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 14px 4px 14px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.clientes-pill-sin-fiado {
+    -fx-background-color: #F2F0ED;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 14px 4px 14px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B5E52;
+}
+
+.clientes-cell-cupo {
+    -fx-font-size: 14.5px;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-cell-dash {
+    -fx-font-size: 14px;
+    -fx-text-fill: #8D7B6A;
+}
+
+.clientes-cell-deuda-activa {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-cell-deuda-cero {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 15px;
+    -fx-text-fill: #6B4C35;
+}
+
+.clientes-pill-cerca-tope {
+    -fx-background-color: #FCEFC7;
+    -fx-border-color: #EED591;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 3px 12px 3px 12px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B3A19;
+}
+
+/* Pie de Tabla */
+.clientes-footer-bar {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 0 0 14px 14px;
+    -fx-padding: 8px 16px 8px 16px;
+}
+
+.clientes-footer-count {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5C432E;
+}
+
+.clientes-footer-saved {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.clientes-btn-page {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #DEC8B0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 12px 5px 12px;
+    -fx-cursor: hand;
+}
+
+.clientes-btn-page:hover {
+    -fx-background-color: #F7EAE0;
+}
+
+.clientes-btn-page:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* Barra Inferior de Seleccion de Cliente */
+.clientes-selection-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 16px 10px 14px;
+}
+
+.clientes-selection-icon-box {
+    -fx-background-color: #FCEBDD;
+    -fx-background-radius: 8px;
+    -fx-min-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-width: 34px;
+    -fx-max-height: 34px;
+}
+
+.clientes-selection-text {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.clientes-btn-ver-cuenta {
+    -fx-background-color: #6B3A19;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 9px 16px 9px 16px;
+    -fx-cursor: hand;
+}
+
+.clientes-btn-ver-cuenta:hover {
+    -fx-background-color: #46220F;
+}
+
+.clientes-btn-ver-cuenta:disabled {
+    -fx-opacity: 0.5;
+}
+
+.clientes-btn-action-outline {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #B48B65;
+    -fx-border-width: 1.3px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 14px 8px 14px;
+    -fx-cursor: hand;
+}
+
+.clientes-btn-action-outline:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.clientes-btn-action-outline:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* Vista B: Registrar Cliente (registrar_cliente.fxml) */
+.reg-cliente-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.reg-cliente-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 18px 10px 14px;
+}
+
+.reg-cliente-btn-volver {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px 6px 8px;
+    -fx-cursor: hand;
+}
+
+.reg-cliente-btn-volver:hover {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 8px;
+}
+
+.reg-cliente-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.reg-cliente-user-pill {
+    -fx-background-color: #FAF1E6;
+    -fx-border-color: #EAD8C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 22px;
+    -fx-border-radius: 22px;
+    -fx-padding: 5px 8px 5px 16px;
+}
+
+.reg-cliente-user-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.reg-cliente-user-role {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7A5C43;
+}
+
+.reg-cliente-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 28px 36px 26px 36px;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.06), 20, 0, 0, 6);
+}
+
+.reg-cliente-alert-duplicate {
+    -fx-background-color: #FCE6D2;
+    -fx-border-color: #ECC5A2;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 16px 12px 16px;
+}
+
+.reg-cliente-alert-duplicate-text {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.reg-cliente-field-label {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.reg-cliente-required-tag {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7A5C43;
+}
+
+.reg-cliente-input-box {
+    -fx-background-color: #FDF2E8;
+    -fx-border-color: #EAD6C0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8px 14px 8px 14px;
+}
+
+.reg-cliente-input-box-error {
+    -fx-border-color: #C92A2A;
+    -fx-border-width: 1.6px;
+    -fx-background-color: #FFF6F6;
+}
+
+.reg-cliente-input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 15px;
+    -fx-text-fill: #3E1E0B;
+    -fx-prompt-text-fill: #9A8470;
+    -fx-padding: 2px 4px 2px 2px;
+}
+
+.reg-cliente-input-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.reg-cliente-field-help {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+.reg-cliente-field-help-error {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #C92A2A;
+}
+
+.reg-cliente-info-strip {
+    -fx-background-color: #FDF2E7;
+    -fx-border-color: #EED9C4;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 11px 14px 11px 14px;
+}
+
+.reg-cliente-info-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #46220F;
+}
+
+.reg-cliente-btn-cancel {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EFE4D6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 22px 11px 22px;
+    -fx-cursor: hand;
+}
+
+.reg-cliente-btn-cancel:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.reg-cliente-btn-save {
+    -fx-background-color: #6B3710;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11px 26px 11px 26px;
+    -fx-cursor: hand;
+}
+
+.reg-cliente-btn-save:hover {
+    -fx-background-color: #46220F;
+}
+
+/* ==========================================================================
+   MODULO 3: CLIENTES Y FIADO — TANDA 2 (modificar_cliente.fxml y estado_cuenta_cliente.fxml)
+   ========================================================================== */
+
+.mod-cliente-btn-baja {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 10px 8px 6px;
+    -fx-cursor: hand;
+}
+
+.mod-cliente-btn-baja:hover {
+    -fx-background-color: #FAF1E6;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #46220F;
+}
+
+/* Vista B: Estado de Cuenta del Cliente (estado_cuenta_cliente.fxml) */
+.cuenta-cliente-root {
+    -fx-background-color: #FAF6F0;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.cuenta-cliente-header-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 10px 18px 10px 14px;
+}
+
+.cuenta-cliente-btn-volver {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EFE4D6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 7px 14px 7px 14px;
+    -fx-cursor: hand;
+}
+
+.cuenta-cliente-btn-volver:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.cuenta-cliente-header-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.cuenta-cliente-header-subtitle {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+/* 3 Tarjetas Superiores de Resumen Financiero */
+.cuenta-cliente-kpi-white {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 16px 22px 16px 22px;
+}
+
+.cuenta-cliente-kpi-highlight {
+    -fx-background-color: #FBE3D3;
+    -fx-border-color: #ECC5AC;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 14px 22px 14px 22px;
+}
+
+.cuenta-cliente-kpi-kicker {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.cuenta-cliente-kpi-kicker-highlight {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.cuenta-cliente-kpi-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.cuenta-cliente-kpi-value-big {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+/* Tabla de Movimientos del Estado de Cuenta */
+.cuenta-cliente-table-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-padding: 0;
+}
+
+.cuenta-cliente-table-top-bar {
+    -fx-background-color: #FDF7F0;
+    -fx-background-radius: 14px 14px 0 0;
+    -fx-padding: 12px 20px 10px 20px;
+}
+
+.cuenta-cliente-movs-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.cuenta-cliente-movs-subtitle {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #6B4C35;
+    -fx-padding: 3px 0 0 0;
+}
+
+.cuenta-cliente-movs-count {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.cuenta-cliente-table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.cuenta-cliente-table .column-header-background {
+    -fx-background-color: #FCE9DB;
+    -fx-border-color: transparent transparent #EED4C0 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.cuenta-cliente-table .column-header,
+.cuenta-cliente-table .filler {
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+    -fx-border-color: transparent;
+    -fx-padding: 0 18px 0 18px;
+}
+
+.cuenta-cliente-table .column-header .label {
+    -fx-text-fill: #6B4C35;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.cuenta-cliente-table .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F4ECE2 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 56px;
+}
+
+.cuenta-cliente-table .table-row-cell:hover {
+    -fx-background-color: #FDF8F2;
+}
+
+.cuenta-cliente-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 0 18px 0 18px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 14px;
+}
+
+.cuenta-cliente-cell-fecha {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.cuenta-cliente-pill-abono {
+    -fx-background-color: #FBDAC5;
+    -fx-background-radius: 10px;
+    -fx-padding: 4px 12px 4px 12px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C300C;
+}
+
+.cuenta-cliente-pill-venta {
+    -fx-background-color: #FCEFE4;
+    -fx-border-color: #EED9C6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 4px 12px 4px 12px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C3B23;
+}
+
+.cuenta-cliente-cell-abono {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.cuenta-cliente-cell-venta {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.cuenta-cliente-cell-saldo {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.cuenta-cliente-btn-secondary {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EFE4D6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #3E1E0B;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-cursor: hand;
+}
+
+.cuenta-cliente-btn-secondary:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.cuenta-cliente-btn-primary {
+    -fx-background-color: #5C300C;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 22px 10px 22px;
+    -fx-cursor: hand;
+}
+
+.cuenta-cliente-btn-primary:hover {
+    -fx-background-color: #46220F;
+}
+
+.cuenta-cliente-btn-primary:disabled {
+    -fx-opacity: 0.5;
+}
+
+.cuenta-cliente-footer-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B4C35;
+}
+
+/* ==========================================================================
+   TANDA 3 MODULO 3: MODALES REGISTRAR ABONO Y AUTORIZAR / CAMBIAR FIADO
+   ========================================================================== */
+.modal-abono-root {
+    -fx-background-color: transparent;
+    -fx-padding: 18px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.modal-abono-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2D5C6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 26px 28px 24px 28px;
+    -fx-effect: dropshadow(three-pass-box, rgba(45, 22, 8, 0.28), 26, 0, 0, 6);
+}
+
+.modal-abono-icon-box {
+    -fx-background-color: #FDECE0;
+    -fx-border-color: #F4D8C4;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+.modal-abono-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.modal-abono-client-card {
+    -fx-background-color: #F7F1E8;
+    -fx-background-radius: 12px;
+    -fx-padding: 14px 16px 14px 16px;
+}
+
+.modal-abono-kicker {
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8C6D53;
+}
+
+.modal-abono-client-name {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.modal-abono-debe-label {
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #5C3B23;
+}
+
+.modal-abono-debe-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.modal-abono-alert {
+    -fx-background-color: #FDF3E7;
+    -fx-border-color: #E8C78E;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.modal-abono-alert-text {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.modal-abono-field-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.modal-abono-field-help {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7A624E;
+}
+
+.modal-abono-input-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.6px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 6px 14px 6px 14px;
+}
+
+.modal-abono-input-box-error {
+    -fx-background-color: #FFFBF7;
+    -fx-border-color: #C05621;
+}
+
+.modal-abono-input-prefix {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.modal-abono-input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-padding: 4px 0 4px 0;
+}
+
+.modal-abono-input-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.modal-abono-saldo-box {
+    -fx-background-color: #F7F1E8;
+    -fx-background-radius: 12px;
+    -fx-padding: 12px 16px 12px 16px;
+}
+
+.modal-abono-saldo-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B4C35;
+}
+
+.modal-abono-saldo-value {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E1E0B;
+}
+
+.modal-abono-note {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #5C3B23;
+}
+
+.modal-abono-btn-cancel {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 18px 11px 18px;
+    -fx-cursor: hand;
+}
+
+.modal-abono-btn-cancel:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+.modal-abono-btn-save {
+    -fx-background-color: #704214;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 22px 11px 22px;
+    -fx-cursor: hand;
+}
+
+.modal-abono-btn-save:hover {
+    -fx-background-color: #5C300C;
+}
+
+.modal-abono-btn-save:disabled {
+    -fx-opacity: 0.5;
+}
+
+.modal-fiado-subtitle {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #7A624E;
+}
+
+.modal-fiado-pill-registrado {
+    -fx-background-color: #FDECE0;
+    -fx-background-radius: 10px;
+    -fx-padding: 4px 10px 4px 10px;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.modal-fiado-tel {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B4C35;
+}
+
+.modal-fiado-detalle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5C3B23;
+}
+
+.modal-fiado-confirm-box {
+    -fx-background-color: #F7F1E8;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 14px 10px 14px;
+}
+
+.modal-fiado-confirm-text {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.modal-fiado-btn-quitar {
+    -fx-background-color: #FDF2F2;
+    -fx-border-color: #E5B8B8;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9B2C2C;
+    -fx-padding: 8px 14px 8px 14px;
+    -fx-cursor: hand;
+}
+
+.modal-fiado-btn-quitar:hover {
+    -fx-background-color: #FBE4E4;
+}
+
+.modal-fiado-quitar-note {
+    -fx-font-size: 11.5px;
+    -fx-text-fill: #7A624E;
+}
+
+.modal-fiado-btn-cancel {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.2px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 22px 11px 22px;
+    -fx-cursor: hand;
+}
+
+.modal-fiado-btn-cancel:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+
+
 
 
 

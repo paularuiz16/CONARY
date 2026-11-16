@@ -1,282 +1,716 @@
 package com.conary.rosita.controller;
 
-import com.conary.rosita.dao.AbonoClienteDAO;
-import com.conary.rosita.dao.CajaDAO;
 import com.conary.rosita.dao.ClienteDAO;
-import com.conary.rosita.model.AbonoCliente;
-import com.conary.rosita.model.Caja;
 import com.conary.rosita.model.Cliente;
 import com.conary.rosita.model.Usuario;
 import com.conary.rosita.util.AlertaUtil;
 import com.conary.rosita.util.SesionUsuario;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.SQLException;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 /**
- * Controlador para la administracion de clientes y cuentas fiadas.
+ * Controlador de la Vista A de la Tanda 1 del Modulo 3: Clientes y fiado.
+ * Compatible estrictamente con Java SE 8 y JavaFX 8 nativo.
  */
 public class ClientesController {
 
-    @FXML private TextField txtBuscar;
-    @FXML private CheckBox chkSoloDeudores;
-    @FXML private Label lblTotalDeuda;
+    private static final Locale LOCALE_ES_CO = new Locale("es", "CO");
+    private static final int FILAS_POR_PAGINA = 5;
+    private static final BigDecimal FACTOR_CERCA_DEL_TOPE = new BigDecimal("0.80");
 
+    private static int idClienteSeleccionarAlCargar = -1;
+
+    public static void setIdClienteSeleccionarAlCargar(int idCliente) {
+        idClienteSeleccionarAlCargar = idCliente;
+    }
+
+    @FXML private BorderPane rootPane;
+    @FXML private Button btnVolverMenu;
+    @FXML private Label lblUsuarioHeader;
+
+    // Buscador, Pildoras de Filtro y Boton de Registro
+    @FXML private TextField txtBuscarCliente;
+    @FXML private ToggleButton tbFiltroTodos;
+    @FXML private ToggleButton tbFiltroConDeuda;
+    @FXML private ToggleButton tbFiltroConFiado;
+    @FXML private ToggleButton tbFiltroDadosBaja;
+    @FXML private Button btnRegistrarCliente;
+
+    // Indicadores KPI Superiores
+    @FXML private Label lblTotalDeudaActivos;
+    @FXML private Label lblConteoFiadoAutorizado;
+
+    // Tabla Principal de 6 Columnas
     @FXML private TableView<Cliente> tblClientes;
-    @FXML private TableColumn<Cliente, Integer> colId;
-    @FXML private TableColumn<Cliente, String> colNombre;
-    @FXML private TableColumn<Cliente, String> colTelefono;
-    @FXML private TableColumn<Cliente, String> colDireccion;
-    @FXML private TableColumn<Cliente, String> colFiado;
-    @FXML private TableColumn<Cliente, String> colLimite;
-    @FXML private TableColumn<Cliente, String> colSaldo;
+    @FXML private TableColumn<Cliente, Cliente> colNombre;
+    @FXML private TableColumn<Cliente, Cliente> colTelefono;
+    @FXML private TableColumn<Cliente, Cliente> colFiado;
+    @FXML private TableColumn<Cliente, Cliente> colCupo;
+    @FXML private TableColumn<Cliente, Cliente> colDebeAhora;
+    @FXML private TableColumn<Cliente, Cliente> colAviso;
 
-    @FXML private Label lblTituloForm;
-    @FXML private TextField txtNombre;
-    @FXML private TextField txtTelefono;
-    @FXML private TextField txtDireccion;
-    @FXML private CheckBox chkFiadoAutorizado;
-    @FXML private TextField txtLimiteCredito;
-    @FXML private CheckBox chkActivo;
-    @FXML private Button btnGuardar;
+    // Pie de Tabla y Paginacion
+    @FXML private Label lblConteoClientes;
+    @FXML private Button btnPaginaAnterior;
+    @FXML private Button btnPaginaSiguiente;
+
+    // Barra Inferior de Seleccion
+    @FXML private HBox barraSeleccionCliente;
+    @FXML private Label lblClienteSeleccionadoInfo;
+    @FXML private Button btnVerCuenta;
+    @FXML private Button btnRegistrarAbono;
+    @FXML private Button btnAutorizarFiado;
+    @FXML private Button btnModificarCliente;
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
-    private final AbonoClienteDAO abonoDAO = new AbonoClienteDAO();
-    private final CajaDAO cajaDAO = new CajaDAO();
+    private final ToggleGroup tgFiltros = new ToggleGroup();
+    private final List<Cliente> todosLosClientes = new ArrayList<Cliente>();
+    private final List<Cliente> clientesFiltrados = new ArrayList<Cliente>();
+    private final ObservableList<Cliente> itemsPaginaActual = FXCollections.observableArrayList();
 
-    private final ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
-    private final NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+    private int paginaActual = 0;
     private Cliente clienteSeleccionado;
 
     @FXML
     public void initialize() {
-        configurarColumnas();
-        cargarDatos();
-
-        txtBuscar.textProperty().addListener((obs, viejo, nuevo) -> filtrarClientes());
-        chkSoloDeudores.selectedProperty().addListener((obs, viejo, nuevo) -> filtrarClientes());
-
-        tblClientes.getSelectionModel().selectedItemProperty().addListener((obs, viejo, nuevo) -> {
-            if (nuevo != null) {
-                cargarClienteEnFormulario(nuevo);
-            }
-        });
+        configurarEncabezadoUsuario();
+        configurarFiltrosYBusqueda();
+        configurarTabla();
+        configurarRestriccionesPorRol();
+        cargarClientesDesdeMySQL();
     }
 
-    private void configurarColumnas() {
-        colId.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getIdCliente()));
-        colNombre.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNombre()));
-        colTelefono.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTelefono() != null ? data.getValue().getTelefono() : "-"));
-        colDireccion.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDireccion() != null ? data.getValue().getDireccion() : "-"));
-        colFiado.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().isFiadoAutorizado() ? "SÍ" : "NO"));
-        colLimite.setCellValueFactory(data -> new SimpleStringProperty(formatoMoneda.format(data.getValue().getLimiteCredito())));
-        colSaldo.setCellValueFactory(data -> new SimpleStringProperty(formatoMoneda.format(data.getValue().getSaldoPendiente())));
+    private void configurarEncabezadoUsuario() {
+        Usuario u = SesionUsuario.getUsuarioLogueado();
+        String nombre = "Doña Rosita";
+        String rol = "Administradora";
 
-        colSaldo.setCellFactory(column -> new TableCell<Cliente, String>() {
+        if (u != null) {
+            String raw = u.getNombre() != null ? u.getNombre().trim() : "Usuario";
+            if (raw.toLowerCase(LOCALE_ES_CO).contains("rosita")
+                    && !raw.toLowerCase(LOCALE_ES_CO).startsWith("doña")) {
+                nombre = "Doña " + raw;
+            } else {
+                nombre = raw;
+            }
+            rol = u.esAdministrador() ? "Administradora" : "Vendedora";
+        }
+
+        if (lblUsuarioHeader != null) {
+            lblUsuarioHeader.setText(nombre + " · " + rol);
+        }
+    }
+
+    private void configurarRestriccionesPorRol() {
+        boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+        if (btnAutorizarFiado != null) {
+            btnAutorizarFiado.setVisible(esAdmin);
+            btnAutorizarFiado.setManaged(esAdmin);
+        }
+    }
+
+    private void configurarFiltrosYBusqueda() {
+        ToggleButton[] botones = new ToggleButton[]{
+                tbFiltroTodos, tbFiltroConDeuda, tbFiltroConFiado, tbFiltroDadosBaja
+        };
+        for (ToggleButton tb : botones) {
+            if (tb != null) {
+                tb.setToggleGroup(tgFiltros);
+            }
+        }
+        if (tbFiltroTodos != null) {
+            tbFiltroTodos.setSelected(true);
+        }
+
+        tgFiltros.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null && oldToggle != null) {
+                oldToggle.setSelected(true);
+                return;
+            }
+            paginaActual = 0;
+            aplicarFiltrosYPaginacion();
+        });
+
+        if (txtBuscarCliente != null) {
+            txtBuscarCliente.textProperty().addListener((obs, oldVal, newVal) -> {
+                paginaActual = 0;
+                aplicarFiltrosYPaginacion();
+            });
+        }
+    }
+
+    private void configurarTabla() {
+        tblClientes.setItems(itemsPaginaActual);
+        tblClientes.setFixedCellSize(56.0);
+
+        tblClientes.setRowFactory(tv -> new TableRow<Cliente>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(Cliente item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                setPrefHeight(56.0);
+                setMinHeight(56.0);
+                setMaxHeight(56.0);
+            }
+        });
+
+        // 1. Columna Nombre (con punto cafe ● en la fila seleccionada)
+        colNombre.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colNombre.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            private final Circle dot = new Circle(4.2, Color.web("#6B3A19"));
+            private final Label lblNom = new Label();
+            private final HBox box = new HBox(8, dot, lblNom);
+
+            {
+                box.setAlignment(Pos.CENTER_LEFT);
+            }
+
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setGraphic(null);
                     setText(null);
-                    setStyle("");
                 } else {
-                    setText(item);
-                    Cliente c = getTableView().getItems().get(getIndex());
-                    if (c.getSaldoPendiente().compareTo(BigDecimal.ZERO) > 0) {
-                        setStyle("-fx-text-fill: #b91c1c; -fx-font-weight: bold;");
+                    TableRow<?> row = getTableRow();
+                    boolean sel = row != null && row.isSelected();
+                    dot.setVisible(sel);
+                    dot.setManaged(sel);
+                    lblNom.setText(c.getNombre());
+                    lblNom.getStyleClass().removeAll("clientes-cell-nombre", "clientes-cell-nombre-selected");
+                    lblNom.getStyleClass().add(sel ? "clientes-cell-nombre-selected" : "clientes-cell-nombre");
+                    setGraphic(box);
+                    setText(null);
+                }
+            }
+        });
+
+        // 2. Columna Telefono
+        colTelefono.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colTelefono.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    String tel = c.getTelefono() != null && !c.getTelefono().trim().isEmpty()
+                            ? c.getTelefono().trim()
+                            : "—";
+                    setText(tel);
+                    getStyleClass().removeAll("clientes-cell-telefono");
+                    getStyleClass().add("clientes-cell-telefono");
+                }
+            }
+        });
+
+        // 3. Columna Fiado (pildora melocoton "Autorizado" o pildora gris "Sin fiado")
+        colFiado.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colFiado.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    Label pill = new Label();
+                    if (!c.isActivo()) {
+                        pill.setText("Dado de baja");
+                        pill.getStyleClass().add("clientes-pill-sin-fiado");
+                    } else if (c.isFiadoAutorizado()) {
+                        pill.setText("Autorizado");
+                        pill.getStyleClass().add("clientes-pill-autorizado");
                     } else {
-                        setStyle("-fx-text-fill: #15803d;");
+                        pill.setText("Sin fiado");
+                        pill.getStyleClass().add("clientes-pill-sin-fiado");
+                    }
+                    HBox cont = new HBox(pill);
+                    cont.setAlignment(Pos.CENTER);
+                    setGraphic(cont);
+                    setText(null);
+                }
+            }
+        });
+
+        // 4. Columna Cupo ($ 100.000 o "—")
+        colCupo.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colCupo.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setAlignment(Pos.CENTER_RIGHT);
+                    if (c.isFiadoAutorizado()
+                            && c.getLimiteCredito() != null
+                            && c.getLimiteCredito().compareTo(BigDecimal.ZERO) > 0) {
+                        setText("$ " + formatearMoneda(c.getLimiteCredito()));
+                        getStyleClass().removeAll("clientes-cell-cupo", "clientes-cell-dash");
+                        getStyleClass().add("clientes-cell-cupo");
+                    } else {
+                        setText("—");
+                        getStyleClass().removeAll("clientes-cell-cupo", "clientes-cell-dash");
+                        getStyleClass().add("clientes-cell-dash");
                     }
                 }
             }
         });
 
-        tblClientes.setItems(listaClientes);
-    }
-
-    private void cargarDatos() {
-        try {
-            List<Cliente> lista = clienteDAO.listarTodos(false);
-            listaClientes.setAll(lista);
-            actualizarTotalCartera(lista);
-        } catch (SQLException e) {
-            AlertaUtil.mostrarError("Error", "No se pudo cargar la lista de clientes: " + e.getMessage());
-        }
-    }
-
-    private void actualizarTotalCartera(List<Cliente> lista) {
-        BigDecimal total = BigDecimal.ZERO;
-        for (Cliente c : lista) {
-            if (c.getSaldoPendiente() != null) {
-                total = total.add(c.getSaldoPendiente());
-            }
-        }
-        lblTotalDeuda.setText("Total Cartera Fiada: " + formatoMoneda.format(total));
-    }
-
-    private void filtrarClientes() {
-        String criterio = txtBuscar.getText() != null ? txtBuscar.getText().trim() : "";
-        boolean soloDeudores = chkSoloDeudores.isSelected();
-
-        try {
-            List<Cliente> lista;
-            if (soloDeudores) {
-                lista = clienteDAO.listarConSaldosPendientes();
-            } else if (!criterio.isEmpty()) {
-                lista = clienteDAO.buscar(criterio, false);
-            } else {
-                lista = clienteDAO.listarTodos(false);
-            }
-            listaClientes.setAll(lista);
-            actualizarTotalCartera(lista);
-        } catch (SQLException e) {
-            System.err.println("[ClientesController] Error al filtrar: " + e.getMessage());
-        }
-    }
-
-    private void cargarClienteEnFormulario(Cliente c) {
-        clienteSeleccionado = c;
-        lblTituloForm.setText("Editar Cliente #" + c.getIdCliente());
-        txtNombre.setText(c.getNombre());
-        txtTelefono.setText(c.getTelefono() != null ? c.getTelefono() : "");
-        txtDireccion.setText(c.getDireccion() != null ? c.getDireccion() : "");
-        chkFiadoAutorizado.setSelected(c.isFiadoAutorizado());
-        txtLimiteCredito.setText(c.getLimiteCredito() != null ? c.getLimiteCredito().toString() : "0.00");
-        chkActivo.setSelected(c.isActivo());
-        btnGuardar.setText("Actualizar");
-    }
-
-    @FXML
-    public void handleNuevoCliente() {
-        handleLimpiarForm();
-        txtNombre.requestFocus();
-    }
-
-    @FXML
-    public void handleLimpiarForm() {
-        clienteSeleccionado = null;
-        lblTituloForm.setText("Nuevo Cliente");
-        txtNombre.clear();
-        txtTelefono.clear();
-        txtDireccion.clear();
-        chkFiadoAutorizado.setSelected(false);
-        txtLimiteCredito.setText("0.00");
-        chkActivo.setSelected(true);
-        btnGuardar.setText("Guardar Cliente");
-        tblClientes.getSelectionModel().clearSelection();
-    }
-
-    @FXML
-    public void handleGuardarCliente() {
-        String nombre = txtNombre.getText() != null ? txtNombre.getText().trim() : "";
-        String telefono = txtTelefono.getText() != null ? txtTelefono.getText().trim() : "";
-        String direccion = txtDireccion.getText() != null ? txtDireccion.getText().trim() : "";
-
-        if (nombre.isEmpty()) {
-            AlertaUtil.mostrarAdvertencia("Campo Requerido", "El nombre del cliente es obligatorio.");
-            txtNombre.requestFocus();
-            return;
-        }
-
-        BigDecimal limite;
-        try {
-            limite = new BigDecimal(txtLimiteCredito.getText().trim().replace(",", "."));
-            if (limite.compareTo(BigDecimal.ZERO) < 0) throw new Exception();
-        } catch (Exception e) {
-            AlertaUtil.mostrarAdvertencia("Límite Inválido", "Ingresa un número positivo válido para el límite de crédito.");
-            return;
-        }
-
-        try {
-            if (clienteSeleccionado == null) {
-                Cliente nuevo = new Cliente(0, nombre, telefono, direccion, chkActivo.isSelected(), chkFiadoAutorizado.isSelected(), limite);
-                boolean exito = clienteDAO.insertar(nuevo);
-                if (exito) {
-                    AlertaUtil.mostrarInfo("Cliente Registrado", "Se guardó a '" + nuevo.getNombre() + "' con éxito.");
-                    cargarDatos();
-                    handleLimpiarForm();
+        // 5. Columna Debe ahora ($ 20.000 o $ 0)
+        colDebeAhora.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colDebeAhora.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setAlignment(Pos.CENTER_RIGHT);
+                    BigDecimal deuda = c.getSaldoPendiente() != null ? c.getSaldoPendiente() : BigDecimal.ZERO;
+                    setText("$ " + formatearMoneda(deuda));
+                    getStyleClass().removeAll("clientes-cell-deuda-activa", "clientes-cell-deuda-cero");
+                    getStyleClass().add(deuda.compareTo(BigDecimal.ZERO) > 0
+                            ? "clientes-cell-deuda-activa"
+                            : "clientes-cell-deuda-cero");
                 }
-            } else {
-                clienteSeleccionado.setNombre(nombre);
-                clienteSeleccionado.setTelefono(telefono);
-                clienteSeleccionado.setDireccion(direccion);
-                clienteSeleccionado.setFiadoAutorizado(chkFiadoAutorizado.isSelected());
-                clienteSeleccionado.setLimiteCredito(limite);
-                clienteSeleccionado.setActivo(chkActivo.isSelected());
+            }
+        });
 
-                boolean exito = clienteDAO.actualizar(clienteSeleccionado);
-                if (exito) {
-                    AlertaUtil.mostrarInfo("Actualización Exitosa", "Se actualizaron los datos del cliente.");
-                    cargarDatos();
-                    handleLimpiarForm();
+        // 6. Columna Aviso (pildora ambar "⚠ Cerca del tope" o "—")
+        colAviso.setCellValueFactory(data -> new SimpleObjectProperty<Cliente>(data.getValue()));
+        colAviso.setCellFactory(col -> new TableCell<Cliente, Cliente>() {
+            @Override
+            protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                if (empty || c == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setAlignment(Pos.CENTER);
+                    if (estaCercaDelTope(c)) {
+                        Label lblAviso = new Label("⚠  Cerca\ndel tope");
+                        lblAviso.setTextAlignment(TextAlignment.CENTER);
+                        lblAviso.setAlignment(Pos.CENTER);
+                        lblAviso.getStyleClass().add("clientes-pill-cerca-tope");
+                        HBox box = new HBox(lblAviso);
+                        box.setAlignment(Pos.CENTER);
+                        setGraphic(box);
+                        setText(null);
+                    } else {
+                        setGraphic(null);
+                        setText("—");
+                        getStyleClass().removeAll("clientes-cell-dash");
+                        getStyleClass().add("clientes-cell-dash");
+                    }
+                }
+            }
+        });
+
+        tblClientes.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            clienteSeleccionado = newSel;
+            actualizarBarraSeleccion(newSel);
+            tblClientes.refresh();
+        });
+    }
+
+    private boolean estaCercaDelTope(Cliente c) {
+        if (c == null || !c.isActivo() || !c.isFiadoAutorizado()) {
+            return false;
+        }
+        BigDecimal cupo = c.getLimiteCredito() != null ? c.getLimiteCredito() : BigDecimal.ZERO;
+        BigDecimal deuda = c.getSaldoPendiente() != null ? c.getSaldoPendiente() : BigDecimal.ZERO;
+        if (cupo.compareTo(BigDecimal.ZERO) <= 0) {
+            return false;
+        }
+        BigDecimal umbral = cupo.multiply(FACTOR_CERCA_DEL_TOPE);
+        return deuda.compareTo(umbral) >= 0;
+    }
+
+    public void cargarClientesDesdeMySQL() {
+        todosLosClientes.clear();
+        BigDecimal sumaDeudaTotal = BigDecimal.ZERO;
+        int conteoConFiado = 0;
+
+        try {
+            List<Cliente> desdeBD = clienteDAO.listarTodos(false);
+            if (desdeBD != null) {
+                for (Cliente c : desdeBD) {
+                    todosLosClientes.add(c);
+                    if (c.isActivo()) {
+                        BigDecimal saldo = c.getSaldoPendiente() != null ? c.getSaldoPendiente() : BigDecimal.ZERO;
+                        if (saldo.compareTo(BigDecimal.ZERO) > 0) {
+                            sumaDeudaTotal = sumaDeudaTotal.add(saldo);
+                        }
+                        if (c.isFiadoAutorizado()
+                                && c.getLimiteCredito() != null
+                                && c.getLimiteCredito().compareTo(BigDecimal.ZERO) > 0) {
+                            conteoConFiado++;
+                        }
+                    }
                 }
             }
         } catch (SQLException e) {
-            AlertaUtil.mostrarError("Error", "Error en base de datos: " + e.getMessage());
+            System.err.println("[ClientesController] Error al consultar clientes en MySQL: " + e.getMessage());
+        }
+
+        if (lblTotalDeudaActivos != null) {
+            lblTotalDeudaActivos.setText("$ " + formatearMoneda(sumaDeudaTotal));
+        }
+        if (lblConteoFiadoAutorizado != null) {
+            lblConteoFiadoAutorizado.setText(String.valueOf(conteoConFiado));
+        }
+
+        aplicarFiltrosYPaginacion();
+    }
+
+    private void aplicarFiltrosYPaginacion() {
+        String criterio = txtBuscarCliente != null && txtBuscarCliente.getText() != null
+                ? txtBuscarCliente.getText().trim().toLowerCase(LOCALE_ES_CO)
+                : "";
+        Toggle filtroActivo = tgFiltros.getSelectedToggle();
+
+        clientesFiltrados.clear();
+        for (Cliente c : todosLosClientes) {
+            if (!cumpleFiltroPildora(c, filtroActivo)) {
+                continue;
+            }
+            if (!criterio.isEmpty()) {
+                String nom = c.getNombre() != null ? c.getNombre().toLowerCase(LOCALE_ES_CO) : "";
+                String tel = c.getTelefono() != null ? c.getTelefono().toLowerCase(LOCALE_ES_CO) : "";
+                if (!nom.contains(criterio) && !tel.contains(criterio)) {
+                    continue;
+                }
+            }
+            clientesFiltrados.add(c);
+        }
+
+        int totalFiltrados = clientesFiltrados.size();
+        int totalPaginas = Math.max(1, (int) Math.ceil((double) totalFiltrados / FILAS_POR_PAGINA));
+
+        Cliente clienteObjetivo = null;
+        if (idClienteSeleccionarAlCargar > 0) {
+            for (int i = 0; i < clientesFiltrados.size(); i++) {
+                Cliente cand = clientesFiltrados.get(i);
+                if (cand.getIdCliente() == idClienteSeleccionarAlCargar) {
+                    clienteObjetivo = cand;
+                    paginaActual = i / FILAS_POR_PAGINA;
+                    break;
+                }
+            }
+            idClienteSeleccionarAlCargar = -1;
+        }
+
+        if (paginaActual >= totalPaginas) {
+            paginaActual = totalPaginas - 1;
+        }
+        if (paginaActual < 0) {
+            paginaActual = 0;
+        }
+
+        int desde = paginaActual * FILAS_POR_PAGINA;
+        int hasta = Math.min(desde + FILAS_POR_PAGINA, totalFiltrados);
+
+        itemsPaginaActual.clear();
+        if (desde < hasta) {
+            itemsPaginaActual.addAll(clientesFiltrados.subList(desde, hasta));
+        }
+
+        if (lblConteoClientes != null) {
+            lblConteoClientes.setText("Mostrando " + itemsPaginaActual.size() + " de " + totalFiltrados + " clientes");
+        }
+        if (btnPaginaAnterior != null) {
+            btnPaginaAnterior.setDisable(paginaActual <= 0);
+        }
+        if (btnPaginaSiguiente != null) {
+            btnPaginaSiguiente.setDisable(paginaActual >= totalPaginas - 1);
+        }
+
+        if (clienteObjetivo != null && itemsPaginaActual.contains(clienteObjetivo)) {
+            tblClientes.getSelectionModel().select(clienteObjetivo);
+        } else if (!itemsPaginaActual.isEmpty()) {
+            tblClientes.getSelectionModel().selectFirst();
+        } else {
+            tblClientes.getSelectionModel().clearSelection();
+            actualizarBarraSeleccion(null);
+        }
+    }
+
+    private boolean cumpleFiltroPildora(Cliente c, Toggle filtro) {
+        if (filtro == tbFiltroDadosBaja) {
+            return !c.isActivo();
+        }
+        if (!c.isActivo()) {
+            return false;
+        }
+        if (filtro == tbFiltroConDeuda) {
+            BigDecimal deuda = c.getSaldoPendiente() != null ? c.getSaldoPendiente() : BigDecimal.ZERO;
+            return deuda.compareTo(BigDecimal.ZERO) > 0;
+        }
+        if (filtro == tbFiltroConFiado) {
+            return c.isFiadoAutorizado();
+        }
+        return true; // Todos (Activos)
+    }
+
+    private void actualizarBarraSeleccion(Cliente sel) {
+        boolean haySel = sel != null;
+        boolean tieneDeuda = haySel
+                && sel.getSaldoPendiente() != null
+                && sel.getSaldoPendiente().compareTo(BigDecimal.ZERO) > 0;
+
+        if (lblClienteSeleccionadoInfo != null) {
+            if (!haySel) {
+                lblClienteSeleccionadoInfo.setText("Seleccione un cliente de la tabla para ver sus opciones");
+            } else if (!sel.isActivo()) {
+                lblClienteSeleccionadoInfo.setText("Seleccionado: " + sel.getNombre() + " · Dado de baja");
+            } else if (!sel.isFiadoAutorizado()) {
+                lblClienteSeleccionadoInfo.setText("Seleccionado: " + sel.getNombre() + " · Sin fiado autorizado");
+            } else {
+                BigDecimal deuda = sel.getSaldoPendiente() != null ? sel.getSaldoPendiente() : BigDecimal.ZERO;
+                BigDecimal disponible = sel.getCreditoDisponible();
+                lblClienteSeleccionadoInfo.setText("Seleccionada: " + sel.getNombre()
+                        + " · Debe $ " + formatearMoneda(deuda)
+                        + " · Puede deber $ " + formatearMoneda(disponible) + " más");
+            }
+        }
+
+        if (btnVerCuenta != null) {
+            btnVerCuenta.setDisable(!haySel);
+        }
+        if (btnRegistrarAbono != null) {
+            btnRegistrarAbono.setDisable(!tieneDeuda);
+        }
+        if (btnAutorizarFiado != null) {
+            btnAutorizarFiado.setDisable(!haySel);
+            if (haySel && sel.isFiadoAutorizado()) {
+                btnAutorizarFiado.setText("✓   Cambiar cupo");
+            } else {
+                btnAutorizarFiado.setText("✓   Autorizar fiado");
+            }
+        }
+        if (btnModificarCliente != null) {
+            btnModificarCliente.setDisable(!haySel);
+        }
+    }
+
+    @FXML
+    public void handlePaginaAnterior() {
+        if (paginaActual > 0) {
+            paginaActual--;
+            aplicarFiltrosYPaginacion();
+        }
+    }
+
+    @FXML
+    public void handlePaginaSiguiente() {
+        int totalPaginas = Math.max(1, (int) Math.ceil((double) clientesFiltrados.size() / FILAS_POR_PAGINA));
+        if (paginaActual < totalPaginas - 1) {
+            paginaActual++;
+            aplicarFiltrosYPaginacion();
+        }
+    }
+
+    @FXML
+    public void handleRegistrarClienteNuevo() {
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.cargarVistaEnContenido("/fxml/registrar_cliente.fxml");
+        }
+    }
+
+    @FXML
+    public void handleVerCuenta() {
+        if (clienteSeleccionado == null) {
+            return;
+        }
+        EstadoCuentaClienteController.setClientePendienteCuenta(clienteSeleccionado);
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            EstadoCuentaClienteController ctrl = menu.cargarVistaConControlador("/fxml/estado_cuenta_cliente.fxml");
+            if (ctrl != null) {
+                ctrl.setCliente(clienteSeleccionado);
+            }
         }
     }
 
     @FXML
     public void handleRegistrarAbono() {
-        Cliente seleccionado = tblClientes.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            AlertaUtil.mostrarAdvertencia("Selecciona un Cliente", "Debes seleccionar de la tabla el cliente que va a abonar.");
+        if (clienteSeleccionado == null) {
+            return;
+        }
+        BigDecimal deuda = clienteSeleccionado.getSaldoPendiente() != null
+                ? clienteSeleccionado.getSaldoPendiente()
+                : BigDecimal.ZERO;
+        if (deuda.compareTo(BigDecimal.ZERO) <= 0) {
+            AlertaUtil.mostrarInfo("Sin deuda pendiente",
+                    "El cliente «" + clienteSeleccionado.getNombre() + "» no tiene deuda pendiente.");
             return;
         }
 
-        if (seleccionado.getSaldoPendiente().compareTo(BigDecimal.ZERO) <= 0) {
-            AlertaUtil.mostrarInfo("Sin Deuda", "El cliente '" + seleccionado.getNombre() + "' se encuentra a paz y salvo.");
+        try {
+            FXMLLoader loader = crearFXMLLoader("/fxml/modal_registrar_abono.fxml");
+            Parent root = loader.load();
+            RegistrarAbonoController ctrl = loader.getController();
+            ctrl.setCliente(clienteSeleccionado);
+
+            Stage stage = crearStageModal("Registrar abono", root);
+            stage.showAndWait();
+
+            if (ctrl.isAbonoGuardado()) {
+                idClienteSeleccionarAlCargar = clienteSeleccionado.getIdCliente();
+                cargarClientesDesdeMySQL();
+            }
+        } catch (IOException e) {
+            AlertaUtil.mostrarError("Error de Interfaz",
+                    "No se pudo abrir el modal de registro de abono: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleAutorizarFiado() {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede autorizar o modificar cupos de fiado.");
+            return;
+        }
+        if (clienteSeleccionado == null) {
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog(seleccionado.getSaldoPendiente().toString());
-        dialog.setTitle("Registrar Abono a Fiado");
-        dialog.setHeaderText("Cliente: " + seleccionado.getNombre() + "\nDeuda pendiente: " + formatoMoneda.format(seleccionado.getSaldoPendiente()));
-        dialog.setContentText("Monto a abonar ($):");
+        try {
+            FXMLLoader loader = crearFXMLLoader("/fxml/modal_autorizar_fiado.fxml");
+            Parent root = loader.load();
+            AutorizarFiadoController ctrl = loader.getController();
+            ctrl.setCliente(clienteSeleccionado);
 
-        Optional<String> resultado = dialog.showAndWait();
-        if (resultado.isPresent()) {
-            try {
-                BigDecimal monto = new BigDecimal(resultado.get().trim().replace(",", "."));
-                if (monto.compareTo(BigDecimal.ZERO) <= 0) {
-                    AlertaUtil.mostrarAdvertencia("Monto Inválido", "El monto de abono debe ser mayor a 0.");
-                    return;
+            String titulo = clienteSeleccionado.isFiadoAutorizado() ? "Cambiar cupo de fiado" : "Autorizar fiado";
+            Stage stage = crearStageModal(titulo, root);
+            stage.showAndWait();
+
+            if (ctrl.isCambiosGuardados()) {
+                idClienteSeleccionarAlCargar = clienteSeleccionado.getIdCliente();
+                cargarClientesDesdeMySQL();
+            }
+        } catch (IOException e) {
+            AlertaUtil.mostrarError("Error de Interfaz",
+                    "No se pudo abrir el modal de fiado: " + e.getMessage());
+        }
+    }
+
+    private FXMLLoader crearFXMLLoader(String fxmlPath) throws IOException {
+        URL url = getClass().getResource(fxmlPath);
+        if (url == null) {
+            throw new IOException("No se encontró el recurso FXML: " + fxmlPath);
+        }
+        return new FXMLLoader(url);
+    }
+
+    private Stage crearStageModal(String titulo, Parent root) {
+        Stage stage = new Stage();
+        stage.setTitle(titulo);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+
+        if (rootPane != null && rootPane.getScene() != null && rootPane.getScene().getWindow() != null) {
+            final Window owner = rootPane.getScene().getWindow();
+            stage.initOwner(owner);
+            final Node ownerRoot = rootPane.getScene().getRoot();
+            final ColorAdjust dim = new ColorAdjust(0, 0, -0.28, 0);
+            stage.setOnShown(ev -> {
+                if (ownerRoot != null) {
+                    ownerRoot.setEffect(dim);
                 }
-
-                Usuario usuario = SesionUsuario.getUsuarioLogueado();
-                Integer idCaja = null;
-                try {
-                    Caja caja = cajaDAO.obtenerCajaAbierta();
-                    if (caja != null) idCaja = caja.getIdCaja();
-                } catch (Exception ignored) {}
-
-                AbonoCliente abono = new AbonoCliente(
-                        "Abono a deuda de " + seleccionado.getNombre(),
-                        usuario != null ? usuario.getIdUsuario() : 1,
-                        idCaja,
-                        seleccionado.getIdCliente(),
-                        monto
-                );
-
-                boolean exito = abonoDAO.registrarAbono(abono);
-                if (exito) {
-                    AlertaUtil.mostrarInfo("Abono Registrado", "Se registró el abono de " + formatoMoneda.format(monto) + " con éxito.");
-                    cargarDatos();
+                stage.setX(owner.getX() + (owner.getWidth() - stage.getWidth()) / 2.0);
+                stage.setY(owner.getY() + (owner.getHeight() - stage.getHeight()) / 2.0);
+            });
+            stage.setOnHidden(ev -> {
+                if (ownerRoot != null) {
+                    ownerRoot.setEffect(null);
                 }
-            } catch (Exception e) {
-                AlertaUtil.mostrarError("Error", "Ocurrió un error al registrar el abono:\n" + e.getMessage());
+            });
+        }
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        URL cssUrl = getClass().getResource("/css/styles.css");
+        if (cssUrl != null) {
+            scene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+        stage.setScene(scene);
+        return stage;
+    }
+
+    @FXML
+    public void handleModificarCliente() {
+        if (clienteSeleccionado == null) {
+            return;
+        }
+        ModificarClienteController.setClientePendienteEdicion(clienteSeleccionado);
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            ModificarClienteController ctrl = menu.cargarVistaConControlador("/fxml/modificar_cliente.fxml");
+            if (ctrl != null) {
+                ctrl.setCliente(clienteSeleccionado);
             }
         }
     }
-}
 
+    @FXML
+    public void handleVolverMenu() {
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.mostrarMenuDashboard();
+        }
+    }
+
+    private String formatearMoneda(BigDecimal valor) {
+        BigDecimal monto = valor != null ? valor : BigDecimal.ZERO;
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(LOCALE_ES_CO);
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        DecimalFormat df = new DecimalFormat("#,##0", symbols);
+        return df.format(monto);
+    }
+}
