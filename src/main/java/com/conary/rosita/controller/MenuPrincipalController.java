@@ -516,13 +516,10 @@ public class MenuPrincipalController {
     public void handleMasOpcionesRespaldo() {
         if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
             AlertaUtil.mostrarAdvertencia("Acceso Restringido",
-                    "Solo la Administradora puede gestionar copias de seguridad.");
+                    "Solo Doña Rosita (Administradora) tiene acceso a Más opciones.");
             return;
         }
-        AlertaUtil.mostrarInfo("Copias de Seguridad — CONARY",
-                "El respaldo local automático de la base de datos 'papeleria_rosita' está activo.\n\n"
-              + "• Estado actual: Verificado y sincronizado localmente.\n"
-              + "• Ubicación local: Base de datos MySQL (puerto 3306).");
+        cargarVistaEnContenido("/fxml/mas_opciones.fxml");
     }
 
     @FXML
@@ -554,6 +551,7 @@ public class MenuPrincipalController {
         }
     }
 
+    /** Carga una vista FXML en el area principal de contenido. */
     public void cargarVistaEnContenido(String fxmlPath) {
         cargarVistaConControlador(fxmlPath);
     }
@@ -597,7 +595,10 @@ public class MenuPrincipalController {
                     || "/fxml/reportes.fxml".equals(fxmlPath)
                     || "/fxml/resultado_reporte_ventas.fxml".equals(fxmlPath)
                     || "/fxml/resultado_reporte_inventario.fxml".equals(fxmlPath)
-                    || "/fxml/resultado_reporte_general.fxml".equals(fxmlPath);
+                    || "/fxml/resultado_reporte_general.fxml".equals(fxmlPath)
+                    || "/fxml/mas_opciones.fxml".equals(fxmlPath)
+                    || "/fxml/usuarios.fxml".equals(fxmlPath)
+                    || "/fxml/registrar_usuario.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

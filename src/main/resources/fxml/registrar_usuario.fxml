@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.RegistrarUsuarioController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: REGISTRAR USUARIO
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverUsuarios" text="←   Volver a Usuarios"
+                        onAction="#handleCancelar"
+                        styleClass="clientes-btn-volver"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER" spacing="10">
+                    <SVGPath fill="#704214"
+                             content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.8 5 -7.2 6.8 -7.2 9.5 L 7.2 9.5 C 7.2 6.8 3.8 5 0 5 Z M 9 -1 L 9 -4 L 11 -4 L 11 -1 L 14 -1 L 14 1 L 11 1 L 11 4 L 9 4 L 9 1 L 6 1 L 6 -1 Z"/>
+                    <Label text="Registrar usuario" styleClass="clientes-header-title"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         TARJETA CENTRAL BLANCA: FORMULARIO DE REGISTRO
+         ================================================================== -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER"
+                    style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <content>
+                <StackPane alignment="CENTER">
+                    <padding>
+                        <Insets top="14" right="24" bottom="24" left="24"/>
+                    </padding>
+
+                    <VBox spacing="16" maxWidth="690" prefWidth="690" styleClass="reg-usuario-card">
+                        <!-- Banner Informativo / Validacion -->
+                        <HBox fx:id="boxAlertaUsuario" alignment="CENTER_LEFT" spacing="10"
+                              styleClass="reg-usuario-alerta">
+                            <SVGPath fx:id="svgAlertaUsuario" fill="#704214"
+                                     content="M 10 2 L 1 18 L 19 18 Z M 9.2 8 L 10.8 8 L 10.6 13 L 9.4 13 Z M 10 14.3 C 10.6 14.3 11 14.7 11 15.3 C 11 15.9 10.6 16.3 10 16.3 C 9.4 16.3 9 15.9 9 15.3 C 9 14.7 9.4 14.3 10 14.3 Z"/>
+                            <Label fx:id="lblAlertaUsuario"
+                                   text="Recuerde verificar que las dos claves coincidan antes de guardar el usuario."
+                                   wrapText="true" HBox.hgrow="ALWAYS"
+                                   styleClass="reg-usuario-alerta-texto"/>
+                        </HBox>
+
+                        <!-- Fila 1 y Fila 2 (2 Columnas) -->
+                        <GridPane hgap="18" vgap="14">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="TOP"/>
+                                <RowConstraints valignment="TOP"/>
+                            </rowConstraints>
+
+                            <!-- Nombre completo -->
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <HBox alignment="BASELINE_LEFT">
+                                    <Label text="Nombre completo" styleClass="reg-usuario-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label text="Obligatorio" styleClass="reg-usuario-obligatorio"/>
+                                </HBox>
+                                <TextField fx:id="txtNombreCompleto"
+                                           promptText="Por ejemplo: Gladys"
+                                           styleClass="reg-usuario-input"/>
+                            </VBox>
+
+                            <!-- Nombre para entrar -->
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <HBox alignment="BASELINE_LEFT">
+                                    <Label text="Nombre para entrar" styleClass="reg-usuario-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label text="Obligatorio" styleClass="reg-usuario-obligatorio"/>
+                                </HBox>
+                                <TextField fx:id="txtNombreUsuario"
+                                           promptText="gladys"
+                                           styleClass="reg-usuario-input"/>
+                                <Label text="Es lo que escribe al iniciar sesión, sin espacios."
+                                       wrapText="true" styleClass="reg-usuario-ayuda"/>
+                            </VBox>
+
+                            <!-- Clave -->
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <HBox alignment="BASELINE_LEFT">
+                                    <Label text="Clave" styleClass="reg-usuario-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label text="Obligatorio" styleClass="reg-usuario-obligatorio"/>
+                                </HBox>
+                                <HBox fx:id="boxClave" alignment="CENTER_LEFT"
+                                      styleClass="reg-usuario-password-box">
+                                    <StackPane HBox.hgrow="ALWAYS">
+                                        <PasswordField fx:id="txtClave" promptText="••••••••"
+                                                       styleClass="reg-usuario-password-inner"/>
+                                        <TextField fx:id="txtClaveVisible" promptText="••••••••"
+                                                   visible="false" managed="false"
+                                                   styleClass="reg-usuario-password-inner"/>
+                                    </StackPane>
+                                    <Button fx:id="btnVerClave" focusTraversable="false"
+                                            onAction="#handleToggleVerClave"
+                                            styleClass="reg-usuario-btn-ojo">
+                                        <graphic>
+                                            <SVGPath fx:id="svgOjoClave" fill="#46220F"
+                                                     content="M 10 2 C 5.45 2 1.57 4.83 0 8.8 C 1.57 12.77 5.45 15.6 10 15.6 C 14.55 15.6 18.43 12.77 20 8.8 C 18.43 4.83 14.55 2 10 2 Z M 10 13.3 C 7.52 13.3 5.5 11.28 5.5 8.8 C 5.5 6.32 7.52 4.3 10 4.3 C 12.48 4.3 14.5 6.32 14.5 8.8 C 14.5 11.28 12.48 13.3 10 13.3 Z M 10 6.1 C 8.51 6.1 7.3 7.31 7.3 8.8 C 7.3 10.29 8.51 11.5 10 11.5 C 11.49 11.5 12.7 10.29 12.7 8.8 C 12.7 7.31 11.49 6.1 10 6.1 Z"/>
+                                        </graphic>
+                                    </Button>
+                                </HBox>
+                                <Label text="Mínimo 6 caracteres. Nadie podrá verla después."
+                                       wrapText="true" styleClass="reg-usuario-ayuda"/>
+                            </VBox>
+
+                            <!-- Repita la clave -->
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <HBox alignment="BASELINE_LEFT">
+                                    <Label text="Repita la clave" styleClass="reg-usuario-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label text="Obligatorio" styleClass="reg-usuario-obligatorio"/>
+                                </HBox>
+                                <HBox fx:id="boxRepetirClave" alignment="CENTER_LEFT"
+                                      styleClass="reg-usuario-password-box">
+                                    <StackPane HBox.hgrow="ALWAYS">
+                                        <PasswordField fx:id="txtRepetirClave" promptText="••••••••"
+                                                       styleClass="reg-usuario-password-inner"/>
+                                        <TextField fx:id="txtRepetirClaveVisible" promptText="••••••••"
+                                                   visible="false" managed="false"
+                                                   styleClass="reg-usuario-password-inner"/>
+                                    </StackPane>
+                                    <Button fx:id="btnVerRepetirClave" focusTraversable="false"
+                                            onAction="#handleToggleVerRepetirClave"
+                                            styleClass="reg-usuario-btn-ojo">
+                                        <graphic>
+                                            <SVGPath fx:id="svgOjoRepetirClave" fill="#46220F"
+                                                     content="M 10 2 C 5.45 2 1.57 4.83 0 8.8 C 1.57 12.77 5.45 15.6 10 15.6 C 14.55 15.6 18.43 12.77 20 8.8 C 18.43 4.83 14.55 2 10 2 Z M 10 13.3 C 7.52 13.3 5.5 11.28 5.5 8.8 C 5.5 6.32 7.52 4.3 10 4.3 C 12.48 4.3 14.5 6.32 14.5 8.8 C 14.5 11.28 12.48 13.3 10 13.3 Z M 10 6.1 C 8.51 6.1 7.3 7.31 7.3 8.8 C 7.3 10.29 8.51 11.5 10 11.5 C 11.49 11.5 12.7 10.29 12.7 8.8 C 12.7 7.31 11.49 6.1 10 6.1 Z"/>
+                                        </graphic>
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                        </GridPane>
+
+                        <!-- Selector de Rol -->
+                        <VBox spacing="8">
+                            <Label text="¿Qué puede hacer?" styleClass="reg-usuario-label"/>
+
+                            <GridPane hgap="16">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                                    <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                                </columnConstraints>
+
+                                <!-- Tarjeta Vendedora -->
+                                <ToggleButton fx:id="tbRolVendedora" selected="true"
+                                              contentDisplay="GRAPHIC_ONLY"
+                                              alignment="TOP_LEFT"
+                                              maxWidth="Infinity" maxHeight="Infinity"
+                                              GridPane.columnIndex="0"
+                                              styleClass="reg-usuario-rol-card">
+                                    <graphic>
+                                        <HBox alignment="TOP_LEFT" spacing="12">
+                                            <StackPane styleClass="reg-usuario-radio-outer">
+                                                <HBox.margin>
+                                                    <Insets top="2"/>
+                                                </HBox.margin>
+                                                <Region styleClass="reg-usuario-radio-inner"/>
+                                            </StackPane>
+                                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                                    <Label text="Vendedora" styleClass="reg-usuario-rol-titulo"/>
+                                                    <Label text="Caja y Mostrador" styleClass="reg-usuario-badge-caja"/>
+                                                </HBox>
+                                                <Label text="Vender, consultar productos y abrir la caja"
+                                                       wrapText="true" styleClass="reg-usuario-rol-desc"/>
+                                            </VBox>
+                                        </HBox>
+                                    </graphic>
+                                </ToggleButton>
+
+                                <!-- Tarjeta Administradora -->
+                                <ToggleButton fx:id="tbRolAdministradora"
+                                              contentDisplay="GRAPHIC_ONLY"
+                                              alignment="TOP_LEFT"
+                                              maxWidth="Infinity" maxHeight="Infinity"
+                                              GridPane.columnIndex="1"
+                                              styleClass="reg-usuario-rol-card">
+                                    <graphic>
+                                        <HBox alignment="TOP_LEFT" spacing="12">
+                                            <StackPane styleClass="reg-usuario-radio-outer">
+                                                <HBox.margin>
+                                                    <Insets top="2"/>
+                                                </HBox.margin>
+                                                <Region styleClass="reg-usuario-radio-inner"/>
+                                            </StackPane>
+                                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                                    <Label text="Administradora" styleClass="reg-usuario-rol-titulo"/>
+                                                    <Label text="Total" styleClass="reg-usuario-badge-total"/>
+                                                </HBox>
+                                                <Label text="Todo lo anterior, y además el resto del sistema"
+                                                       wrapText="true" styleClass="reg-usuario-rol-desc"/>
+                                            </VBox>
+                                        </HBox>
+                                    </graphic>
+                                </ToggleButton>
+                            </GridPane>
+                        </VBox>
+
+                        <!-- Botones Inferiores -->
+                        <HBox alignment="CENTER_RIGHT" spacing="12">
+                            <padding>
+                                <Insets top="6"/>
+                            </padding>
+                            <Button fx:id="btnCancelar" text="Cancelar"
+                                    onAction="#handleCancelar"
+                                    styleClass="reg-usuario-btn-cancelar"/>
+                            <Button fx:id="btnGuardar" text="✓   Guardar usuario"
+                                    onAction="#handleGuardarUsuario"
+                                    defaultButton="true"
+                                    styleClass="reg-usuario-btn-guardar"/>
+                        </HBox>
+                    </VBox>
+                </StackPane>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

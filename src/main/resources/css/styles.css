@@ -6620,6 +6620,469 @@
     -fx-background-color: #FAF1E6;
 }
 
+/* ==========================================================================
+   SUBMODULO MAS OPCIONES — PASO 2A (mas_opciones.fxml y usuarios.fxml)
+   ========================================================================== */
+.mas-opciones-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.mas-opciones-subtitle {
+    -fx-font-size: 14.5px;
+    -fx-text-fill: #6B4C35;
+}
+
+.mas-opciones-card-btn {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EDE1D3;
+    -fx-border-width: 1.3px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 36px 28px 34px 28px;
+    -fx-cursor: hand;
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.06), 16, 0, 0, 4);
+}
+
+.mas-opciones-card-btn:hover {
+    -fx-background-color: #FFFBF7;
+    -fx-border-color: #AA7444;
+    -fx-effect: dropshadow(three-pass-box, rgba(112, 66, 20, 0.14), 20, 0, 0, 6);
+}
+
+.mas-opciones-icon-circle {
+    -fx-background-color: #FDE6DC;
+    -fx-background-radius: 34px;
+    -fx-min-width: 66px;
+    -fx-min-height: 66px;
+    -fx-max-width: 66px;
+    -fx-max-height: 66px;
+}
+
+.mas-opciones-card-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.mas-opciones-card-desc {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6B4C35;
+}
+
+.mas-opciones-backup-note {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7A5C43;
+}
+
+.usuarios-restricted-pill {
+    -fx-background-color: #FBF3EB;
+    -fx-border-color: #E8D5C1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-padding: 6px 14px 6px 14px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C3B23;
+}
+
+.usuarios-cell-username {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.usuarios-cell-username-inactivo {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 15px;
+    -fx-text-fill: #8D7B6A;
+}
+
+.usuarios-pill-admin {
+    -fx-background-color: #704214;
+    -fx-background-radius: 14px;
+    -fx-padding: 5px 16px 5px 16px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FAF6F0;
+}
+
+.usuarios-pill-vendedor {
+    -fx-background-color: #FDD8BC;
+    -fx-background-radius: 14px;
+    -fx-padding: 5px 16px 5px 16px;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5C300C;
+}
+
+.usuarios-pill-baja {
+    -fx-background-color: #F4ECE6;
+    -fx-border-color: #E2D2C5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 4px 12px 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8C4A4A;
+}
+
+.usuarios-btn-baja {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2B4B4;
+    -fx-border-width: 1.3px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #C92A2A;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px 8px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-btn-baja:hover {
+    -fx-background-color: #FFF5F5;
+}
+
+.usuarios-btn-baja:disabled {
+    -fx-opacity: 0.5;
+}
+
+.usuarios-btn-reactivar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.3px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px 8px 16px;
+    -fx-cursor: hand;
+}
+
+.usuarios-btn-reactivar:hover {
+    -fx-background-color: #FAF1E6;
+}
+
+/* =========================================================
+ * PASO 2B: REGISTRAR USUARIO Y MODAL CAMBIAR CLAVE
+ * ========================================================= */
+
+.reg-usuario-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+    -fx-border-color: #EBDDD0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-padding: 26px 30px 26px 30px;
+    -fx-effect: dropshadow(gaussian, rgba(70, 34, 15, 0.08), 18, 0.1, 0, 4);
+}
+
+.reg-usuario-alerta {
+    -fx-background-color: #FDE7D4;
+    -fx-background-radius: 10px;
+    -fx-border-color: #F3CFAF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 11px 14px;
+}
+
+.reg-usuario-alerta-error {
+    -fx-background-color: #FDF0EC;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E2B3A8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 11px 14px;
+}
+
+.reg-usuario-alerta-texto {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+}
+
+.reg-usuario-alerta-error .reg-usuario-alerta-texto {
+    -fx-text-fill: #9A342B;
+}
+
+.reg-usuario-label {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.reg-usuario-obligatorio {
+    -fx-text-fill: #8E745E;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: 600;
+}
+
+.reg-usuario-ayuda {
+    -fx-text-fill: #7C624D;
+    -fx-font-size: 13px;
+}
+
+.reg-usuario-input {
+    -fx-background-color: #FDF5EE;
+    -fx-background-radius: 10px;
+    -fx-border-color: #EFE0D3;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px;
+    -fx-font-size: 16px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #9E836D;
+    -fx-min-height: 44px;
+    -fx-pref-height: 44px;
+}
+
+.reg-usuario-input:focused {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #704214;
+    -fx-border-width: 1.5px;
+}
+
+.reg-usuario-password-box {
+    -fx-background-color: #FDF5EE;
+    -fx-background-radius: 10px;
+    -fx-border-color: #EFE0D3;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 0 6px 0 0;
+    -fx-min-height: 44px;
+    -fx-pref-height: 44px;
+}
+
+.reg-usuario-password-box-focused {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #704214;
+    -fx-border-width: 1.5px;
+}
+
+.reg-usuario-password-inner {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8px 6px 8px 14px;
+    -fx-font-size: 16px;
+    -fx-text-fill: #46220F;
+    -fx-prompt-text-fill: #9E836D;
+}
+
+.reg-usuario-password-inner:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.reg-usuario-btn-ojo {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 6px 8px;
+    -fx-background-radius: 8px;
+}
+
+.reg-usuario-btn-ojo:hover {
+    -fx-background-color: #F4E6D9;
+}
+
+.reg-usuario-rol-card {
+    -fx-background-color: #FDF7F2;
+    -fx-background-radius: 12px;
+    -fx-border-color: #EFE0D3;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 12px;
+    -fx-padding: 14px 16px;
+    -fx-cursor: hand;
+}
+
+.reg-usuario-rol-card:hover {
+    -fx-background-color: #FAF0E6;
+    -fx-border-color: #C9A98D;
+}
+
+.reg-usuario-rol-card:selected {
+    -fx-background-color: #FBF1E7;
+    -fx-border-color: #704214;
+    -fx-border-width: 1.5px;
+}
+
+.reg-usuario-radio-outer {
+    -fx-min-width: 20px;
+    -fx-max-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-height: 20px;
+    -fx-background-color: #FDE8D7;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E4C9B3;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+}
+
+.reg-usuario-rol-card:selected .reg-usuario-radio-outer {
+    -fx-background-color: #704214;
+    -fx-border-color: #704214;
+}
+
+.reg-usuario-radio-inner {
+    -fx-min-width: 7px;
+    -fx-max-width: 7px;
+    -fx-min-height: 7px;
+    -fx-max-height: 7px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 4px;
+}
+
+.reg-usuario-rol-card:selected .reg-usuario-radio-inner {
+    -fx-background-color: #FFFFFF;
+}
+
+.reg-usuario-rol-titulo {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16.5px;
+    -fx-font-weight: bold;
+}
+
+.reg-usuario-rol-desc {
+    -fx-text-fill: #6D523D;
+    -fx-font-size: 14px;
+}
+
+.reg-usuario-badge-caja {
+    -fx-background-color: #FBD9BE;
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 10px;
+    -fx-text-fill: #704214;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
+.reg-usuario-badge-total {
+    -fx-background-color: #704214;
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
+.reg-usuario-btn-cancelar {
+    -fx-background-color: #FDF5EE;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E8D9CA;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 24px;
+    -fx-cursor: hand;
+}
+
+.reg-usuario-btn-cancelar:hover {
+    -fx-background-color: #F7EAE0;
+}
+
+.reg-usuario-btn-guardar {
+    -fx-background-color: #6B3A0E;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 24px;
+    -fx-cursor: hand;
+}
+
+.reg-usuario-btn-guardar:hover {
+    -fx-background-color: #542C09;
+}
+
+/* Modal Cambiar Clave */
+.modal-clave-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+    -fx-border-color: #E8D9CA;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-padding: 26px 28px;
+    -fx-effect: dropshadow(gaussian, rgba(35, 16, 6, 0.25), 26, 0.15, 0, 8);
+}
+
+.modal-clave-icon-box {
+    -fx-background-color: #6B3A0E;
+    -fx-background-radius: 10px;
+    -fx-min-width: 34px;
+    -fx-max-width: 34px;
+    -fx-min-height: 34px;
+    -fx-max-height: 34px;
+}
+
+.modal-clave-titulo {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.modal-clave-usuario-box {
+    -fx-background-color: #FDF2EA;
+    -fx-background-radius: 12px;
+    -fx-border-color: #F2DFCF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 14px;
+}
+
+.modal-clave-avatar {
+    -fx-background-color: #FADFC9;
+    -fx-background-radius: 19px;
+    -fx-min-width: 38px;
+    -fx-max-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-height: 38px;
+}
+
+.modal-clave-usuario-nombre {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16.5px;
+    -fx-font-weight: bold;
+}
+
+.modal-clave-usuario-username {
+    -fx-text-fill: #7B604A;
+    -fx-font-size: 14px;
+}
+
+.modal-clave-badge-rol {
+    -fx-background-color: #FADAC2;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px 11px;
+    -fx-text-fill: #704214;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
+.modal-clave-badge-rol-admin {
+    -fx-background-color: #704214;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px 11px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
+.modal-clave-nota {
+    -fx-text-fill: #6D523D;
+    -fx-font-size: 13.5px;
+}
+
+
 
 
 

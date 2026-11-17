@@ -152,6 +152,59 @@ public class UsuarioDAO {
         }
     }
 
+    public int contarAdministradoresActivos() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE rol = 'ADMINISTRADOR' AND activo = TRUE";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public boolean actualizarDatosBasicos(int idUsuario, String nombre, RolUsuario rol) throws SQLException {
+        String sql = "UPDATE usuario SET nombre = ?, rol = ? WHERE id_usuario = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombre != null ? nombre.trim() : "");
+            ps.setString(2, (rol != null ? rol : RolUsuario.VENDEDOR).name());
+            ps.setInt(3, idUsuario);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    /**
+     * Verifica si ya existe un usuario registrado con ese nombre para entrar (case-insensitive en MySQL).
+     */
+    public boolean existeUsername(String username) throws SQLException {
+        if (username == null || username.trim().isEmpty()) {
+            return false;
+        }
+        String sql = "SELECT COUNT(*) FROM usuario WHERE LOWER(username) = LOWER(?)";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
+
+    /**
+     * Actualiza la clave de acceso de un usuario aplicando hash SHA-256.
+     */
+    public boolean actualizarPassword(int idUsuario, String nuevaPasswordPlana) throws SQLException {
+        String sql = "UPDATE usuario SET password_hash = ? WHERE id_usuario = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, SecurityUtil.hashSHA256(nuevaPasswordPlana));
+            ps.setInt(2, idUsuario);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     private Usuario mapearUsuario(ResultSet rs) throws SQLException {
         Usuario u = new Usuario();
         u.setIdUsuario(rs.getInt("id_usuario"));
