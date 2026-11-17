@@ -617,7 +617,12 @@ public class MenuPrincipalController {
                     || "/fxml/cierre_caja.fxml".equals(fxmlPath)
                     || "/fxml/productos.fxml".equals(fxmlPath)
                     || "/fxml/registrar_producto.fxml".equals(fxmlPath)
-                    || "/fxml/modificar_producto.fxml".equals(fxmlPath);
+                    || "/fxml/modificar_producto.fxml".equals(fxmlPath)
+                    || "/fxml/proveedores.fxml".equals(fxmlPath)
+                    || "/fxml/registrar_proveedor.fxml".equals(fxmlPath)
+                    || "/fxml/registrar_compra.fxml".equals(fxmlPath)
+                    || "/fxml/cuenta_proveedor.fxml".equals(fxmlPath)
+                    || "/fxml/modificar_proveedor.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

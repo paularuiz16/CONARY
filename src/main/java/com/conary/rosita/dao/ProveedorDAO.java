@@ -4,6 +4,7 @@ import com.conary.rosita.db.ConexionDB;
 import com.conary.rosita.model.Proveedor;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,16 +14,22 @@ import java.util.List;
 
 /**
  * DAO para la gestion de proveedores y cuentas por pagar.
- * Integra la vista 'v_saldo_proveedor'.
+ * Integra la vista 'v_saldo_proveedor' y fechas de pago de 'compra'.
  */
 public class ProveedorDAO {
+
+    private static final String SUBCONSULTA_PROXIMO_PAGO =
+            "LEFT JOIN (SELECT id_proveedor, MIN(fecha_pago_acordada) AS proximo_pago "
+          + "FROM compra WHERE fecha_pago_acordada IS NOT NULL GROUP BY id_proveedor) fp "
+          + "ON p.id_proveedor = fp.id_proveedor ";
 
     public List<Proveedor> listarTodos(boolean soloActivos) throws SQLException {
         List<Proveedor> lista = new ArrayList<>();
         String sql = "SELECT p.id_proveedor, p.nombre, p.telefono, p.direccion, p.productos, p.activo, "
-                   + "COALESCE(vp.saldo_pendiente, 0.00) AS saldo_pendiente "
+                   + "COALESCE(vp.saldo_pendiente, 0.00) AS saldo_pendiente, fp.proximo_pago "
                    + "FROM proveedor p "
                    + "LEFT JOIN v_saldo_proveedor vp ON p.id_proveedor = vp.id_proveedor "
+                   + SUBCONSULTA_PROXIMO_PAGO
                    + (soloActivos ? "WHERE p.activo = TRUE " : "")
                    + "ORDER BY p.nombre ASC";
 
@@ -39,9 +46,10 @@ public class ProveedorDAO {
 
     public Proveedor obtenerPorId(int idProveedor) throws SQLException {
         String sql = "SELECT p.id_proveedor, p.nombre, p.telefono, p.direccion, p.productos, p.activo, "
-                   + "COALESCE(vp.saldo_pendiente, 0.00) AS saldo_pendiente "
+                   + "COALESCE(vp.saldo_pendiente, 0.00) AS saldo_pendiente, fp.proximo_pago "
                    + "FROM proveedor p "
                    + "LEFT JOIN v_saldo_proveedor vp ON p.id_proveedor = vp.id_proveedor "
+                   + SUBCONSULTA_PROXIMO_PAGO
                    + "WHERE p.id_proveedor = ?";
 
         try (Connection conn = ConexionDB.getConnection();
@@ -61,9 +69,10 @@ public class ProveedorDAO {
     public List<Proveedor> listarConSaldosPendientes() throws SQLException {
         List<Proveedor> lista = new ArrayList<>();
         String sql = "SELECT p.id_proveedor, p.nombre, p.telefono, p.direccion, p.productos, p.activo, "
-                   + "vp.saldo_pendiente "
+                   + "vp.saldo_pendiente, fp.proximo_pago "
                    + "FROM proveedor p "
                    + "INNER JOIN v_saldo_proveedor vp ON p.id_proveedor = vp.id_proveedor "
+                   + SUBCONSULTA_PROXIMO_PAGO
                    + "WHERE vp.saldo_pendiente > 0 AND p.activo = TRUE "
                    + "ORDER BY vp.saldo_pendiente DESC";
 
@@ -142,6 +151,10 @@ public class ProveedorDAO {
         p.setProductos(rs.getString("productos"));
         p.setActivo(rs.getBoolean("activo"));
         p.setSaldoPendiente(rs.getBigDecimal("saldo_pendiente"));
+        Date dProximo = rs.getDate("proximo_pago");
+        if (dProximo != null) {
+            p.setProximoPago(dProximo.toLocalDate());
+        }
         return p;
     }
 }

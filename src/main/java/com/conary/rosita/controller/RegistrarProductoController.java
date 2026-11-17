@@ -58,6 +58,19 @@ public class RegistrarProductoController {
     private final ProductoDAO productoDAO = new ProductoDAO();
     private final List<Producto> productosExistentes = new ArrayList<Producto>();
     private List<ToggleButton> botonesCategoria;
+    private boolean modoModal = false;
+    private Producto productoCreadoModal;
+
+    public void setModoModal(boolean modoModal) {
+        this.modoModal = modoModal;
+        if (modoModal && btnVolverProductos != null) {
+            btnVolverProductos.setText("←   Volver a la compra");
+        }
+    }
+
+    public Producto getProductoCreadoModal() {
+        return productoCreadoModal;
+    }
 
     @FXML
     public void initialize() {
@@ -328,9 +341,14 @@ public class RegistrarProductoController {
 
             boolean insertado = productoDAO.insertar(nuevo);
             if (insertado) {
+                productoCreadoModal = nuevo;
                 MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
                 if (menu != null) {
                     menu.refrescarAlertasReales();
+                }
+                if (modoModal) {
+                    cerrarSiEsModal();
+                } else if (menu != null) {
                     menu.mostrarInventario();
                 }
             } else {
@@ -345,9 +363,21 @@ public class RegistrarProductoController {
 
     @FXML
     public void handleCancelar() {
+        if (modoModal) {
+            productoCreadoModal = null;
+            cerrarSiEsModal();
+            return;
+        }
         MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
         if (menu != null) {
             menu.mostrarInventario();
+        }
+    }
+
+    private void cerrarSiEsModal() {
+        if (btnCancelar != null && btnCancelar.getScene() != null
+                && btnCancelar.getScene().getWindow() instanceof javafx.stage.Stage) {
+            ((javafx.stage.Stage) btnCancelar.getScene().getWindow()).close();
         }
     }
 
