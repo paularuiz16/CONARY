@@ -508,37 +508,8 @@ public class MenuPrincipalController {
                     "Solo Doña Rosita (Administradora) tiene permiso para consultar los reportes generales del negocio.");
             return;
         }
-
-        try {
-            int totalProductos = productoDAO.listarTodos(true).size();
-            int stockBajo = productoDAO.listarStockBajo().size();
-            List<Cliente> deudores = clienteDAO.listarConSaldosPendientes();
-            BigDecimal totalCartera = BigDecimal.ZERO;
-            for (Cliente c : deudores) {
-                if (c.getSaldoPendiente() != null) {
-                    totalCartera = totalCartera.add(c.getSaldoPendiente());
-                }
-            }
-            List<Proveedor> provSaldos = proveedorDAO.listarConSaldosPendientes();
-            BigDecimal totalPorPagar = BigDecimal.ZERO;
-            for (Proveedor p : provSaldos) {
-                if (p.getSaldoPendiente() != null) {
-                    totalPorPagar = totalPorPagar.add(p.getSaldoPendiente());
-                }
-            }
-
-            String resumen = "Resumen en tiempo real de la Papelería de Rosita:\n\n"
-                    + "• Productos activos en catálogo: " + totalProductos + "\n"
-                    + "• Productos con pocas existencias: " + stockBajo + "\n"
-                    + "• Clientes con saldo fiado pendiente: " + deudores.size()
-                    + " ($ " + formatearMoneda(totalCartera) + ")\n"
-                    + "• Proveedores por pagar: " + provSaldos.size()
-                    + " ($ " + formatearMoneda(totalPorPagar) + ")";
-
-            AlertaUtil.mostrarInfo("6. Reportes — Resumen Ejecutivo", resumen);
-        } catch (SQLException e) {
-            AlertaUtil.mostrarError("Error en Reportes", "No se pudo consultar el resumen en MySQL: " + e.getMessage());
-        }
+        activarBoton(btnNavReportes);
+        cargarVistaEnContenido("/fxml/reportes.fxml");
     }
 
     @FXML
@@ -583,7 +554,7 @@ public class MenuPrincipalController {
         }
     }
 
-    protected void cargarVistaEnContenido(String fxmlPath) {
+    public void cargarVistaEnContenido(String fxmlPath) {
         cargarVistaConControlador(fxmlPath);
     }
 
@@ -622,7 +593,11 @@ public class MenuPrincipalController {
                     || "/fxml/registrar_proveedor.fxml".equals(fxmlPath)
                     || "/fxml/registrar_compra.fxml".equals(fxmlPath)
                     || "/fxml/cuenta_proveedor.fxml".equals(fxmlPath)
-                    || "/fxml/modificar_proveedor.fxml".equals(fxmlPath);
+                    || "/fxml/modificar_proveedor.fxml".equals(fxmlPath)
+                    || "/fxml/reportes.fxml".equals(fxmlPath)
+                    || "/fxml/resultado_reporte_ventas.fxml".equals(fxmlPath)
+                    || "/fxml/resultado_reporte_inventario.fxml".equals(fxmlPath)
+                    || "/fxml/resultado_reporte_general.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

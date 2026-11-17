@@ -5,7 +5,6 @@ import com.conary.rosita.model.DetalleVenta;
 import com.conary.rosita.model.TipoMovimiento;
 import com.conary.rosita.model.Venta;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

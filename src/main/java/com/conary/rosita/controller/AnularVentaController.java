@@ -13,7 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;

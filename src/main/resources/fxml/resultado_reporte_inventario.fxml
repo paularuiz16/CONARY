@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ResultadoReporteInventarioController"
+            fx:id="rootPane"
+            styleClass="cuenta-cliente-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: RESULTADO REPORTE INVENTARIO
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="22" bottom="8" left="22"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="cuenta-cliente-header-bar">
+                <Button fx:id="btnVolverReportes" text="←   Volver a Reportes"
+                        onAction="#handleVolverAReportes"
+                        styleClass="cuenta-cliente-btn-volver"/>
+
+                <StackPane styleClass="clientes-header-icon-box">
+                    <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.6"
+                             content="M 2 3 L 14 3 L 14 6 L 2 6 Z M 3 6 L 3 13 L 13 13 L 13 6 M 6 9 L 10 9"/>
+                </StackPane>
+
+                <VBox spacing="1">
+                    <Label text="Inventario" styleClass="clientes-header-title"/>
+                    <Label fx:id="lblSubtituloFecha" text="Cómo está el estante hoy"
+                           styleClass="cuenta-cliente-header-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button fx:id="btnGuardarReporte" text="💾   Guardar reporte"
+                        onAction="#handleGuardarReporte"
+                        styleClass="cuenta-cliente-btn-secondary"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL: 3 TARJETAS KPI, FILTROS, TABLA Y PAGINACION
+         ================================================================== -->
+    <center>
+        <VBox spacing="12" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="2" right="22" bottom="8" left="22"/>
+            </padding>
+
+            <!-- 1. 3 Tarjetas Superiores -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <!-- Tarjeta 1: Productos activos (cafe oscuro #704214) -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="cuenta-proveedor-kpi-dark"
+                      GridPane.columnIndex="0">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Productos activos" styleClass="cuenta-proveedor-kpi-dark-kicker"/>
+                        <Label fx:id="lblConteoActivos" text="0" styleClass="cuenta-proveedor-kpi-dark-value"/>
+                    </VBox>
+                    <StackPane styleClass="cuenta-proveedor-kpi-dark-icon">
+                        <SVGPath fill="transparent" stroke="#FAF6F0" strokeWidth="1.6"
+                                 content="M 2 3 L 14 3 L 14 6 L 2 6 Z M 3 6 L 3 13 L 13 13 L 13 6 M 6 9 L 10 9"/>
+                    </StackPane>
+                </HBox>
+
+                <!-- Tarjeta 2: Con pocas existencias (melocoton suave) -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="rep-inv-kpi-peach"
+                      GridPane.columnIndex="1">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Con pocas existencias" styleClass="cuenta-cliente-kpi-kicker"/>
+                        <Label fx:id="lblConteoPocasExistencias" text="0" styleClass="cuenta-proveedor-kpi-value"/>
+                    </VBox>
+                    <StackPane styleClass="rep-inv-kpi-icon-amber">
+                        <SVGPath fill="transparent" stroke="#46220F" strokeWidth="1.7"
+                                 content="M 8 2 L 14.5 13 L 1.5 13 Z M 8 6.5 L 8 9.5 M 8 11.2 L 8 11.8"/>
+                    </StackPane>
+                </HBox>
+
+                <!-- Tarjeta 3: Agotados (crema) -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="rep-inv-kpi-cream"
+                      GridPane.columnIndex="2">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Agotados" styleClass="cuenta-cliente-kpi-kicker"/>
+                        <Label fx:id="lblConteoAgotados" text="0" styleClass="cuenta-proveedor-kpi-value"/>
+                    </VBox>
+                    <StackPane styleClass="cuenta-proveedor-kpi-icon">
+                        <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.6"
+                                 content="M 1 2 L 3.2 2 L 5.2 9.5 L 12.5 9.5 L 14 4 L 4 4 M 6 12.5 C 6 13.1 5.5 13.5 5 13.5 C 4.5 13.5 4 13.1 4 12.5 M 12 12.5 C 12 13.1 11.5 13.5 11 13.5 C 10.5 13.5 10 13.1 10 12.5"/>
+                    </StackPane>
+                </HBox>
+            </GridPane>
+
+            <!-- 2. 3 Pildoras de Filtro -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <ToggleButton fx:id="tbFiltroTodos" text="Todos (0)" selected="true"
+                              styleClass="clientes-filter-pill"/>
+                <ToggleButton fx:id="tbFiltroPocas" text="⚠   Con pocas existencias (0)"
+                              styleClass="clientes-filter-pill"/>
+                <ToggleButton fx:id="tbFiltroAgotados" text="⊘   Agotados (0)"
+                              styleClass="clientes-filter-pill"/>
+            </HBox>
+
+            <!-- 3. Tabla de Productos Activos y Pie de Paginacion -->
+            <VBox spacing="0" VBox.vgrow="ALWAYS" styleClass="clientes-table-card">
+                <TableView fx:id="tblInventario" VBox.vgrow="ALWAYS" styleClass="clientes-table">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colProducto" text="Producto" prefWidth="310" minWidth="200"/>
+                        <TableColumn fx:id="colCategoria" text="Categoría" prefWidth="170" minWidth="120"/>
+                        <TableColumn fx:id="colExistencias" text="Existencias" prefWidth="140" minWidth="110"/>
+                        <TableColumn fx:id="colStockMinimo" text="Avisar al llegar a" prefWidth="160" minWidth="120"/>
+                        <TableColumn fx:id="colAviso" text="Aviso" prefWidth="190" minWidth="150"/>
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 32;">
+                            <Label text="No hay productos para mostrar con el filtro seleccionado."
+                                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #6B4C35;"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+
+                <!-- Pie de Tabla con Paginacion -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="clientes-footer-bar">
+                    <Label fx:id="lblConteoMostrado" text="Mostrando 0 de 0 productos"
+                           styleClass="clientes-footer-count"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnPaginaAnterior" text="← Anterior"
+                            onAction="#handlePaginaAnterior"
+                            styleClass="clientes-btn-page"/>
+                    <Button fx:id="btnPaginaSiguiente" text="Siguiente →"
+                            onAction="#handlePaginaSiguiente"
+                            styleClass="clientes-btn-page"/>
+                </HBox>
+            </VBox>
+
+            <!-- Nota inferior -->
+            <Label text="ℹ  No incluye los productos dados de baja."
+                   styleClass="cuenta-cliente-footer-text"/>
+        </VBox>
+    </center>
+
+    <!-- Pie discreto -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <padding>
+                <Insets top="0" right="22" bottom="8" left="22"/>
+            </padding>
+            <Circle radius="4" fill="#704214"/>
+            <Label text="Datos guardados en este equipo" styleClass="clientes-footer-saved"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Papelería de Rosita · CONARY v1.0" styleClass="clientes-footer-saved"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
