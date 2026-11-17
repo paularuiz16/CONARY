@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ResultadoReporteGeneralController"
+            fx:id="rootPane"
+            styleClass="cuenta-cliente-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: REPORTE GENERAL
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="22" bottom="8" left="22"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="cuenta-cliente-header-bar">
+                <Button fx:id="btnVolverReportes" text="←   Volver a Reportes"
+                        onAction="#handleVolverAReportes"
+                        styleClass="cuenta-cliente-btn-volver"/>
+
+                <StackPane styleClass="clientes-header-icon-box">
+                    <SVGPath fill="#704214"
+                             content="M 2 11 L 4.5 11 L 4.5 7 L 2 7 Z M 6.5 11 L 9 11 L 9 3 L 6.5 3 Z M 11 11 L 13.5 11 L 13.5 5.5 L 11 5.5 Z"/>
+                </StackPane>
+
+                <VBox spacing="1">
+                    <Label fx:id="lblTituloReporte" text="Reporte" styleClass="clientes-header-title"/>
+                    <Label fx:id="lblSubtituloReporte" text="Situación actual"
+                           styleClass="cuenta-cliente-header-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button fx:id="btnGuardarReporte" text="💾   Guardar reporte"
+                        onAction="#handleGuardarReporte"
+                        styleClass="cuenta-cliente-btn-secondary"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL: 3 TARJETAS KPI, TABLA Y FILA DE TOTALES
+         ================================================================== -->
+    <center>
+        <VBox spacing="12" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="2" right="22" bottom="8" left="22"/>
+            </padding>
+
+            <!-- 1. 3 Tarjetas Superiores -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <VBox spacing="4" styleClass="cuenta-proveedor-kpi-dark" GridPane.columnIndex="0">
+                    <Label fx:id="lblKpi1Titulo" text="Total" styleClass="cuenta-proveedor-kpi-dark-kicker"/>
+                    <Label fx:id="lblKpi1Valor" text="0" styleClass="cuenta-proveedor-kpi-dark-value"/>
+                </VBox>
+
+                <VBox spacing="4" styleClass="rep-inv-kpi-peach" GridPane.columnIndex="1">
+                    <Label fx:id="lblKpi2Titulo" text="Cantidad" styleClass="cuenta-cliente-kpi-kicker"/>
+                    <Label fx:id="lblKpi2Valor" text="0" styleClass="cuenta-proveedor-kpi-value"/>
+                </VBox>
+
+                <VBox spacing="4" styleClass="rep-inv-kpi-cream" GridPane.columnIndex="2">
+                    <Label fx:id="lblKpi3Titulo" text="Alertas" styleClass="cuenta-cliente-kpi-kicker"/>
+                    <Label fx:id="lblKpi3Valor" text="0" styleClass="cuenta-proveedor-kpi-value"/>
+                </VBox>
+            </GridPane>
+
+            <!-- 2. Tabla de 6 Columnas + Fila Fija de Totales -->
+            <VBox spacing="0" VBox.vgrow="ALWAYS" styleClass="cuenta-cliente-table-card">
+                <TableView fx:id="tblReporteGeneral" VBox.vgrow="ALWAYS" styleClass="cuenta-cliente-table">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="col0" text="Col 1" prefWidth="200"/>
+                        <TableColumn fx:id="col1" text="Col 2" prefWidth="150"/>
+                        <TableColumn fx:id="col2" text="Col 3" prefWidth="150"/>
+                        <TableColumn fx:id="col3" text="Col 4" prefWidth="150"/>
+                        <TableColumn fx:id="col4" text="Col 5" prefWidth="150"/>
+                        <TableColumn fx:id="col5" text="Col 6" prefWidth="150"/>
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 32;">
+                            <Label text="No hay registros para mostrar en este reporte."
+                                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #6B4C35;"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+
+                <!-- Fila Fija de Totales -->
+                <GridPane styleClass="rep-ventas-totals-row">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="16" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="16" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="16" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="16" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="16" hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label fx:id="lblTot0" text="Total" styleClass="rep-ventas-total-label" GridPane.columnIndex="0"/>
+                    <Label fx:id="lblTot1" text="" styleClass="rep-ventas-total-label" GridPane.columnIndex="1"/>
+                    <Label fx:id="lblTot2" text="" styleClass="rep-ventas-total-label" GridPane.columnIndex="2" GridPane.halignment="RIGHT"/>
+                    <Label fx:id="lblTot3" text="" styleClass="rep-ventas-total-label" GridPane.columnIndex="3" GridPane.halignment="RIGHT"/>
+                    <Label fx:id="lblTot4" text="" styleClass="rep-ventas-total-label" GridPane.columnIndex="4" GridPane.halignment="RIGHT"/>
+                    <Label fx:id="lblTot5" text="" styleClass="rep-ventas-total-underline" GridPane.columnIndex="5" GridPane.halignment="RIGHT"/>
+                </GridPane>
+            </VBox>
+
+            <Label fx:id="lblNotaInferior" text="ℹ  Información actualizada directamente desde la base de datos."
+                   styleClass="cuenta-cliente-footer-text"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <padding>
+                <Insets top="0" right="22" bottom="8" left="22"/>
+            </padding>
+            <Circle radius="4" fill="#704214"/>
+            <Label text="Datos guardados en este equipo" styleClass="clientes-footer-saved"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Papelería de Rosita · CONARY v1.0" styleClass="clientes-footer-saved"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

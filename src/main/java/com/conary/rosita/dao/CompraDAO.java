@@ -5,6 +5,7 @@ import com.conary.rosita.model.Compra;
 import com.conary.rosita.model.DetalleCompra;
 import com.conary.rosita.model.TipoMovimiento;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -27,6 +28,14 @@ public class CompraDAO {
     private final ProductoDAO productoDAO = new ProductoDAO();
 
     public boolean registrarCompra(Compra compra) throws SQLException {
+        return registrarCompraConPago(compra, false, null);
+    }
+
+    /**
+     * Registra una compra en transaccion ACID. Si pagadaDeContado es true,
+     * inserta tambien el pago al proveedor (asociado a idCajaPago si salio de la caja del turno).
+     */
+    public boolean registrarCompraConPago(Compra compra, boolean pagadaDeContado, Integer idCajaPago) throws SQLException {
         if (compra == null || compra.getDetalles() == null || compra.getDetalles().isEmpty()) {
             throw new IllegalArgumentException("La compra no tiene productos asignados.");
         }
@@ -35,6 +44,7 @@ public class CompraDAO {
         String sqlCompra = "INSERT INTO compra (id_movimiento, id_proveedor, numero_factura_proveedor, fecha_pago_acordada) VALUES (?, ?, ?, ?)";
         String sqlDetalle = "INSERT INTO detalle_compra (id_movimiento, id_producto, cantidad, valor_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
         String sqlActualizarPrecioCompra = "UPDATE producto SET precio_compra = ? WHERE id_producto = ?";
+        String sqlPagoProveedor = "INSERT INTO pago_proveedor (id_movimiento, id_proveedor, monto) VALUES (?, ?, ?)";
 
         Connection conn = null;
         try {
@@ -42,10 +52,10 @@ public class CompraDAO {
             conn.setAutoCommit(false); // Transaccion atomica
 
             int idMovimientoGenerado = 0;
+            LocalDateTime ahora = compra.getFecha() != null ? compra.getFecha() : LocalDateTime.now();
 
-            // 1. Insertar movimiento
+            // 1. Insertar movimiento de COMPRA
             try (PreparedStatement psMov = conn.prepareStatement(sqlMovimiento, Statement.RETURN_GENERATED_KEYS)) {
-                LocalDateTime ahora = compra.getFecha() != null ? compra.getFecha() : LocalDateTime.now();
                 psMov.setTimestamp(1, Timestamp.valueOf(ahora));
                 psMov.setString(2, compra.getDescripcion() != null ? compra.getDescripcion() : "Compra de mercancia");
                 psMov.setString(3, TipoMovimiento.COMPRA.name());
@@ -72,7 +82,7 @@ public class CompraDAO {
                 psCompra.setInt(1, idMovimientoGenerado);
                 psCompra.setInt(2, compra.getIdProveedor());
                 psCompra.setString(3, compra.getNumeroFacturaProveedor());
-                if (compra.getFechaPagoAcordada() != null) {
+                if (!pagadaDeContado && compra.getFechaPagoAcordada() != null) {
                     psCompra.setDate(4, Date.valueOf(compra.getFechaPagoAcordada()));
                 } else {
                     psCompra.setNull(4, Types.DATE);
@@ -81,11 +91,13 @@ public class CompraDAO {
                 psCompra.executeUpdate();
             }
 
-            // 3. Insertar detalles y sumar stock (+cantidad) y refrescar precio de compra
+            // 3. Insertar detalles, sumar stock (+cantidad) y refrescar precio de compra
+            BigDecimal totalCalculado = BigDecimal.ZERO;
             try (PreparedStatement psDetalle = conn.prepareStatement(sqlDetalle, Statement.RETURN_GENERATED_KEYS);
                  PreparedStatement psPrecio = conn.prepareStatement(sqlActualizarPrecioCompra)) {
 
                 for (DetalleCompra item : compra.getDetalles()) {
+                    item.recalcularSubtotal();
                     psDetalle.setInt(1, idMovimientoGenerado);
                     psDetalle.setInt(2, item.getIdProducto());
                     psDetalle.setInt(3, item.getCantidad());
@@ -99,6 +111,10 @@ public class CompraDAO {
                         }
                     }
 
+                    if (item.getSubtotal() != null) {
+                        totalCalculado = totalCalculado.add(item.getSubtotal());
+                    }
+
                     // Aumentar stock (+cantidad)
                     productoDAO.modificarStockTransaccional(item.getIdProducto(), item.getCantidad(), conn);
 
@@ -108,6 +124,42 @@ public class CompraDAO {
                         psPrecio.setInt(2, item.getIdProducto());
                         psPrecio.executeUpdate();
                     }
+                }
+            }
+
+            // 4. Si se pago de contado en el acto, registrar el pago_proveedor en la misma transaccion
+            if (pagadaDeContado && totalCalculado.compareTo(BigDecimal.ZERO) > 0) {
+                int idMovPago = 0;
+                try (PreparedStatement psMovPago = conn.prepareStatement(sqlMovimiento, Statement.RETURN_GENERATED_KEYS)) {
+                    psMovPago.setTimestamp(1, Timestamp.valueOf(ahora));
+                    String descPago = "Pago compra de contado"
+                            + (compra.getNumeroFacturaProveedor() != null && !compra.getNumeroFacturaProveedor().trim().isEmpty()
+                            ? " Fact. " + compra.getNumeroFacturaProveedor().trim()
+                            : "");
+                    psMovPago.setString(2, descPago);
+                    psMovPago.setString(3, TipoMovimiento.PAGO_PROVEEDOR.name());
+                    psMovPago.setInt(4, compra.getIdUsuario());
+                    if (idCajaPago != null) {
+                        psMovPago.setInt(5, idCajaPago);
+                    } else {
+                        psMovPago.setNull(5, Types.INTEGER);
+                    }
+
+                    psMovPago.executeUpdate();
+                    try (ResultSet rs = psMovPago.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            idMovPago = rs.getInt(1);
+                        } else {
+                            throw new SQLException("No se pudo obtener el ID del movimiento de pago.");
+                        }
+                    }
+                }
+
+                try (PreparedStatement psPago = conn.prepareStatement(sqlPagoProveedor)) {
+                    psPago.setInt(1, idMovPago);
+                    psPago.setInt(2, compra.getIdProveedor());
+                    psPago.setBigDecimal(3, totalCalculado);
+                    psPago.executeUpdate();
                 }
             }
 
@@ -182,6 +234,26 @@ public class CompraDAO {
             if (hasta != null) {
                 ps.setTimestamp(paramIndex++, Timestamp.valueOf(hasta.atTime(LocalTime.MAX)));
             }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearCompraResumen(rs));
+                }
+            }
+        }
+        return lista;
+    }
+
+    public List<Compra> listarComprasPorProveedor(int idProveedor) throws SQLException {
+        List<Compra> lista = new ArrayList<>();
+        String sql = "SELECT id_movimiento, fecha, descripcion, id_usuario, nombre_usuario, id_caja, "
+                   + "id_proveedor, nombre_proveedor, numero_factura_proveedor, fecha_pago_acordada, total_compra "
+                   + "FROM v_total_compra WHERE id_proveedor = ? ORDER BY id_movimiento DESC";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idProveedor);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

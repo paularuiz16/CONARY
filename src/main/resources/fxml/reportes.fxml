@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ReportesController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: REPORTES DEL NEGOCIO
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverMenu" text="←   Volver al Menú"
+                        onAction="#handleVolverMenu"
+                        styleClass="clientes-btn-volver"/>
+
+                <StackPane styleClass="clientes-header-icon-box">
+                    <SVGPath fill="#704214"
+                             content="M 2 11 L 4.5 11 L 4.5 7 L 2 7 Z M 6.5 11 L 9 11 L 9 3 L 6.5 3 Z M 11 11 L 13.5 11 L 13.5 5.5 L 11 5.5 Z"/>
+                </StackPane>
+
+                <VBox spacing="1">
+                    <Label text="Reportes del Negocio" styleClass="clientes-header-title"/>
+                    <Label text="Vea fácilmente cómo va la papelería en sus ventas y cuentas"
+                           styleClass="cuenta-cliente-header-subtitle"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label text="Paso 1: Elija el tema  ·  Paso 2: Elija las fechas"
+                       styleClass="compra-badge-pill"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="reg-cliente-user-pill">
+                    <VBox alignment="CENTER_RIGHT" spacing="0">
+                        <Label fx:id="lblUsuarioNombre" text="Doña Rosita" styleClass="reg-cliente-user-name"/>
+                        <Label fx:id="lblUsuarioRol" text="Administradora" styleClass="reg-cliente-user-role"/>
+                    </VBox>
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL EN 2 COLUMNAS
+         ================================================================== -->
+    <center>
+        <GridPane hgap="16" vgap="12" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="2" right="18" bottom="10" left="18"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="56" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="44" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+
+            <!-- COLUMNA IZQUIERDA: 1. ¿Que informacion quiere consultar? -->
+            <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="compra-card">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="1" styleClass="reportes-step-badge"/>
+                    <Label text="¿Qué información quiere consultar?" styleClass="reportes-section-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Seleccione una opción" styleClass="reg-cliente-field-help"/>
+                </HBox>
+
+                <VBox spacing="9" VBox.vgrow="ALWAYS">
+                    <!-- Opcion 1: Ventas realizadas -->
+                    <ToggleButton fx:id="tbTemaVentas" selected="true"
+                                  maxWidth="Infinity" styleClass="reportes-topic-btn">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="Infinity">
+                                <StackPane fx:id="iconBoxVentas" styleClass="reportes-topic-icon-box-selected">
+                                    <SVGPath fx:id="svgVentas" fill="transparent" stroke="#FAF6F0" strokeWidth="1.6"
+                                             content="M 1 2 L 3.2 2 L 5.2 9.5 L 12.5 9.5 L 14 4 L 4 4 M 6 12.5 C 6 13.1 5.5 13.5 5 13.5 C 4.5 13.5 4 13.1 4 12.5 M 12 12.5 C 12 13.1 11.5 13.5 11 13.5 C 10.5 13.5 10 13.1 10 12.5"/>
+                                </StackPane>
+                                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                    <Label text="Ventas realizadas" styleClass="reportes-topic-title"/>
+                                    <Label text="Cuánto dinero ingresó por productos vendidos"
+                                           styleClass="reportes-topic-desc"/>
+                                </VBox>
+                                <StackPane>
+                                    <Circle fx:id="dotVentas" radius="11" fill="#5C300C"/>
+                                    <Label fx:id="chkVentas" text="✓" style="-fx-text-fill: #FAF6F0; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                            </HBox>
+                        </graphic>
+                    </ToggleButton>
+
+                    <!-- Opcion 2: Inventario de papeleria -->
+                    <ToggleButton fx:id="tbTemaInventario"
+                                  maxWidth="Infinity" styleClass="reportes-topic-btn">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="Infinity">
+                                <StackPane fx:id="iconBoxInventario" styleClass="reportes-topic-icon-box">
+                                    <SVGPath fx:id="svgInventario" fill="transparent" stroke="#704214" strokeWidth="1.6"
+                                             content="M 2 3 L 14 3 L 14 6 L 2 6 Z M 3 6 L 3 13 L 13 13 L 13 6 M 6 9 L 10 9"/>
+                                </StackPane>
+                                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                    <Label text="Inventario de papelería" styleClass="reportes-topic-title"/>
+                                    <Label text="Qué mercancía tiene en estantes y bodegas"
+                                           styleClass="reportes-topic-desc"/>
+                                </VBox>
+                                <StackPane>
+                                    <Circle fx:id="dotInventario" radius="11" fill="#FBE9DA"/>
+                                    <Label fx:id="chkInventario" text="✓" visible="false" style="-fx-text-fill: #FAF6F0; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                            </HBox>
+                        </graphic>
+                    </ToggleButton>
+
+                    <!-- Opcion 3: Lo que me deben -->
+                    <ToggleButton fx:id="tbTemaFiados"
+                                  maxWidth="Infinity" styleClass="reportes-topic-btn">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="Infinity">
+                                <StackPane fx:id="iconBoxFiados" styleClass="reportes-topic-icon-box">
+                                    <SVGPath fx:id="svgFiados" fill="transparent" stroke="#704214" strokeWidth="1.6"
+                                             content="M 1 2.5 C 3 1.5 5.5 1.5 7.5 2.8 C 9.5 1.5 12 1.5 14 2.5 L 14 12.5 C 12 11.5 9.5 11.5 7.5 12.8 C 5.5 11.5 3 11.5 1 12.5 Z M 7.5 2.8 L 7.5 12.8"/>
+                                </StackPane>
+                                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                    <Label text="Lo que me deben" styleClass="reportes-topic-title"/>
+                                    <Label text="El cuaderno de vecinos y clientes con fiado"
+                                           styleClass="reportes-topic-desc"/>
+                                </VBox>
+                                <StackPane>
+                                    <Circle fx:id="dotFiados" radius="11" fill="#FBE9DA"/>
+                                    <Label fx:id="chkFiados" text="✓" visible="false" style="-fx-text-fill: #FAF6F0; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                            </HBox>
+                        </graphic>
+                    </ToggleButton>
+
+                    <!-- Opcion 4: Lo que debo a repartidores -->
+                    <ToggleButton fx:id="tbTemaProveedores"
+                                  maxWidth="Infinity" styleClass="reportes-topic-btn">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="Infinity">
+                                <StackPane fx:id="iconBoxProveedores" styleClass="reportes-topic-icon-box">
+                                    <SVGPath fx:id="svgProveedores" fill="transparent" stroke="#704214" strokeWidth="1.6"
+                                             content="M 1 3 L 10 3 L 10 10.5 L 1 10.5 Z M 10 5.5 L 13 5.5 L 15 8 L 15 10.5 L 10 10.5 M 4 12 C 4 12.8 3.3 13.5 2.5 13.5 C 1.7 13.5 1 12.8 1 12 M 13 12 C 13 12.8 12.3 13.5 11.5 13.5 C 10.7 13.5 10 12.8 10 12"/>
+                                </StackPane>
+                                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                    <Label text="Lo que debo a repartidores" styleClass="reportes-topic-title"/>
+                                    <Label text="Facturas y pedidos de marcas pendientes de pago"
+                                           styleClass="reportes-topic-desc"/>
+                                </VBox>
+                                <StackPane>
+                                    <Circle fx:id="dotProveedores" radius="11" fill="#FBE9DA"/>
+                                    <Label fx:id="chkProveedores" text="✓" visible="false" style="-fx-text-fill: #FAF6F0; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                            </HBox>
+                        </graphic>
+                    </ToggleButton>
+
+                    <!-- Opcion 5: Cierres de caja diarios -->
+                    <ToggleButton fx:id="tbTemaCaja"
+                                  maxWidth="Infinity" styleClass="reportes-topic-btn">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="Infinity">
+                                <StackPane fx:id="iconBoxCaja" styleClass="reportes-topic-icon-box">
+                                    <SVGPath fx:id="svgCaja" fill="transparent" stroke="#704214" strokeWidth="1.6"
+                                             content="M 2 2 L 12 2 L 12 14 L 2 14 Z M 4 4.5 L 10 4.5 L 10 6.5 L 4 6.5 Z M 4 9 L 6 9 M 8 9 L 10 9 M 4 11.5 L 10 11.5"/>
+                                </StackPane>
+                                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                    <Label text="Cierres de caja diarios" styleClass="reportes-topic-title"/>
+                                    <Label text="Cómo cuadró el efectivo y monedas al final de cada día"
+                                           styleClass="reportes-topic-desc"/>
+                                </VBox>
+                                <StackPane>
+                                    <Circle fx:id="dotCaja" radius="11" fill="#FBE9DA"/>
+                                    <Label fx:id="chkCaja" text="✓" visible="false" style="-fx-text-fill: #FAF6F0; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                </StackPane>
+                            </HBox>
+                        </graphic>
+                    </ToggleButton>
+                </VBox>
+            </VBox>
+
+            <!-- COLUMNA DERECHA: 2. ¿De que fechas? -->
+            <VBox spacing="12" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="compra-card">
+                <!-- Banner ambar de validacion de fechas (oculto por defecto) -->
+                <HBox fx:id="boxAlertaFechas" alignment="CENTER_LEFT" spacing="10"
+                      visible="false" managed="false" styleClass="modal-abono-alert">
+                    <Label text="⚠  Atención: La fecha de inicio es posterior a la final. Corríjala para continuar."
+                           wrapText="true" styleClass="modal-abono-alert-text"/>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="2" styleClass="reportes-step-badge"/>
+                    <Label text="¿De qué fechas?" styleClass="reportes-section-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Período" styleClass="reg-cliente-field-help"/>
+                </HBox>
+
+                <!-- 4 botones de periodo 2x2 -->
+                <GridPane hgap="10" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <ToggleButton fx:id="tbPeriodoHoy" text="Hoy"
+                                  maxWidth="Infinity" styleClass="reportes-period-btn"
+                                  GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ToggleButton fx:id="tbPeriodoSemana" text="✓   Esta semana" selected="true"
+                                  maxWidth="Infinity" styleClass="reportes-period-btn"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <ToggleButton fx:id="tbPeriodoMes" text="Este mes"
+                                  maxWidth="Infinity" styleClass="reportes-period-btn"
+                                  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ToggleButton fx:id="tbPeriodoOtras" text="Otras fechas"
+                                  maxWidth="Infinity" styleClass="reportes-period-btn"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+
+                <!-- Franja resumen de rango -->
+                <HBox alignment="CENTER_LEFT" spacing="8" styleClass="reportes-range-strip">
+                    <Label fx:id="lblRangoResumen" text="📅  Del lunes al domingo"
+                           wrapText="true" styleClass="reportes-range-text"/>
+                </HBox>
+
+                <!-- Selectores de calendario -->
+                <VBox spacing="6">
+                    <Label text="O elija un rango específico en el calendario:" styleClass="reg-cliente-field-help"/>
+                    <GridPane hgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <VBox spacing="5" GridPane.columnIndex="0">
+                            <Label text="Desde el día:" styleClass="reg-cliente-field-label"/>
+                            <DatePicker fx:id="dpDesde" maxWidth="Infinity" style="-fx-font-size: 15px;"/>
+                        </VBox>
+                        <VBox spacing="5" GridPane.columnIndex="1">
+                            <Label text="Hasta el día:" styleClass="reg-cliente-field-label"/>
+                            <DatePicker fx:id="dpHasta" maxWidth="Infinity" style="-fx-font-size: 15px;"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <HBox fx:id="boxNotaAcumulada" alignment="CENTER_LEFT" spacing="8" styleClass="reg-cliente-info-strip">
+                    <Label fx:id="lblNotaAcumulada"
+                           text="ℹ  Nota: Los reportes de Inventario y Lo que me deben muestran la situación acumulada hasta hoy."
+                           wrapText="true" styleClass="reg-cliente-field-help"/>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button fx:id="btnVerReporte" text="📊   Ver reporte en pantalla"
+                        onAction="#handleVerReporte"
+                        maxWidth="Infinity" styleClass="reportes-btn-ver"/>
+            </VBox>
+
+        </GridPane>
+    </center>
+
+    <!-- Pie discreto -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <padding>
+                <Insets top="0" right="22" bottom="8" left="22"/>
+            </padding>
+            <Circle radius="4" fill="#704214"/>
+            <Label text="Datos guardados en este equipo" styleClass="clientes-footer-saved"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Papelería de Rosita · CONARY v1.0" styleClass="clientes-footer-saved"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

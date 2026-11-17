@@ -2,6 +2,7 @@ package com.conary.rosita.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -16,8 +17,9 @@ public class Proveedor implements Serializable {
     private String productos;
     private boolean activo;
 
-    // Atributo derivado/calculado de la vista v_saldo_proveedor
+    // Atributos derivados/calculados desde v_saldo_proveedor y compra
     private BigDecimal saldoPendiente;
+    private LocalDate proximoPago;
 
     public Proveedor() {
         this.activo = true;
@@ -92,6 +94,14 @@ public class Proveedor implements Serializable {
 
     public void setSaldoPendiente(BigDecimal saldoPendiente) {
         this.saldoPendiente = saldoPendiente != null ? saldoPendiente : BigDecimal.ZERO;
+    }
+
+    public LocalDate getProximoPago() {
+        return proximoPago;
+    }
+
+    public void setProximoPago(LocalDate proximoPago) {
+        this.proximoPago = proximoPago;
     }
 
     @Override

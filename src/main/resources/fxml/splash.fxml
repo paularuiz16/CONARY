@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.SplashController"
+           styleClass="splash-root"
+           stylesheets="@../css/styles.css"
+           prefWidth="680" prefHeight="400"
+           minWidth="680" minHeight="400"
+           maxWidth="680" maxHeight="400">
+
+    <!-- Capa Decorativa: Circuitos Minimalistas en Esquinas -->
+    <Pane mouseTransparent="true" prefWidth="680" prefHeight="400">
+        <!-- Esquina Superior Izquierda -->
+        <SVGPath content="M 38 0 L 38 40 L 76 78 L 116 78"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+        <Circle centerX="116" centerY="78" radius="4.5" fill="#DFCBB3"/>
+
+        <SVGPath content="M 0 38 L 42 38 L 86 82 L 86 112 L 106 132 L 140 132"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+        <Circle centerX="140" centerY="132" radius="4.5" fill="#DFCBB3"/>
+
+        <SVGPath content="M 0 92 L 66 92 L 66 132"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+        <Circle centerX="66" centerY="132" radius="4.5" fill="#DFCBB3"/>
+
+        <!-- Esquina Inferior Derecha -->
+        <Circle centerX="538" centerY="286" radius="4.5" fill="#DFCBB3"/>
+        <SVGPath content="M 538 286 L 592 286 L 634 328 L 680 328"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+
+        <Circle centerX="612" centerY="276" radius="4.5" fill="#DFCBB3"/>
+        <SVGPath content="M 612 276 L 612 316 L 662 366 L 662 400"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+
+        <Circle centerX="562" centerY="336" radius="4.5" fill="#DFCBB3"/>
+        <SVGPath content="M 562 336 L 616 336 L 648 368 L 648 400"
+                 stroke="#DFCBB3" strokeWidth="1.6" fill="transparent"/>
+    </Pane>
+
+    <!-- Estructura Principal: Centro (Marca + Progreso) y Pie -->
+    <BorderPane prefWidth="680" prefHeight="400">
+
+        <center>
+            <VBox alignment="CENTER" spacing="28">
+                <BorderPane.margin>
+                    <Insets top="18"/>
+                </BorderPane.margin>
+
+                <!-- Bloque Central de Marca (Isotipo + CONARY + Eslogan integrados) -->
+                <ImageView fitWidth="270.0" preserveRatio="true" smooth="true">
+                    <image>
+                        <Image url="@../images/conary_logoslogan.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Bloque de Estado y Barra de Progreso -->
+                <VBox alignment="CENTER" spacing="10" maxWidth="420">
+                    <HBox alignment="CENTER" spacing="8">
+                        <Circle radius="3.5" fill="#B56A27"/>
+                        <Label fx:id="lblEstado" text="Verificando base de datos..."
+                               styleClass="splash-status-label"/>
+                    </HBox>
+
+                    <ProgressBar fx:id="progressBar" progress="0.0"
+                                 prefWidth="420" minHeight="6" prefHeight="6" maxHeight="6"
+                                 styleClass="splash-progress-bar"/>
+                </VBox>
+            </VBox>
+        </center>
+
+        <!-- Pie de Ventana -->
+        <bottom>
+            <BorderPane>
+                <padding>
+                    <Insets top="0" right="28" bottom="18" left="28"/>
+                </padding>
+                <left>
+                    <Label text="v1.0 - Papelería de Rosita" styleClass="splash-footer-label"/>
+                </left>
+                <right>
+                    <Label text="© 2026 CONARY" styleClass="splash-footer-label"/>
+                </right>
+            </BorderPane>
+        </bottom>
+
+    </BorderPane>
+
+</StackPane>

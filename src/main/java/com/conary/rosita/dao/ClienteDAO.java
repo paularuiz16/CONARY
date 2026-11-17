@@ -3,7 +3,6 @@ package com.conary.rosita.dao;
 import com.conary.rosita.db.ConexionDB;
 import com.conary.rosita.model.Cliente;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

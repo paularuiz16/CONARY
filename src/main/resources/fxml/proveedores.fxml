@@ -1,85 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.conary.rosita.controller.ProveedoresController"
-      spacing="12" styleClass="tarjeta" VBox.vgrow="ALWAYS">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ProveedoresController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
 
-    <!-- Encabezado -->
-    <HBox alignment="CENTER_LEFT" spacing="15">
-        <VBox>
-            <Label text="PROVEEDORES Y CUENTAS POR PAGAR" styleClass="titulo-principal"/>
-            <Label text="Directorio de distribuidores, productos que surten y pagos pendientes." styleClass="subtitulo"/>
-        </VBox>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="btnPagar" text="💳 Registrar Pago a Proveedor" onAction="#handleRegistrarPago" styleClass="button-success"/>
-        <Button fx:id="btnNuevo" text="➕ Nuevo Proveedor" onAction="#handleNuevoProveedor" styleClass="button"/>
-    </HBox>
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: COMPRAS Y PROVEEDORES
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
 
-    <Separator/>
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverMenu" text="←   Volver al Menú"
+                        onAction="#handleVolverMenu"
+                        styleClass="clientes-btn-volver"/>
 
-    <!-- Barra de Busqueda -->
-    <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-background-color: #f8fafc; -fx-padding: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
-        <Label text="Buscar Proveedor:" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
-        <TextField fx:id="txtBuscar" promptText="Nombre del proveedor o producto..." prefWidth="300"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="lblTotalDeuda" text="Total Cuentas por Pagar: $ 0.00" style="-fx-font-weight: bold; -fx-text-fill: #b91c1c; -fx-font-size: 13px;"/>
-    </HBox>
+                <StackPane styleClass="clientes-header-icon-box">
+                    <SVGPath fill="#704214"
+                             content="M 12.5 4.5 L 10 4.5 L 10 1.5 C 10 0.95 9.55 0.5 9 0.5 L 1 0.5 C 0.45 0.5 0 0.95 0 1.5 L 0 10.5 L 1.5 10.5 C 1.5 11.88 2.62 13 4 13 C 5.38 13 6.5 11.88 6.5 10.5 L 10.5 10.5 C 10.5 11.88 11.62 13 13 13 C 14.38 13 15.5 11.88 15.5 10.5 L 17 10.5 L 17 7.5 L 12.5 4.5 Z M 4 11.75 C 3.31 11.75 2.75 11.19 2.75 10.5 C 2.75 9.81 3.31 9.25 4 9.25 C 4.69 9.25 5.25 9.81 5.25 10.5 C 5.25 11.19 4.69 11.75 4 11.75 Z M 13 11.75 C 12.31 11.75 11.75 11.19 11.75 10.5 C 11.75 9.81 12.31 9.25 13 9.25 C 13.69 9.25 14.25 9.81 14.25 10.5 C 14.25 11.19 13.69 11.75 13 11.75 Z M 10 8 L 10 5.75 L 12.1 5.75 L 15.4 8 L 10 8 Z"/>
+                </StackPane>
 
-    <SplitPane dividerPositions="0.68" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
-        <!-- Lado Izquierdo: Tabla -->
-        <VBox spacing="8">
-            <TableView fx:id="tblProveedores" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colId" text="ID" prefWidth="45" style="-fx-alignment: CENTER;"/>
-                    <TableColumn fx:id="colNombre" text="Proveedor" prefWidth="170"/>
-                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="110"/>
-                    <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="130"/>
-                    <TableColumn fx:id="colProductos" text="Productos que Surte" prefWidth="170"/>
-                    <TableColumn fx:id="colSaldo" text="Saldo Adeudado" prefWidth="120" style="-fx-alignment: CENTER-RIGHT;"/>
-                </columns>
-                <placeholder>
-                    <Label text="No hay proveedores registrados."/>
-                </placeholder>
-            </TableView>
-        </VBox>
+                <Label text="Compras y proveedores" styleClass="clientes-header-title"/>
 
-        <!-- Lado Derecho: Formulario de Proveedor -->
-        <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
-            <Label fx:id="lblTituloForm" text="Nuevo Proveedor" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1e293b;"/>
-            <Separator/>
+                <Region HBox.hgrow="ALWAYS"/>
 
-            <VBox spacing="3">
-                <Label text="Nombre de la Empresa / Proveedor:*"/>
-                <TextField fx:id="txtNombre" promptText="Ej: Distribuidora Norma"/>
-            </VBox>
-
-            <VBox spacing="3">
-                <Label text="Teléfono:"/>
-                <TextField fx:id="txtTelefono" promptText="Ej: 320 987 6543"/>
-            </VBox>
-
-            <VBox spacing="3">
-                <Label text="Dirección:"/>
-                <TextField fx:id="txtDireccion" promptText="Ej: Carrera 15 # 8-30"/>
-            </VBox>
-
-            <VBox spacing="3">
-                <Label text="Productos que Surte:"/>
-                <TextArea fx:id="txtProductos" promptText="Ej: Cuadernos, carpetas, resmas de papel..." prefRowCount="3" wrapText="true"/>
-            </VBox>
-
-            <CheckBox fx:id="chkActivo" text="Proveedor Activo" selected="true" style="-fx-padding: 5 0 5 0;"/>
-
-            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
-                <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleLimpiarForm" styleClass="button-secondary"/>
-                <Button fx:id="btnGuardar" text="Guardar Proveedor" onAction="#handleGuardarProveedor" styleClass="button-success"/>
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
             </HBox>
         </VBox>
-    </SplitPane>
+    </top>
 
-</VBox>
+    <!-- ==================================================================
+         CONTENIDO CENTRAL: BUSCADOR, FILTROS, 3 KPIs Y TABLA
+         ================================================================== -->
+    <center>
+        <VBox spacing="10" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="0" right="18" bottom="8" left="18"/>
+            </padding>
 
+            <!-- 1. Buscador, 3 Pildoras de Filtro y 2 Botones de Accion -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="8" HBox.hgrow="ALWAYS"
+                      styleClass="clientes-search-box">
+                    <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.6"
+                             content="M 6 1 C 3.24 1 1 3.24 1 6 C 1 8.76 3.24 11 6 11 C 8.76 11 11 8.76 11 6 C 11 3.24 8.76 1 6 1 Z M 9.8 9.8 L 13.5 13.5"/>
+                    <TextField fx:id="txtBuscarProveedor" promptText="Buscar por nombre..."
+                               HBox.hgrow="ALWAYS" styleClass="clientes-search-input"/>
+                </HBox>
+
+                <ToggleButton fx:id="tbFiltroTodos" text="Todos" selected="true"
+                              styleClass="clientes-filter-pill"/>
+                <ToggleButton fx:id="tbFiltroLesDebo" text="Les debo"
+                              styleClass="clientes-filter-pill"/>
+                <ToggleButton fx:id="tbFiltroDadosBaja" text="Dados de baja"
+                              styleClass="clientes-filter-pill"/>
+
+                <Button fx:id="btnRegistrarProveedor" text="+ Registrar proveedor nuevo"
+                        onAction="#handleRegistrarProveedorNuevo"
+                        styleClass="proveedores-btn-nuevo"/>
+
+                <Button fx:id="btnRegistrarCompraTop" text="🚚   Registrar compra"
+                        onAction="#handleRegistrarCompra"
+                        styleClass="proveedores-btn-compra"/>
+            </HBox>
+
+            <!-- 2. 3 Tarjetas Superiores de Indicadores -->
+            <HBox alignment="CENTER_LEFT" spacing="22" styleClass="clientes-kpi-strip">
+                <HBox alignment="CENTER_LEFT" spacing="14" HBox.hgrow="ALWAYS">
+                    <StackPane styleClass="clientes-kpi-icon-circle">
+                        <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                                 content="M 1 3 L 15 3 L 15 12 L 1 12 Z M 8 5.5 C 6.9 5.5 6 6.4 6 7.5 C 6 8.6 6.9 9.5 8 9.5 C 9.1 9.5 10 8.6 10 7.5 C 10 6.4 9.1 5.5 8 5.5 Z"/>
+                    </StackPane>
+                    <VBox spacing="1">
+                        <Label text="Les debo en total:" styleClass="clientes-kpi-label"/>
+                        <Label fx:id="lblTotalDeudaProveedores" text="\$ 0" styleClass="clientes-kpi-value"/>
+                    </VBox>
+                </HBox>
+
+                <Separator orientation="VERTICAL" prefHeight="40"/>
+
+                <HBox alignment="CENTER_LEFT" spacing="14" HBox.hgrow="ALWAYS">
+                    <StackPane styleClass="clientes-kpi-icon-circle">
+                        <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                                 content="M 2 1 L 12 1 M 2 13 L 12 13 M 3.5 1 C 3.5 4.5 7 5.8 7 7 C 7 8.2 3.5 9.5 3.5 13 M 10.5 1 C 10.5 4.5 7 5.8 7 7 C 7 8.2 10.5 9.5 10.5 13"/>
+                    </StackPane>
+                    <VBox spacing="1">
+                        <Label text="Pagos que vencen en 7 días:" styleClass="clientes-kpi-label"/>
+                        <HBox alignment="BASELINE_LEFT" spacing="6">
+                            <Label fx:id="lblConteoVencenSemana" text="0" styleClass="clientes-kpi-value"/>
+                            <Label fx:id="lblSubVencenSemana" text="PROVEEDORES PENDIENTES" styleClass="proveedores-kpi-sub"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <Separator orientation="VERTICAL" prefHeight="40"/>
+
+                <HBox alignment="CENTER_LEFT" spacing="14" HBox.hgrow="ALWAYS">
+                    <StackPane styleClass="clientes-kpi-icon-circle">
+                        <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                                 content="M 1 5 L 13 5 L 13 13 L 1 13 Z M 0 5 L 2 1 L 12 1 L 14 5 M 5 13 L 5 8.5 L 9 8.5 L 9 13"/>
+                    </StackPane>
+                    <VBox spacing="1">
+                        <Label text="Proveedores registrados:" styleClass="clientes-kpi-label"/>
+                        <HBox alignment="BASELINE_LEFT" spacing="6">
+                            <Label fx:id="lblConteoProveedoresActivos" text="0" styleClass="clientes-kpi-value"/>
+                            <Label text="activos en el sistema" styleClass="proveedores-kpi-sub-light"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </HBox>
+
+            <!-- 3. Tabla Principal de 6 Columnas y Pie -->
+            <VBox spacing="0" VBox.vgrow="ALWAYS" styleClass="clientes-table-card">
+                <TableView fx:id="tblProveedores" VBox.vgrow="ALWAYS" styleClass="clientes-table">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colProveedor" text="Proveedor" prefWidth="230" minWidth="170"/>
+                        <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="140" minWidth="115" maxWidth="175"/>
+                        <TableColumn fx:id="colProductos" text="Qué le compra" prefWidth="215" minWidth="150"/>
+                        <TableColumn fx:id="colLeDebo" text="Le debo" prefWidth="135" minWidth="110" maxWidth="165"/>
+                        <TableColumn fx:id="colProximoPago" text="Próximo pago" prefWidth="145" minWidth="115" maxWidth="175"/>
+                        <TableColumn fx:id="colAviso" text="Aviso" prefWidth="155" minWidth="130" maxWidth="185"/>
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 32;">
+                            <Label text="No se encontraron proveedores con el filtro seleccionado."
+                                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #6B4C35;"/>
+                            <Label text="Puede registrar un proveedor nuevo con el botón superior."
+                                   style="-fx-font-size: 13px; -fx-text-fill: #8D7B6A;"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+
+                <!-- Pie de Tabla -->
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="clientes-footer-bar">
+                    <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.5"
+                             content="M 1 3 L 3 3 M 5 3 L 13 3 M 1 7 L 3 7 M 5 7 L 13 7 M 1 11 L 3 11 M 5 11 L 13 11"/>
+                    <Label fx:id="lblConteoProveedores" text="Mostrando 0 de 0 proveedores"
+                           styleClass="clientes-footer-count"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="6">
+                        <Circle radius="4" fill="#704214"/>
+                        <Label text="Datos guardados en este equipo" styleClass="clientes-footer-saved"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </center>
+
+    <!-- ==================================================================
+         BARRA INFERIOR FIJA DE SELECCION Y 4 BOTONES CONTEXTUALES
+         ================================================================== -->
+    <bottom>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="0" right="18" bottom="10" left="18"/>
+            </padding>
+
+            <HBox fx:id="barraSeleccionProveedor" alignment="CENTER_LEFT" spacing="10"
+                  styleClass="clientes-selection-bar">
+                <StackPane styleClass="clientes-selection-icon-box">
+                    <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.5"
+                             content="M 3 2 L 11 2 L 11 13 L 3 13 Z M 5 1 L 9 1 L 9 3 L 5 3 Z M 5 6 L 9 6 M 5 9 L 8 9"/>
+                </StackPane>
+
+                <Label fx:id="lblProveedorSeleccionadoInfo"
+                       text="Seleccione un proveedor de la tabla para ver sus opciones"
+                       wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                       styleClass="clientes-selection-text"/>
+
+                <HBox alignment="CENTER_RIGHT" spacing="8">
+                    <Button fx:id="btnVerCuenta" text="📖   Ver cuenta"
+                            onAction="#handleVerCuenta"
+                            styleClass="clientes-btn-ver-cuenta"/>
+
+                    <Button fx:id="btnRegistrarPago" text="💵   Registrar pago"
+                            onAction="#handleRegistrarPago"
+                            styleClass="clientes-btn-action-outline"/>
+
+                    <Button fx:id="btnRegistrarCompra" text="🚚   Registrar compra"
+                            onAction="#handleRegistrarCompra"
+                            styleClass="clientes-btn-action-outline"/>
+
+                    <Button fx:id="btnModificarDatos" text="✎   Modificar datos"
+                            onAction="#handleModificarDatos"
+                            styleClass="clientes-btn-action-outline"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

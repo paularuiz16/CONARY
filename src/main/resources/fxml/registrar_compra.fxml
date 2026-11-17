@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.RegistrarCompraController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: REGISTRAR COMPRA
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverProveedores" text="←   Volver a Proveedores"
+                        onAction="#handleCancelar"
+                        styleClass="clientes-btn-volver"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER" spacing="10">
+                    <SVGPath fill="#704214"
+                             content="M 12.5 4.5 L 10 4.5 L 10 1.5 C 10 0.95 9.55 0.5 9 0.5 L 1 0.5 C 0.45 0.5 0 0.95 0 1.5 L 0 10.5 L 1.5 10.5 C 1.5 11.88 2.62 13 4 13 C 5.38 13 6.5 11.88 6.5 10.5 L 10.5 10.5 C 10.5 11.88 11.62 13 13 13 C 14.38 13 15.5 11.88 15.5 10.5 L 17 10.5 L 17 7.5 L 12.5 4.5 Z M 4 11.75 C 3.31 11.75 2.75 11.19 2.75 10.5 C 2.75 9.81 3.31 9.25 4 9.25 C 4.69 9.25 5.25 9.81 5.25 10.5 C 5.25 11.19 4.69 11.75 4 11.75 Z M 13 11.75 C 12.31 11.75 11.75 11.19 11.75 10.5 C 11.75 9.81 12.31 9.25 13 9.25 C 13.69 9.25 14.25 9.81 14.25 10.5 C 14.25 11.19 13.69 11.75 13 11.75 Z M 10 8 L 10 5.75 L 12.1 5.75 L 15.4 8 L 10 8 Z"/>
+                    <Label text="Registrar compra" styleClass="clientes-header-title"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="reg-cliente-user-pill">
+                    <VBox alignment="CENTER_RIGHT" spacing="0">
+                        <Label fx:id="lblUsuarioNombre" text="Doña Rosita" styleClass="reg-cliente-user-name"/>
+                        <Label fx:id="lblUsuarioRol" text="Administradora" styleClass="reg-cliente-user-role"/>
+                    </VBox>
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL EN 2 COLUMNAS
+         ================================================================== -->
+    <center>
+        <GridPane hgap="16" vgap="12" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets top="0" right="18" bottom="14" left="18"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="52" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="48" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+
+            <!-- ==========================================================
+                 COLUMNA IZQUIERDA: PASO 1 (PROVEEDOR) Y PASO 2 (PRODUCTOS)
+                 ========================================================== -->
+            <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0">
+
+                <!-- PASO 1: ¿A quien le compro? -->
+                <VBox spacing="10" styleClass="compra-card">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane styleClass="clientes-selection-icon-box">
+                            <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                                     content="M 1 5 L 13 5 L 13 13 L 1 13 Z M 0 5 L 2 1 L 12 1 L 14 5 M 5 13 L 5 8.5 L 9 8.5 L 9 13"/>
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="PASO 1" styleClass="compra-step-kicker"/>
+                            <Label text="1. ¿A quién le compró?" styleClass="compra-section-title"/>
+                        </VBox>
+                    </HBox>
+
+                    <GridPane hgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="54" hgrow="ALWAYS"/>
+                            <ColumnConstraints percentWidth="46" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <VBox spacing="5" GridPane.columnIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <Label text="Proveedor" styleClass="reg-cliente-field-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="btnNuevoProveedor" text="+ Nuevo"
+                                        onAction="#handleNuevoProveedor"
+                                        styleClass="compra-btn-link"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="6" styleClass="compra-cream-box">
+                                <ComboBox fx:id="cmbProveedor" promptText="Seleccione un proveedor..."
+                                          maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                          styleClass="compra-combo"/>
+                            </HBox>
+                            <Label text="ⓘ  Proveedor habitual registrado" styleClass="reg-cliente-field-help"/>
+                        </VBox>
+
+                        <VBox spacing="5" GridPane.columnIndex="1">
+                            <Label text="Número de la factura en papel" styleClass="reg-cliente-field-label"/>
+                            <HBox alignment="CENTER_LEFT" spacing="6" styleClass="compra-cream-box">
+                                <TextField fx:id="txtNumeroFactura" promptText="Ej: 4602"
+                                           HBox.hgrow="ALWAYS" styleClass="compra-input-plain"/>
+                            </HBox>
+                            <Label text="ⓘ  Está en la factura que le entregó el proveedor"
+                                   wrapText="true" styleClass="reg-cliente-field-help"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- PASO 2: ¿Que compro? -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="compra-card">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane styleClass="clientes-selection-icon-box">
+                            <SVGPath fill="transparent" stroke="#8C4A27" strokeWidth="1.6"
+                                     content="M 1 4 L 7 1 L 13 4 L 13 11 L 7 14 L 1 11 Z M 1 4 L 7 7 L 13 4 M 7 7 L 7 14"/>
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="PASO 2" styleClass="compra-step-kicker"/>
+                            <Label text="2. ¿Qué compró?" styleClass="compra-section-title"/>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="Catálogo activo" styleClass="compra-badge-pill"/>
+                    </HBox>
+
+                    <Label text="Buscar por nombre o código (PRD-001)" styleClass="reg-cliente-field-label"/>
+                    <HBox alignment="CENTER_LEFT" spacing="8" styleClass="compra-cream-box">
+                        <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.6"
+                                 content="M 6 1 C 3.24 1 1 3.24 1 6 C 1 8.76 3.24 11 6 11 C 8.76 11 11 8.76 11 6 C 11 3.24 8.76 1 6 1 Z M 9.8 9.8 L 13.5 13.5"/>
+                        <TextField fx:id="txtBuscarProductoCompra" promptText="Escriba el nombre o código..."
+                                   HBox.hgrow="ALWAYS" styleClass="compra-input-plain"/>
+                        <Button fx:id="btnLimpiarBusquedaProd" text="✕"
+                                onAction="#handleLimpiarBusqueda"
+                                styleClass="compra-item-quitar"/>
+                    </HBox>
+
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="compra-scroll">
+                        <VBox fx:id="vboxResultadosCatalogo" spacing="8"/>
+                    </ScrollPane>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="compra-cream-box">
+                        <Label text="❓  ¿El producto no está en la lista?" styleClass="reg-cliente-field-help"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnRegistrarProductoNuevo" text="+ Registrar producto nuevo"
+                                onAction="#handleRegistrarProductoNuevo"
+                                styleClass="compra-btn-link"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- ==========================================================
+                 COLUMNA DERECHA: LO QUE COMPRO + PASO 3 (FORMA DE PAGO)
+                 ========================================================== -->
+            <VBox spacing="12" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+                <!-- Tarjeta: Lo que compro -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="compra-card">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🛒  Lo que compró" styleClass="compra-section-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblConteoProductosCargados" text="0 productos cargados"
+                               styleClass="compra-badge-pill"/>
+                    </HBox>
+
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="compra-scroll">
+                        <VBox fx:id="vboxItemsCompra" spacing="8"/>
+                    </ScrollPane>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="compra-total-box">
+                        <VBox spacing="1">
+                            <Label text="Total de la factura" styleClass="reg-cliente-field-label"/>
+                            <Label text="Suma exacta de los productos" styleClass="reg-cliente-field-help"/>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblTotalCompra" text="\$ 0" styleClass="compra-total-amount"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Tarjeta: Paso 3. ¿Como la paga? -->
+                <VBox spacing="10" styleClass="compra-card">
+                    <Label text="💵  3. ¿Cómo la paga?" styleClass="compra-section-title"/>
+
+                    <HBox spacing="10">
+                        <ToggleButton fx:id="tbPagoDespues" text="📅   La pago después"
+                                      selected="true" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                      styleClass="compra-pay-toggle"/>
+                        <ToggleButton fx:id="tbPagoYa" text="💵   Ya la pagué"
+                                      maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                      styleClass="compra-pay-toggle"/>
+                    </HBox>
+
+                    <!-- Opcion A: A credito (La pago despues) -->
+                    <VBox fx:id="vboxCredito" spacing="6">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="¿Hasta cuándo tiene plazo?" styleClass="reg-cliente-field-label"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="Para que el sistema le avise cuando se venza"
+                                   styleClass="reg-cliente-field-help"/>
+                        </HBox>
+                        <DatePicker fx:id="dpFechaLimitePago" maxWidth="Infinity"
+                                    style="-fx-font-size: 15px;"/>
+                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="reg-cliente-info-strip">
+                            <Label text="Esta compra aumenta la deuda con el proveedor y NO saca dinero de la caja hoy."
+                                   wrapText="true" styleClass="reg-cliente-info-text"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Opcion B: De contado (Ya la pague) -->
+                    <VBox fx:id="vboxContado" spacing="8" visible="false" managed="false">
+                        <Label text="¿De dónde salió el dinero?" styleClass="reg-cliente-field-label"/>
+                        <HBox spacing="10">
+                            <ToggleButton fx:id="tbOrigenCaja" text="De la caja de hoy"
+                                          maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                          styleClass="compra-origin-toggle"/>
+                            <ToggleButton fx:id="tbOrigenOtro" text="De otro lado"
+                                          maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                          styleClass="compra-origin-toggle"/>
+                        </HBox>
+                        <HBox fx:id="boxAlertaCajaCerrada" alignment="CENTER_LEFT" spacing="8"
+                              visible="false" managed="false" styleClass="modal-abono-alert">
+                            <Label fx:id="lblAlertaCajaCerrada"
+                                   text="⚠  No hay una caja abierta hoy. Abra la caja o elija 'De otro lado'."
+                                   wrapText="true" styleClass="modal-abono-alert-text"/>
+                        </HBox>
+                        <Label fx:id="lblNotaOrigenPago"
+                               text="El monto se descontará automáticamente del efectivo esperado al cerrar la caja de hoy."
+                               wrapText="true" styleClass="reg-cliente-field-help"/>
+                    </VBox>
+
+                    <!-- Botones Inferiores -->
+                    <HBox spacing="12">
+                        <VBox.margin>
+                            <Insets top="2"/>
+                        </VBox.margin>
+                        <Button fx:id="btnCancelarCompra" text="✕   Cancelar"
+                                onAction="#handleCancelar"
+                                maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                styleClass="reg-proveedor-btn-cancel"/>
+                        <Button fx:id="btnGuardarCompra" text="✓   Guardar compra"
+                                onAction="#handleGuardarCompra"
+                                maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                styleClass="reg-proveedor-btn-save"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+        </GridPane>
+    </center>
+
+</BorderPane>

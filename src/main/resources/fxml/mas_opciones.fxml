@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.MasOpcionesController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: MAS OPCIONES
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="22" bottom="8" left="22"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverMenu" text="←   Volver al Menú"
+                        onAction="#handleVolverMenu"
+                        styleClass="clientes-btn-volver"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="reg-cliente-user-pill">
+                    <VBox alignment="CENTER_RIGHT" spacing="0">
+                        <Label fx:id="lblUsuarioNombre" text="Doña Rosita" styleClass="reg-cliente-user-name"/>
+                        <Label fx:id="lblUsuarioRol" text="Administradora" styleClass="reg-cliente-user-role"/>
+                    </VBox>
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL: TITULO + 2 TARJETAS INTERACTIVAS
+         ================================================================== -->
+    <center>
+        <StackPane maxWidth="Infinity" maxHeight="Infinity">
+            <padding>
+                <Insets top="12" right="28" bottom="24" left="28"/>
+            </padding>
+
+            <VBox alignment="CENTER" spacing="28" maxWidth="840" maxHeight="-Infinity">
+                <!-- Titulo y subtitulo centrados -->
+                <VBox alignment="CENTER" spacing="6">
+                    <HBox alignment="CENTER" spacing="12">
+                        <SVGPath fill="#704214"
+                                 content="M 9.2 1.2 L 10.8 1.2 L 11.2 3.3 C 11.8 3.5 12.3 3.8 12.8 4.2 L 14.8 3.4 L 15.8 4.8 L 14.2 6.2 C 14.3 6.8 14.3 7.4 14.2 8 L 15.8 9.4 L 14.8 10.8 L 12.8 10 C 12.3 10.4 11.8 10.7 11.2 10.9 L 10.8 13 L 9.2 13 L 8.8 10.9 C 8.2 10.7 7.7 10.4 7.2 10 L 5.2 10.8 L 4.2 9.4 L 5.8 8 C 5.7 7.4 5.7 6.8 5.8 6.2 L 4.2 4.8 L 5.2 3.4 L 7.2 4.2 C 7.7 3.8 8.2 3.5 8.8 3.3 Z M 10 5.3 C 9.0 5.3 8.2 6.1 8.2 7.1 C 8.2 8.1 9.0 8.9 10 8.9 C 11.0 8.9 11.8 8.1 11.8 7.1 C 11.8 6.1 11.0 5.3 10 5.3 Z"/>
+                        <Label text="Más opciones" styleClass="mas-opciones-title"/>
+                    </HBox>
+                    <Label text="Aquí está lo que se usa de vez en cuando."
+                           styleClass="mas-opciones-subtitle"/>
+                </VBox>
+
+                <!-- 2 Tarjetas Grandes Lado a Lado -->
+                <GridPane hgap="24" maxWidth="820">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <!-- Tarjeta 1: Usuarios y claves -->
+                    <VBox spacing="10" GridPane.columnIndex="0" alignment="TOP_CENTER">
+                        <Button fx:id="btnUsuariosClaves" onAction="#handleAbrirUsuarios"
+                                maxWidth="Infinity" prefHeight="225"
+                                styleClass="mas-opciones-card-btn">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="14">
+                                    <StackPane styleClass="mas-opciones-icon-circle">
+                                        <SVGPath fill="#46220F"
+                                                 content="M 0 -7 C -3 -7 -5.5 -4.5 -5.5 -1.5 C -5.5 1.5 -3 4 0 4 C 3 4 5.5 1.5 5.5 -1.5 C 5.5 -4.5 3 -7 0 -7 Z M 0 6.5 C -5 6.5 -9.5 9 -9.5 12.5 L 9.5 12.5 C 9.5 9 5 6.5 0 6.5 Z"/>
+                                    </StackPane>
+                                    <VBox alignment="CENTER" spacing="4">
+                                        <Label text="Usuarios y claves" styleClass="mas-opciones-card-title"/>
+                                        <Label text="Quién puede entrar y con qué clave"
+                                               wrapText="true" styleClass="mas-opciones-card-desc"/>
+                                    </VBox>
+                                </VBox>
+                            </graphic>
+                        </Button>
+                    </VBox>
+
+                    <!-- Tarjeta 2: Copias de seguridad -->
+                    <VBox spacing="10" GridPane.columnIndex="1" alignment="TOP_CENTER">
+                        <Button fx:id="btnCopiasSeguridad" onAction="#handleAbrirCopiasSeguridad"
+                                maxWidth="Infinity" prefHeight="225"
+                                styleClass="mas-opciones-card-btn">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="14">
+                                    <StackPane styleClass="mas-opciones-icon-circle">
+                                        <SVGPath fill="#46220F"
+                                                 content="M 8 1 L 2 3.8 L 2 8.2 C 2 12.3 4.6 15.9 8 17 C 11.4 15.9 14 12.3 14 8.2 L 14 3.8 Z"/>
+                                    </StackPane>
+                                    <VBox alignment="CENTER" spacing="4">
+                                        <Label text="Copias de seguridad" styleClass="mas-opciones-card-title"/>
+                                        <Label text="Guardar y recuperar la información"
+                                               wrapText="true" styleClass="mas-opciones-card-desc"/>
+                                    </VBox>
+                                </VBox>
+                            </graphic>
+                        </Button>
+                        <Label fx:id="lblUltimaCopia" text="🕒  Última copia: Sin copias registradas aún"
+                               wrapText="true" styleClass="mas-opciones-backup-note"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Pie discreto -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <padding>
+                <Insets top="0" right="22" bottom="8" left="22"/>
+            </padding>
+            <Circle radius="4" fill="#704214"/>
+            <Label text="Datos guardados en este equipo" styleClass="clientes-footer-saved"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Papelería de Rosita · CONARY v1.0" styleClass="clientes-footer-saved"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

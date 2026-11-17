@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.ConfirmarCierreCajaController"
+           styleClass="modal-cierre-root">
+
+    <VBox alignment="TOP_CENTER" spacing="15" prefWidth="440" maxWidth="440"
+          styleClass="modal-cierre-card">
+
+        <!-- Icono circular ambar suave con triangulo de advertencia -->
+        <StackPane minWidth="62" minHeight="62" maxWidth="62" maxHeight="62">
+            <Circle radius="31" fill="#FDEAC9"/>
+            <SVGPath fill="transparent" stroke="#A85517" strokeWidth="2.2"
+                     content="M 0 -11 L 12 10 L -12 10 Z M 0 -4 L 0 3 M 0 6.5 L 0 7.2"/>
+        </StackPane>
+
+        <!-- Titulo y subtitulo -->
+        <VBox alignment="CENTER" spacing="5">
+            <Label fx:id="lblTituloModal" text="¿Cerrar la caja de hoy?"
+                   styleClass="modal-cierre-title" wrapText="true" textAlignment="CENTER"/>
+            <Label text="Después no podrá vender hasta abrirla otra vez."
+                   styleClass="modal-cierre-subtitle" wrapText="true" textAlignment="CENTER"/>
+        </VBox>
+
+        <!-- Tarjeta comparativa: TOTAL ESPERADO vs EFECTIVO CONTADO -->
+        <HBox alignment="CENTER" spacing="16" styleClass="modal-cierre-compare-box">
+            <VBox alignment="CENTER" spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="TOTAL ESPERADO" styleClass="modal-cierre-compare-label"/>
+                <Label fx:id="lblTotalEsperado" text="\$ 250.000" styleClass="modal-cierre-compare-value"/>
+            </VBox>
+
+            <Separator orientation="VERTICAL" prefHeight="38"/>
+
+            <VBox alignment="CENTER" spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="EFECTIVO CONTADO" styleClass="modal-cierre-compare-label"/>
+                <Label fx:id="lblEfectivoContado" text="\$ 249.500" styleClass="modal-cierre-compare-value"/>
+            </VBox>
+        </HBox>
+
+        <!-- Botones de accion -->
+        <VBox spacing="10">
+            <VBox.margin>
+                <Insets top="2"/>
+            </VBox.margin>
+
+            <Button fx:id="btnConfirmarCierre" text="✓   Sí, cerrar caja"
+                    onAction="#handleConfirmarCierre"
+                    maxWidth="Infinity" styleClass="modal-cierre-btn-confirm"/>
+
+            <Button fx:id="btnCancelar" text="←   No, volver"
+                    onAction="#handleCancelar"
+                    maxWidth="Infinity" styleClass="modal-cierre-btn-cancel"/>
+        </VBox>
+
+        <!-- Nota inferior de seguridad -->
+        <HBox alignment="CENTER" spacing="6">
+            <Label text="🔒" style="-fx-font-size: 11.5px; -fx-text-fill: #7A5C43;"/>
+            <Label text="Los datos quedarán protegidos y archivados en este equipo"
+                   styleClass="modal-cierre-footnote"/>
+        </HBox>
+
+    </VBox>
+
+</StackPane>

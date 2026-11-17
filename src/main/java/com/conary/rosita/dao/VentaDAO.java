@@ -5,7 +5,6 @@ import com.conary.rosita.model.DetalleVenta;
 import com.conary.rosita.model.TipoMovimiento;
 import com.conary.rosita.model.Venta;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -184,6 +183,23 @@ public class VentaDAO {
                     System.err.println("[VentaDAO] Error cerrando conexion: " + e.getMessage());
                 }
             }
+        }
+    }
+
+    /**
+     * Guarda en la descripcion del movimiento los datos del comprobante interno emitido para la venta.
+     */
+    public boolean guardarComprobanteInterno(int idMovimiento, String detalleComprobante) throws SQLException {
+        String sql = "UPDATE movimiento SET descripcion = ? WHERE id_movimiento = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String texto = detalleComprobante != null ? detalleComprobante.trim() : "[COMPROBANTE]";
+            if (texto.length() > 250) {
+                texto = texto.substring(0, 250);
+            }
+            ps.setString(1, texto);
+            ps.setInt(2, idMovimiento);
+            return ps.executeUpdate() > 0;
         }
     }
 
