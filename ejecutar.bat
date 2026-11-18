@@ -15,6 +15,7 @@ if not exist "%JAVA_CMD%" (
 echo Iniciando Sistema Papeleria de Rosita...
 echo Memoria: Heap inicial 64MB, Maximo 256MB, SerialGC.
 
-start "" "%JAVA_CMD%" -Xms64m -Xmx256m -XX:+UseSerialGC -cp "target\papeleria-rosita.jar;lib\mysql-connector-j-8.0.33.jar" com.conary.rosita.MainLauncher
+REM Incluye target\classes (para cambios en vivo) y el JAR empaquetado
+start "" "%JAVA_CMD%" -Xms64m -Xmx256m -XX:+UseSerialGC -cp "target\classes;target\papeleria-rosita.jar;lib\mysql-connector-j-8.0.33.jar" com.conary.rosita.MainLauncher
 
 exit

@@ -10,9 +10,8 @@ if not exist "%JAVA_CMD%" (
 echo ===================================================
 echo INICIANDO PAPELERIA DE ROSITA EN MODO CONSOLA
 echo ===================================================
-"%JAVA_CMD%" -Xms64m -Xmx256m -XX:+UseSerialGC -cp "target\papeleria-rosita.jar;lib\mysql-connector-j-8.0.33.jar" com.conary.rosita.MainLauncher
+"%JAVA_CMD%" -Xms64m -Xmx256m -XX:+UseSerialGC -cp "target\classes;target\papeleria-rosita.jar;lib\mysql-connector-j-8.0.33.jar" com.conary.rosita.MainLauncher
 
 echo.
 echo La aplicacion ha finalizado.
 pause
-
