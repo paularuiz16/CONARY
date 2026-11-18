@@ -205,6 +205,26 @@ public class UsuarioDAO {
         }
     }
 
+    /**
+     * Verifica si la clave ingresada coincide con la clave actual de un usuario activo.
+     */
+    public boolean verificarPasswordUsuario(int idUsuario, String passwordPlana) throws SQLException {
+        if (passwordPlana == null || passwordPlana.isEmpty()) {
+            return false;
+        }
+        String sql = "SELECT password_hash FROM usuario WHERE id_usuario = ? AND activo = TRUE LIMIT 1";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return SecurityUtil.verificarPassword(passwordPlana, rs.getString("password_hash"));
+                }
+            }
+        }
+        return false;
+    }
+
     private Usuario mapearUsuario(ResultSet rs) throws SQLException {
         Usuario u = new Usuario();
         u.setIdUsuario(rs.getInt("id_usuario"));

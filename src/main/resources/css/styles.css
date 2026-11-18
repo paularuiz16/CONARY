@@ -1374,6 +1374,30 @@
     -fx-font-weight: bold;
 }
 
+.badge-pocas-existencias-inline {
+    -fx-background-color: #FDF3DF;
+    -fx-border-color: #E8CE9D;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 4px 12px;
+}
+
+.badge-agotado {
+    -fx-background-color: #FDE8DF;
+    -fx-border-color: #EFC2B2;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 4px 14px;
+}
+
+.badge-agotado-text {
+    -fx-text-fill: #8E3724;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
 /* Pie de Tabla */
 .productos-footer-bar {
     -fx-background-color: #FCEEE5;
@@ -3748,6 +3772,76 @@
     -fx-background-color: #FAF1E6;
     -fx-background-radius: 8px;
     -fx-padding: 8px 12px 8px 12px;
+}
+
+.vender-fiado-bloqueado-banner {
+    -fx-background-color: #FDF0DB;
+    -fx-border-color: #F2D3A5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 11px 13px;
+}
+
+.vender-fiado-bloqueado-banner-text {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.vender-fiado-bloqueado-strip {
+    -fx-background-color: #EFE8E1;
+    -fx-border-color: #E2D8CE;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 9px 12px;
+}
+
+.vender-fiado-bloqueado-cliente {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6D5B4E;
+}
+
+.vender-fiado-bloqueado-tag {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8E7D70;
+}
+
+.vender-totals-card-disabled {
+    -fx-background-color: #FAF6F1;
+    -fx-border-color: #EAE0D5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 10px 12px;
+}
+
+.vender-recibido-label-disabled {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #7F6D5F;
+}
+
+.vender-recibido-disabled-box {
+    -fx-background-color: #E9E2DC;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 14px;
+    -fx-min-width: 125px;
+}
+
+.vender-cambio-disabled-bar {
+    -fx-background-color: #E9E2DC;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+}
+
+.vender-cambio-disabled-text {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6D5C4F;
 }
 
 /* Botones de Terminar y Cancelar Venta */
@@ -7081,6 +7175,233 @@
     -fx-text-fill: #6D523D;
     -fx-font-size: 13.5px;
 }
+
+/* =========================================================
+ * PASO 2C: COPIAS DE SEGURIDAD Y MODAL RESTAURAR COPIA
+ * ========================================================= */
+
+.copias-ultima-pill {
+    -fx-background-color: #FDF5EE;
+    -fx-background-radius: 18px;
+    -fx-border-color: #E8D9CA;
+    -fx-border-width: 1px;
+    -fx-border-radius: 18px;
+    -fx-padding: 7px 14px;
+    -fx-text-fill: #6D523D;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
+.copias-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+    -fx-border-color: #EBDDD0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-padding: 22px 26px;
+    -fx-effect: dropshadow(gaussian, rgba(70, 34, 15, 0.06), 14, 0.08, 0, 3);
+}
+
+.copias-card-titulo {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.copias-card-desc {
+    -fx-text-fill: #6D523D;
+    -fx-font-size: 16px;
+}
+
+.copias-btn-crear {
+    -fx-background-color: #704214;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 22px;
+    -fx-cursor: hand;
+}
+
+.copias-btn-crear:hover {
+    -fx-background-color: #57310D;
+}
+
+.copias-btn-usb {
+    -fx-background-color: #FDF5EE;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E2CBB5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 22px;
+    -fx-cursor: hand;
+}
+
+.copias-btn-usb:hover {
+    -fx-background-color: #F6E9DC;
+}
+
+.copias-banner-exito {
+    -fx-background-color: #EAF7EC;
+    -fx-background-radius: 10px;
+    -fx-border-color: #B8DFC0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 11px 15px;
+}
+
+.copias-banner-exito-texto {
+    -fx-text-fill: #1E6B34;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.copias-row {
+    -fx-background-color: #FDF9F5;
+    -fx-background-radius: 12px;
+    -fx-border-color: #EFE0D3;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 16px;
+}
+
+.copias-row:hover {
+    -fx-background-color: #FDF2E8;
+    -fx-border-color: #D7B89B;
+}
+
+.copias-row-icon-box {
+    -fx-background-color: #FDE7D4;
+    -fx-background-radius: 10px;
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+}
+
+.copias-row-fecha {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.copias-row-meta {
+    -fx-text-fill: #7A6049;
+    -fx-font-size: 14px;
+}
+
+.copias-btn-restaurar {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #D8BCA0;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #704214;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 9px 18px;
+    -fx-cursor: hand;
+}
+
+.copias-btn-restaurar:hover {
+    -fx-background-color: #704214;
+    -fx-border-color: #704214;
+    -fx-text-fill: #FAF6F0;
+}
+
+.copias-vacio-texto {
+    -fx-text-fill: #8E745E;
+    -fx-font-size: 15.5px;
+    -fx-padding: 18px 0;
+}
+
+/* Modal Restaurar Copia */
+.modal-restaurar-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+    -fx-border-color: #E8D9CA;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-padding: 26px 28px;
+    -fx-effect: dropshadow(gaussian, rgba(35, 16, 6, 0.28), 26, 0.16, 0, 8);
+}
+
+.modal-restaurar-icon-circle {
+    -fx-background-color: #FDE5D0;
+    -fx-background-radius: 19px;
+    -fx-min-width: 38px;
+    -fx-max-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-height: 38px;
+}
+
+.modal-restaurar-titulo {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.modal-restaurar-avisos-box {
+    -fx-background-color: #FDF3E7;
+    -fx-background-radius: 12px;
+    -fx-border-color: #F4DEC6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-padding: 14px 16px;
+}
+
+.modal-restaurar-aviso-texto {
+    -fx-text-fill: #46220F;
+    -fx-font-size: 15px;
+    -fx-font-weight: 500;
+}
+
+.modal-restaurar-error-banner {
+    -fx-background-color: #FDF0EC;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E2B3A8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px;
+}
+
+.modal-restaurar-error-texto {
+    -fx-text-fill: #9A342B;
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+}
+
+.modal-restaurar-btn-volver {
+    -fx-background-color: #704214;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 20px;
+    -fx-cursor: hand;
+}
+
+.modal-restaurar-btn-volver:hover {
+    -fx-background-color: #57310D;
+}
+
+.modal-restaurar-btn-confirmar {
+    -fx-background-color: #C92A2A;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 20px;
+    -fx-cursor: hand;
+}
+
+.modal-restaurar-btn-confirmar:hover {
+    -fx-background-color: #A82020;
+}
+
 
 
 
