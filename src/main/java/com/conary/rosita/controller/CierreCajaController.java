@@ -116,6 +116,7 @@ public class CierreCajaController {
     @FXML private Label lblEstadoCuadreTirilla;
     @FXML private TextField txtObservaciones;
     @FXML private Button btnCerrarCaja;
+    @FXML private Button btnCerrarSinVentas;
     @FXML private Label lblNotaInferiorBoton;
 
     // Vista 2: Resumen Final "¡Caja cerrada!"
@@ -412,6 +413,9 @@ public class CierreCajaController {
             if (txtEfectivoContado != null) {
                 txtEfectivoContado.setText("$ " + formatearMoneda(totalEsperadoTurno));
             }
+            if (btnCerrarSinVentas != null) {
+                btnCerrarSinVentas.setText("⚡   Cerrar caja sin ventas (devolver base: $ " + formatearMoneda(base) + ")");
+            }
 
             recalcularValidacionEnTiempoReal();
 
@@ -606,6 +610,25 @@ public class CierreCajaController {
             lblEstadoCuadreCaja.getStyleClass().add("cierre-caja-validation-main-warn");
             lblEstadoCuadreTirilla.getStyleClass().add("cierre-caja-validation-sub-warn");
         }
+    }
+
+    @FXML
+    public void handleCerrarSinVentas() {
+        if (cajaActiva == null) {
+            return;
+        }
+        BigDecimal base = cajaActiva.getMontoInicial() != null ? cajaActiva.getMontoInicial() : BigDecimal.ZERO;
+        if (txtEfectivoContado != null) {
+            txtEfectivoContado.setText("$ " + formatearMoneda(base));
+        }
+        if (txtTotalTirilla != null) {
+            txtTotalTirilla.setText("$ 0");
+        }
+        if (txtObservaciones != null && (txtObservaciones.getText() == null || txtObservaciones.getText().trim().isEmpty())) {
+            txtObservaciones.setText("Cierre sin ventas (devolución del fondo base inicial)");
+        }
+        recalcularValidacionEnTiempoReal();
+        handleAbrirModalConfirmarCierre();
     }
 
     @FXML

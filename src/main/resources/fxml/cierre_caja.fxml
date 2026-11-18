@@ -247,6 +247,13 @@
 
                         <Region VBox.vgrow="ALWAYS"/>
 
+                        <!-- Boton Especial: Cerrar caja sin ventas (devolver base) -->
+                        <Button fx:id="btnCerrarSinVentas"
+                                text="⚡   Cerrar caja sin ventas (devolver base)"
+                                onAction="#handleCerrarSinVentas"
+                                maxWidth="Infinity"
+                                styleClass="cierre-caja-btn-sin-ventas"/>
+
                         <!-- Boton Primario: Cerrar caja -->
                         <Button fx:id="btnCerrarCaja" text="✓   Cerrar caja"
                                 onAction="#handleAbrirModalConfirmarCierre"

@@ -797,6 +797,57 @@
     -fx-background-color: #5A340F;
 }
 
+.dashboard-btn-cerrar-caja {
+    -fx-background-color: #B56A27;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 18px 8px 16px;
+    -fx-cursor: hand;
+}
+
+.dashboard-btn-cerrar-caja:hover {
+    -fx-background-color: #9E561C;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.dashboard-backup-icon-box {
+    -fx-background-color: #F7EFE6;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+}
+
+.dashboard-backup-title {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.cierre-caja-btn-sin-ventas {
+    -fx-background-color: #FFF7ED;
+    -fx-border-color: #FDBA74;
+    -fx-border-width: 1.5px;
+    -fx-text-fill: #C2410C;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 9px 16px 9px 16px;
+    -fx-cursor: hand;
+}
+
+.cierre-caja-btn-sin-ventas:hover {
+    -fx-background-color: #FFEDD5;
+    -fx-border-color: #EA580C;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
 /* ====================================================================
    MODULO 2: CAJA Y CIERRE DEL DIA (PALETA CORPORATIVA CONARY)
    ==================================================================== */

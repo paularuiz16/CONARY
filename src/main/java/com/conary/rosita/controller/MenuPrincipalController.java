@@ -86,6 +86,8 @@ public class MenuPrincipalController {
     @FXML protected HBox boxRespaldo;
     @FXML protected Label lblUltimoRespaldo;
     @FXML protected Button btnAbrirCajaDirecto;
+    @FXML protected Button btnCerrarCajaDirecto;
+    @FXML protected HBox rowRespaldoYMas;
 
     @FXML protected StackPane contentArea;
     @FXML protected VBox paneDashboard;
@@ -222,6 +224,7 @@ public class MenuPrincipalController {
         configurarVisibilidadNodo(btnNavReportes, esAdmin);
         configurarVisibilidadNodo(gridAlertasRapidas, esAdmin);
         configurarVisibilidadNodo(btnMasOpciones, esAdmin);
+        configurarVisibilidadNodo(rowRespaldoYMas, esAdmin);
         if (boxRespaldo != null && SesionUsuario.getCajaActiva() != null) {
             configurarVisibilidadNodo(boxRespaldo, esAdmin);
         }
@@ -365,6 +368,10 @@ public class MenuPrincipalController {
             btnAbrirCajaDirecto.setVisible(false);
             btnAbrirCajaDirecto.setManaged(false);
         }
+        if (btnCerrarCajaDirecto != null) {
+            btnCerrarCajaDirecto.setVisible(true);
+            btnCerrarCajaDirecto.setManaged(true);
+        }
     }
 
     private void configurarVistaCajaCerrada() {
@@ -435,6 +442,10 @@ public class MenuPrincipalController {
         if (btnAbrirCajaDirecto != null) {
             btnAbrirCajaDirecto.setVisible(true);
             btnAbrirCajaDirecto.setManaged(true);
+        }
+        if (btnCerrarCajaDirecto != null) {
+            btnCerrarCajaDirecto.setVisible(false);
+            btnCerrarCajaDirecto.setManaged(false);
         }
     }
 
@@ -587,6 +598,11 @@ public class MenuPrincipalController {
         }
         activarBoton(btnNavReportes);
         cargarVistaEnContenido("/fxml/reportes.fxml");
+    }
+
+    @FXML
+    public void handleCerrarCajaDirecto() {
+        mostrarCaja();
     }
 
     @FXML
