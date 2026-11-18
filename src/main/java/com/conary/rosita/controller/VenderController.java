@@ -12,8 +12,10 @@ import com.conary.rosita.model.Usuario;
 import com.conary.rosita.model.Venta;
 import com.conary.rosita.util.AlertaUtil;
 import com.conary.rosita.util.SesionUsuario;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -86,6 +88,10 @@ public class VenderController {
 
     // Modo Fiado
     @FXML private VBox panelPagoFiado;
+    @FXML private VBox panelFiadoBloqueadoVendedora;
+    @FXML private Label lblTotalCobrarFiadoBloqueado;
+    @FXML private Button btnCobrarContadoDesdeFiado;
+    @FXML private HBox boxBuscarClienteFiado;
     @FXML private TextField txtBuscarClienteFiado;
     @FXML private VBox boxSugerenciasClientes;
     @FXML private VBox cardClienteFiado;
@@ -95,6 +101,8 @@ public class VenderController {
     @FXML private Label lblDeudaActual;
     @FXML private Label lblDeudaDespuesVenta;
     @FXML private Label lblAlertaCupoFiado;
+    @FXML private HBox boxNotaFiado;
+    @FXML private HBox boxTotalFiado;
     @FXML private Label lblTotalCobrarFiado;
     @FXML private Button btnTerminarVentaFiado;
 
@@ -127,10 +135,15 @@ public class VenderController {
         recargarDatosDesdeMySQL();
     }
 
+    private boolean esModoVendedora() {
+        return SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador();
+    }
+
     private void configurarEncabezadoUsuario() {
         Usuario u = SesionUsuario.getUsuarioLogueado();
         String nombre = "Doña Rosita";
         String badgeRol = "ADMIN";
+        boolean esVendedora = esModoVendedora();
 
         if (u != null) {
             String raw = u.getNombre() != null ? u.getNombre().trim() : "Usuario";
@@ -144,10 +157,12 @@ public class VenderController {
         }
 
         if (lblUsuarioNombre != null) {
-            lblUsuarioNombre.setText(nombre);
+            lblUsuarioNombre.setText(esVendedora ? (nombre + "  •  Vendedora") : nombre);
         }
         if (lblUsuarioRolBadge != null) {
             lblUsuarioRolBadge.setText(badgeRol);
+            lblUsuarioRolBadge.setVisible(!esVendedora);
+            lblUsuarioRolBadge.setManaged(!esVendedora);
         }
     }
 
@@ -191,6 +206,8 @@ public class VenderController {
             }
             actualizarVisibilidadFormaPago();
         });
+
+        aplicarReglasFiadoPorRol();
     }
 
     private void configurarListeners() {
@@ -250,25 +267,29 @@ public class VenderController {
                 }
             }
 
-            List<Cliente> clientesBD = clienteDAO.listarTodos(true);
-            if (clientesBD != null) {
-                clientesActivos.addAll(clientesBD);
-            }
+            if (!esModoVendedora()) {
+                List<Cliente> clientesBD = clienteDAO.listarTodos(true);
+                if (clientesBD != null) {
+                    clientesActivos.addAll(clientesBD);
+                }
 
-            // Seleccionar por defecto el primer cliente con fiado autorizado si aun no hay uno seleccionado
-            if (clienteFiadoSeleccionado != null) {
-                Cliente actualizado = clienteDAO.obtenerPorId(clienteFiadoSeleccionado.getIdCliente());
-                clienteFiadoSeleccionado = actualizado;
-            }
-            if (clienteFiadoSeleccionado == null) {
-                for (Cliente c : clientesActivos) {
-                    if (c.isFiadoAutorizado()) {
-                        seleccionarClienteFiado(c);
-                        break;
+                // Seleccionar por defecto el primer cliente con fiado autorizado si aun no hay uno seleccionado
+                if (clienteFiadoSeleccionado != null) {
+                    Cliente actualizado = clienteDAO.obtenerPorId(clienteFiadoSeleccionado.getIdCliente());
+                    clienteFiadoSeleccionado = actualizado;
+                }
+                if (clienteFiadoSeleccionado == null) {
+                    for (Cliente c : clientesActivos) {
+                        if (c.isFiadoAutorizado()) {
+                            seleccionarClienteFiado(c);
+                            break;
+                        }
                     }
+                } else {
+                    seleccionarClienteFiado(clienteFiadoSeleccionado);
                 }
             } else {
-                seleccionarClienteFiado(clienteFiadoSeleccionado);
+                clienteFiadoSeleccionado = null;
             }
 
         } catch (SQLException e) {
@@ -615,6 +636,22 @@ public class VenderController {
         }
     }
 
+    @FXML
+    public void handleCobrarContadoDesdeFiado() {
+        if (tbPagoContado != null) {
+            tbPagoContado.setSelected(true);
+        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (txtValorRecibido != null) {
+                    txtValorRecibido.requestFocus();
+                    txtValorRecibido.selectAll();
+                }
+            }
+        });
+    }
+
     private boolean esModoFiado() {
         return tbPagoFiado != null && tbPagoFiado.isSelected();
     }
@@ -629,7 +666,41 @@ public class VenderController {
             panelPagoFiado.setVisible(fiado);
             panelPagoFiado.setManaged(fiado);
         }
+        aplicarReglasFiadoPorRol();
         recalcularTotalesYValidaciones();
+    }
+
+    private void aplicarReglasFiadoPorRol() {
+        boolean bloqueadoVendedora = esModoVendedora();
+        if (tbPagoFiado != null) {
+            if (bloqueadoVendedora) {
+                if (!tbPagoFiado.getStyleClass().contains("vender-pago-toggle-bloqueado")) {
+                    tbPagoFiado.getStyleClass().add("vender-pago-toggle-bloqueado");
+                }
+            } else {
+                tbPagoFiado.getStyleClass().remove("vender-pago-toggle-bloqueado");
+            }
+        }
+        configurarVisibilidadNodo(panelFiadoBloqueadoVendedora, bloqueadoVendedora);
+        configurarVisibilidadNodo(boxBuscarClienteFiado, !bloqueadoVendedora);
+        configurarVisibilidadNodo(cardClienteFiado, !bloqueadoVendedora);
+        configurarVisibilidadNodo(boxNotaFiado, !bloqueadoVendedora);
+        configurarVisibilidadNodo(boxTotalFiado, !bloqueadoVendedora);
+        configurarVisibilidadNodo(btnTerminarVentaFiado, !bloqueadoVendedora);
+        if (bloqueadoVendedora) {
+            configurarVisibilidadNodo(boxSugerenciasClientes, false);
+            configurarVisibilidadNodo(lblAlertaCupoFiado, false);
+        }
+        if (btnCobrarContadoDesdeFiado != null) {
+            btnCobrarContadoDesdeFiado.setDisable(false);
+        }
+    }
+
+    private void configurarVisibilidadNodo(Node node, boolean visible) {
+        if (node != null) {
+            node.setVisible(visible);
+            node.setManaged(visible);
+        }
     }
 
     private void filtrarClientesFiado(String texto) {
@@ -723,6 +794,9 @@ public class VenderController {
         if (lblTotalCobrarFiado != null) {
             lblTotalCobrarFiado.setText(totalFormateado);
         }
+        if (lblTotalCobrarFiadoBloqueado != null) {
+            lblTotalCobrarFiadoBloqueado.setText(totalFormateado);
+        }
 
         boolean carritoVacio = carrito.isEmpty();
 
@@ -758,6 +832,11 @@ public class VenderController {
 
         if (btnTerminarVentaContado != null) {
             btnTerminarVentaContado.setDisable(carritoVacio || !recibidoSuficiente);
+        }
+
+        if (esModoVendedora()) {
+            aplicarReglasFiadoPorRol();
+            return;
         }
 
         // 2. Calculo y regla estricta de negocio para Modo Fiado
@@ -873,6 +952,13 @@ public class VenderController {
         boolean esFiado = esModoFiado();
         BigDecimal valorRecibido = totalVentaActual;
         BigDecimal cambio = BigDecimal.ZERO;
+
+        if (esFiado && esModoVendedora()) {
+            AlertaUtil.mostrarAdvertencia("Venta a Fiado No Permitida",
+                    "Solo Doña Rosita puede vender a fiado. Pídale que haga esta venta, o cobre de contado.");
+            handleCobrarContadoDesdeFiado();
+            return;
+        }
 
         if (esFiado) {
             if (clienteFiadoSeleccionado == null || !clienteFiadoSeleccionado.isFiadoAutorizado()) {

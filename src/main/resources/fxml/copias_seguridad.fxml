@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.CopiasSeguridadController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- ==================================================================
+         CABECERA ESTANDAR LIMPIA DE CONARY: COPIAS DE SEGURIDAD
+         ================================================================== -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverMasOpciones" text="←   Volver a Más opciones"
+                        onAction="#handleVolverAMasOpciones"
+                        styleClass="clientes-btn-volver"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER" spacing="10">
+                    <StackPane styleClass="clientes-header-icon-box">
+                        <SVGPath fill="#704214"
+                                 content="M 10 1.5 L 3 4.5 L 3 10 C 3 14.5 6 18.4 10 19.8 C 14 18.4 17 14.5 17 10 L 17 4.5 Z"/>
+                    </StackPane>
+                    <Label text="Copias de seguridad" styleClass="clientes-header-title"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label fx:id="lblUltimaCopia" text="🕒  Última copia: Sin copias registradas aún"
+                       styleClass="copias-ultima-pill"/>
+
+                <!-- Capsula de Usuario en Sesion Real -->
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ==================================================================
+         CONTENIDO CENTRAL: CREAR RESPALDO + HISTORIAL DE COPIAS
+         ================================================================== -->
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                    style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <content>
+                <VBox alignment="TOP_CENTER">
+                    <padding>
+                        <Insets top="10" right="28" bottom="26" left="28"/>
+                    </padding>
+
+                    <VBox spacing="18" maxWidth="920" prefWidth="920">
+
+                        <!-- Bloque Superior: Crear Respaldo Nuevo -->
+                        <VBox spacing="14" styleClass="copias-card">
+                            <Label text="Crear una copia nueva" styleClass="copias-card-titulo"/>
+
+                            <Label text="Guarde todas las ventas, productos, fiados y cuentas en este equipo o en una memoria USB externa."
+                                   wrapText="true" styleClass="copias-card-desc"/>
+
+                            <HBox alignment="CENTER_LEFT" spacing="12">
+                                <Button fx:id="btnCrearCopiaAhora"
+                                        text="💾   Crear copia ahora"
+                                        onAction="#handleCrearCopiaAhora"
+                                        styleClass="copias-btn-crear"/>
+
+                                <Button fx:id="btnGuardarEnUsb"
+                                        text="📁   Guardar copia en memoria USB / otra carpeta"
+                                        onAction="#handleGuardarEnUsb"
+                                        styleClass="copias-btn-usb"/>
+                            </HBox>
+
+                            <!-- Banner de confirmacion (oculto por defecto) -->
+                            <HBox fx:id="boxCopiaExitosa" alignment="CENTER_LEFT" spacing="10"
+                                  visible="false" managed="false"
+                                  styleClass="copias-banner-exito">
+                                <Label fx:id="lblCopiaExitosa"
+                                       text="✓ Copia de seguridad guardada correctamente."
+                                       wrapText="true" HBox.hgrow="ALWAYS"
+                                       styleClass="copias-banner-exito-texto"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Bloque Inferior: Copias disponibles -->
+                        <VBox spacing="14" styleClass="copias-card">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Copias disponibles" styleClass="copias-card-titulo"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="lblConteoCopias"
+                                       text="0 copias guardadas en este equipo"
+                                       styleClass="copias-row-meta"/>
+                            </HBox>
+
+                            <VBox fx:id="vboxListaCopias" spacing="10"/>
+                        </VBox>
+
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

@@ -13,13 +13,17 @@ import com.conary.rosita.model.Producto;
 import com.conary.rosita.model.Proveedor;
 import com.conary.rosita.model.Usuario;
 import com.conary.rosita.util.AlertaUtil;
+import com.conary.rosita.util.RespaldoService;
 import com.conary.rosita.util.SesionUsuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -85,6 +89,10 @@ public class MenuPrincipalController {
 
     @FXML protected StackPane contentArea;
     @FXML protected VBox paneDashboard;
+    @FXML protected GridPane gridModulos;
+    @FXML protected RowConstraints rowModulos1;
+    @FXML protected RowConstraints rowModulos2;
+    @FXML protected GridPane gridAlertasRapidas;
 
     @FXML protected Button btnVolverMenu;
     @FXML protected Button btnCerrarSesion;
@@ -97,13 +105,17 @@ public class MenuPrincipalController {
     @FXML protected Button btnNavClientes;
     @FXML protected Button btnNavProveedores;
     @FXML protected Button btnNavCaja;
+    @FXML protected Label lblTituloCaja;
+    @FXML protected Label lblSubtituloCaja;
     @FXML protected Button btnNavReportes;
+    @FXML protected Label lblTextoAyuda;
 
     protected final CajaDAO cajaDAO = new CajaDAO();
     protected final ProductoDAO productoDAO = new ProductoDAO();
     protected final ClienteDAO clienteDAO = new ClienteDAO();
     protected final ProveedorDAO proveedorDAO = new ProveedorDAO();
     protected final CompraDAO compraDAO = new CompraDAO();
+    protected final RespaldoService respaldoService = new RespaldoService();
 
     protected List<Button> botonesMenu;
 
@@ -150,9 +162,10 @@ public class MenuPrincipalController {
             lblFechaHoy.setText(formatearFechaHoy());
         }
         if (lblUltimoRespaldo != null) {
-            DateTimeFormatter fmtHora = DateTimeFormatter.ofPattern("hh:mm a", LOCALE_ES_CO);
-            String hora = LocalTime.now().format(fmtHora).toLowerCase(LOCALE_ES_CO);
-            lblUltimoRespaldo.setText("Última copia de seguridad: hoy, " + hora);
+            String textoCopia = respaldoService.obtenerTextoUltimaCopia()
+                    .replace("🕒  ", "")
+                    .replace("Última copia:", "Última copia de seguridad:");
+            lblUltimoRespaldo.setText(textoCopia);
         }
 
         refrescarEstadoCaja();
@@ -182,18 +195,81 @@ public class MenuPrincipalController {
 
     private void aplicarRestriccionesPorRol() {
         boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+
+        if (lblSubtituloVenta != null) {
+            lblSubtituloVenta.setText(esAdmin ? "(Mostrador principal)" : "Mostrador principal");
+        }
         if (lblTituloModuloProductos != null) {
-            lblTituloModuloProductos.setText(esAdmin ? "4. Productos y precios" : "4. Consultar productos");
+            lblTituloModuloProductos.setText(esAdmin ? "4. Productos y precios" : "2. Productos");
         }
         if (lblSubtituloModuloProductos != null) {
-            lblSubtituloModuloProductos.setText(esAdmin ? "(Ver y modificar)" : "(Ver precios y existencias)");
+            lblSubtituloModuloProductos.setText(esAdmin ? "(Ver y modificar)" : "Buscar y consultar");
         }
-        if (btnNavReportes != null) {
-            btnNavReportes.setOpacity(esAdmin ? 1.0 : 0.6);
+        if (lblTituloCaja != null) {
+            lblTituloCaja.setText(esAdmin ? "2. Caja y cierre del día" : "3. Caja");
         }
-        if (btnMasOpciones != null) {
-            btnMasOpciones.setVisible(esAdmin);
-            btnMasOpciones.setManaged(esAdmin);
+        if (lblSubtituloCaja != null) {
+            lblSubtituloCaja.setText(esAdmin ? "(Entradas y salidas)" : "Abrir la caja del día");
+        }
+        if (lblTextoAyuda != null) {
+            lblTextoAyuda.setText(esAdmin
+                    ? "¿Necesita ayuda con el sistema? Pídasela a Gladys en el mostrador o abra el manual."
+                    : "¿Necesita ayuda con el sistema? Pídasela a Doña Rosita o abra el manual.");
+        }
+
+        configurarVisibilidadNodo(btnNavClientes, esAdmin);
+        configurarVisibilidadNodo(btnNavProveedores, esAdmin);
+        configurarVisibilidadNodo(btnNavReportes, esAdmin);
+        configurarVisibilidadNodo(gridAlertasRapidas, esAdmin);
+        configurarVisibilidadNodo(btnMasOpciones, esAdmin);
+        if (boxRespaldo != null && SesionUsuario.getCajaActiva() != null) {
+            configurarVisibilidadNodo(boxRespaldo, esAdmin);
+        }
+
+        if (rowModulos1 != null && rowModulos2 != null) {
+            if (esAdmin) {
+                rowModulos1.setPercentHeight(50.0);
+                rowModulos2.setPercentHeight(50.0);
+                rowModulos2.setMinHeight(Region.USE_COMPUTED_SIZE);
+                rowModulos2.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                rowModulos2.setMaxHeight(Region.USE_COMPUTED_SIZE);
+            } else {
+                rowModulos1.setPercentHeight(100.0);
+                rowModulos2.setPercentHeight(0.0);
+                rowModulos2.setMinHeight(0.0);
+                rowModulos2.setPrefHeight(0.0);
+                rowModulos2.setMaxHeight(0.0);
+            }
+        }
+
+        if (btnNavVenta != null && btnNavInventario != null && btnNavCaja != null) {
+            if (esAdmin) {
+                GridPane.setColumnIndex(btnNavVenta, 0);
+                GridPane.setRowIndex(btnNavVenta, 0);
+                GridPane.setColumnIndex(btnNavCaja, 1);
+                GridPane.setRowIndex(btnNavCaja, 0);
+                GridPane.setColumnIndex(btnNavInventario, 0);
+                GridPane.setRowIndex(btnNavInventario, 1);
+            } else {
+                GridPane.setColumnIndex(btnNavVenta, 0);
+                GridPane.setRowIndex(btnNavVenta, 0);
+                GridPane.setColumnIndex(btnNavInventario, 1);
+                GridPane.setRowIndex(btnNavInventario, 0);
+                GridPane.setColumnIndex(btnNavCaja, 2);
+                GridPane.setRowIndex(btnNavCaja, 0);
+            }
+        }
+
+        if (gridModulos != null) {
+            gridModulos.setVgap(esAdmin ? 14.0 : 0.0);
+            gridModulos.requestLayout();
+        }
+    }
+
+    private void configurarVisibilidadNodo(Node node, boolean visible) {
+        if (node != null) {
+            node.setVisible(visible);
+            node.setManaged(visible);
         }
     }
 
@@ -281,8 +357,9 @@ public class MenuPrincipalController {
             lblDetalleCaja.setText("Fondo base inicial registrado: $ " + montoStr + " (Apertura: " + horaApertura + ")");
         }
         if (boxRespaldo != null) {
-            boxRespaldo.setVisible(true);
-            boxRespaldo.setManaged(true);
+            boolean esAdmin = SesionUsuario.esAdministrador() || !SesionUsuario.haySesionActiva();
+            boxRespaldo.setVisible(esAdmin);
+            boxRespaldo.setManaged(esAdmin);
         }
         if (btnAbrirCajaDirecto != null) {
             btnAbrirCajaDirecto.setVisible(false);
@@ -598,7 +675,10 @@ public class MenuPrincipalController {
                     || "/fxml/resultado_reporte_general.fxml".equals(fxmlPath)
                     || "/fxml/mas_opciones.fxml".equals(fxmlPath)
                     || "/fxml/usuarios.fxml".equals(fxmlPath)
-                    || "/fxml/registrar_usuario.fxml".equals(fxmlPath);
+                    || "/fxml/registrar_usuario.fxml".equals(fxmlPath)
+                    || "/fxml/copias_seguridad.fxml".equals(fxmlPath)
+                    || "/fxml/pasar_datos_excel.fxml".equals(fxmlPath)
+                    || "/fxml/resultado_pasar_excel.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

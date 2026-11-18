@@ -233,8 +233,54 @@
                          ================================================== -->
                     <VBox fx:id="panelPagoFiado" spacing="8" visible="false" managed="false">
 
+                        <!-- Banner de bloqueo para rol Vendedora (oculto para Administradora) -->
+                        <VBox fx:id="panelFiadoBloqueadoVendedora" spacing="9" visible="false" managed="false">
+                            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="vender-fiado-bloqueado-banner">
+                                <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.7"
+                                         content="M 9 1.5 L 1 15.5 L 17 15.5 Z M 9 6.5 L 9 10.5 M 9 12.6 L 9 13.3"/>
+                                <Label text="Solo Doña Rosita puede vender a fiado. Pídale que haga esta venta, o cobre de contado."
+                                       wrapText="true" HBox.hgrow="ALWAYS"
+                                       styleClass="vender-fiado-bloqueado-banner-text"/>
+                            </HBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-bloqueado-strip">
+                                <Label text="👤  Venta General (Público mostrador)"
+                                       styleClass="vender-fiado-bloqueado-cliente"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label text="Bloqueado" styleClass="vender-fiado-bloqueado-tag"/>
+                            </HBox>
+
+                            <VBox spacing="8" styleClass="vender-totals-card-disabled">
+                                <HBox alignment="CENTER_LEFT" styleClass="vender-total-row-white">
+                                    <Label text="Total a cobrar:" styleClass="vender-total-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="lblTotalCobrarFiadoBloqueado" text="\$ 0"
+                                           styleClass="vender-total-amount"/>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <Label text="💵  Valor recibido:" styleClass="vender-recibido-label-disabled"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <HBox alignment="CENTER_RIGHT" styleClass="vender-recibido-disabled-box">
+                                        <Label text="—" styleClass="vender-cambio-disabled-text"/>
+                                    </HBox>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" styleClass="vender-cambio-disabled-bar">
+                                    <Label text="🔄  Cambio a devolver:" styleClass="vender-cambio-disabled-text"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label text="—" styleClass="vender-cambio-disabled-text"/>
+                                </HBox>
+                            </VBox>
+
+                            <Button fx:id="btnCobrarContadoDesdeFiado"
+                                    text="💵   Cobrar de contado"
+                                    onAction="#handleCobrarContadoDesdeFiado"
+                                    maxWidth="Infinity" styleClass="vender-btn-submit"/>
+                        </VBox>
+
                         <!-- Buscador de cliente autorizado -->
-                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-search-box">
+                        <HBox fx:id="boxBuscarClienteFiado" alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-search-box">
                             <SVGPath fill="transparent" stroke="#7A5B43" strokeWidth="1.6"
                                      content="M 5.5 1 C 3.0 1 1 3.0 1 5.5 C 1 8.0 3.0 10 5.5 10 C 8.0 10 10 8.0 10 5.5 C 10 3.0 8.0 1 5.5 1 Z M 9 9 L 12.5 12.5"/>
                             <TextField fx:id="txtBuscarClienteFiado"
@@ -285,13 +331,13 @@
                                styleClass="vender-fiado-alert"/>
 
                         <!-- Nota informativa -->
-                        <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-note-box">
+                        <HBox fx:id="boxNotaFiado" alignment="CENTER_LEFT" spacing="8" styleClass="vender-fiado-note-box">
                             <Label text="📓  Esta venta no entra a la caja. Queda anotada en la cuenta del cliente."
                                    wrapText="true" styleClass="vender-fiado-note-text"/>
                         </HBox>
 
                         <!-- Total a cobrar en modo Fiado -->
-                        <HBox alignment="CENTER_LEFT" styleClass="vender-fiado-total-strip">
+                        <HBox fx:id="boxTotalFiado" alignment="CENTER_LEFT" styleClass="vender-fiado-total-strip">
                             <Label text="Total a cobrar:" styleClass="vender-total-label"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Label fx:id="lblTotalCobrarFiado" text="\$ 0" styleClass="vender-total-amount"/>

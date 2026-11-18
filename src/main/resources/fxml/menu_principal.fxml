@@ -94,15 +94,15 @@
                 </HBox>
 
                 <!-- FILA 3: CUADRICULA PRINCIPAL DE 6 MODULOS (3x2) -->
-                <GridPane hgap="14" vgap="14" VBox.vgrow="ALWAYS">
+                <GridPane fx:id="gridModulos" hgap="14" vgap="14" VBox.vgrow="ALWAYS">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
                         <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
                         <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints percentHeight="50.0" vgrow="ALWAYS"/>
-                        <RowConstraints percentHeight="50.0" vgrow="ALWAYS"/>
+                        <RowConstraints fx:id="rowModulos1" percentHeight="50.0" vgrow="ALWAYS"/>
+                        <RowConstraints fx:id="rowModulos2" percentHeight="50.0" vgrow="ALWAYS"/>
                     </rowConstraints>
 
                     <!-- Modulo 1: Vender (Mostrador principal) — Dinamico segun Caja Abierta/Cerrada -->
@@ -143,8 +143,8 @@
                                 <StackPane styleClass="dashboard-module-icon-circle">
                                     <SVGPath fill="#704214" content="M 2 1 C 1.17 1 0.5 1.67 0.5 2.5 L 0.5 13.5 C 0.5 14.33 1.17 15 2 15 L 12 15 C 12.83 15 13.5 14.33 13.5 13.5 L 13.5 2.5 C 13.5 1.67 12.83 1 12 1 L 2 1 Z M 2.5 3 L 11.5 3 L 11.5 6 L 2.5 6 L 2.5 3 Z M 3.5 8 L 5.5 8 L 5.5 9.5 L 3.5 9.5 L 3.5 8 Z M 6 8 L 8 8 L 8 9.5 L 6 9.5 L 6 8 Z M 8.5 8 L 10.5 8 L 10.5 9.5 L 8.5 9.5 L 8.5 8 Z M 3.5 11 L 5.5 11 L 5.5 12.5 L 3.5 12.5 L 3.5 11 Z M 6 11 L 10.5 11 L 10.5 12.5 L 6 12.5 L 6 11 Z"/>
                                 </StackPane>
-                                <Label text="2. Caja y cierre del día" styleClass="dashboard-module-title"/>
-                                <Label text="(Entradas y salidas)" styleClass="dashboard-module-subtitle"/>
+                                <Label fx:id="lblTituloCaja" text="2. Caja y cierre del día" styleClass="dashboard-module-title"/>
+                                <Label fx:id="lblSubtituloCaja" text="(Entradas y salidas)" styleClass="dashboard-module-subtitle"/>
                             </VBox>
                         </graphic>
                     </Button>
@@ -215,7 +215,7 @@
                 </GridPane>
 
                 <!-- FILA 4: 3 TARJETAS DE ALERTAS RAPIDAS -->
-                <GridPane hgap="14">
+                <GridPane fx:id="gridAlertasRapidas" hgap="14">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
                         <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
@@ -299,7 +299,7 @@
                 <!-- FILA 6: PIE DE AYUDA -->
                 <HBox alignment="CENTER_LEFT" spacing="14" styleClass="dashboard-row-card">
                     <Label text="?" styleClass="dashboard-help-icon"/>
-                    <Label text="¿Necesita ayuda con el sistema? Pídasela a Gladys en el mostrador o abra el manual."
+                    <Label fx:id="lblTextoAyuda" text="¿Necesita ayuda con el sistema? Pídasela a Gladys en el mostrador o abra el manual."
                            styleClass="dashboard-help-text"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Button text="Manual sencillo" onAction="#handleManualSencillo"

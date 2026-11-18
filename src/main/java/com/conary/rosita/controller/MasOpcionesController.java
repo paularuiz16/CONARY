@@ -2,18 +2,13 @@ package com.conary.rosita.controller;
 
 import com.conary.rosita.model.Usuario;
 import com.conary.rosita.util.AlertaUtil;
+import com.conary.rosita.util.RespaldoService;
 import com.conary.rosita.util.SesionUsuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
-import java.io.File;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
@@ -30,7 +25,10 @@ public class MasOpcionesController {
     @FXML private Label lblUsuarioRol;
     @FXML private Button btnUsuariosClaves;
     @FXML private Button btnCopiasSeguridad;
+    @FXML private Button btnPasarDatosExcel;
     @FXML private Label lblUltimaCopia;
+
+    private final RespaldoService respaldoService = new RespaldoService();
 
     @FXML
     public void initialize() {
@@ -65,50 +63,9 @@ public class MasOpcionesController {
     }
 
     private void actualizarUltimaCopia() {
-        if (lblUltimaCopia == null) {
-            return;
+        if (lblUltimaCopia != null) {
+            lblUltimaCopia.setText(respaldoService.obtenerTextoUltimaCopia());
         }
-        File ultimo = buscarUltimoRespaldoLocal();
-        if (ultimo == null) {
-            lblUltimaCopia.setText("🕒  Última copia: Sin copias registradas aún");
-            return;
-        }
-        LocalDateTime fechaMod = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(ultimo.lastModified()), ZoneId.systemDefault());
-        String hora = fechaMod.format(DateTimeFormatter.ofPattern("hh:mm a", LOCALE_ES_CO)).toLowerCase(LOCALE_ES_CO);
-        if (fechaMod.toLocalDate().equals(LocalDate.now())) {
-            lblUltimaCopia.setText("🕒  Última copia: hoy, " + hora);
-        } else {
-            String dia = fechaMod.format(DateTimeFormatter.ofPattern("d 'de' MMMM", LOCALE_ES_CO));
-            lblUltimaCopia.setText("🕒  Última copia: " + dia + ", " + hora);
-        }
-    }
-
-    private File buscarUltimoRespaldoLocal() {
-        String home = System.getProperty("user.home");
-        File[] carpetas = new File[]{
-                new File("backups"),
-                new File("respaldos"),
-                new File(home + File.separator + "Documents" + File.separator + "CONARY_Backups"),
-                new File(home + File.separator + "Documentos" + File.separator + "CONARY_Backups")
-        };
-
-        File masReciente = null;
-        for (File dir : carpetas) {
-            if (dir.exists() && dir.isDirectory()) {
-                File[] archivos = dir.listFiles();
-                if (archivos != null) {
-                    for (File f : archivos) {
-                        if (f.isFile() && (f.getName().endsWith(".sql") || f.getName().endsWith(".zip"))) {
-                            if (masReciente == null || f.lastModified() > masReciente.lastModified()) {
-                                masReciente = f;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return masReciente;
     }
 
     @FXML
@@ -131,8 +88,23 @@ public class MasOpcionesController {
                     "Solo Doña Rosita (Administradora) puede gestionar copias de seguridad.");
             return;
         }
-        AlertaUtil.mostrarInfo("Copias de seguridad",
-                "La vista de copias de seguridad y restauración se conectará en el Paso 2C del submódulo Más opciones.");
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.cargarVistaEnContenido("/fxml/copias_seguridad.fxml");
+        }
+    }
+
+    @FXML
+    public void handleAbrirPasarDatosExcel() {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede pasar ventas anteriores desde Excel.");
+            return;
+        }
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.cargarVistaEnContenido("/fxml/pasar_datos_excel.fxml");
+        }
     }
 
     @FXML

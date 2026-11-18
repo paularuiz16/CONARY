@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.conary.rosita.controller.RestaurarCopiaController"
+           fx:id="overlayRoot"
+           alignment="CENTER"
+           style="-fx-background-color: rgba(35, 16, 6, 0.45); -fx-padding: 24;">
+
+    <VBox spacing="16" maxWidth="500" prefWidth="500" maxHeight="-Infinity"
+          styleClass="modal-restaurar-card">
+
+        <!-- Cabecera: Triangulo de advertencia + Titulo -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <StackPane styleClass="modal-restaurar-icon-circle">
+                <SVGPath fill="#704214"
+                         content="M 10 2 L 1 18 L 19 18 Z M 9.2 8 L 10.8 8 L 10.6 13 L 9.4 13 Z M 10 14.3 C 10.6 14.3 11 14.7 11 15.3 C 11 15.9 10.6 16.3 10 16.3 C 9.4 16.3 9 15.9 9 15.3 C 9 14.7 9.4 14.3 10 14.3 Z"/>
+            </StackPane>
+            <Label fx:id="lblTituloModal"
+                   text="¿Volver a la copia del 22 de octubre?"
+                   wrapText="true" HBox.hgrow="ALWAYS"
+                   styleClass="modal-restaurar-titulo"/>
+        </HBox>
+
+        <!-- Tarjeta de 3 Advertencias (#FDF3E7) -->
+        <VBox spacing="10" styleClass="modal-restaurar-avisos-box">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <SVGPath fill="#704214"
+                         content="M 8 2 C 4.7 2 2 4.7 2 8 L 0 8 L 3.2 11.5 L 6.5 8 L 4 8 C 4 5.8 5.8 4 8 4 C 10.2 4 12 5.8 12 8 C 12 10.2 10.2 12 8 12 C 6.9 12 5.9 11.6 5.2 10.8 L 3.8 12.2 C 4.9 13.3 6.4 14 8 14 C 11.3 14 14 11.3 14 8 C 14 4.7 11.3 2 8 2 Z"/>
+                <Label fx:id="lblAvisoFecha"
+                       text="Todo volverá a como estaba el 22 de octubre, 4:30 p. m."
+                       wrapText="true" HBox.hgrow="ALWAYS"
+                       styleClass="modal-restaurar-aviso-texto"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <SVGPath fill="#704214"
+                         content="M 8 1.5 L 0.5 14.5 L 15.5 14.5 Z M 7.3 6.2 L 8.7 6.2 L 8.5 10.4 L 7.5 10.4 Z M 8 11.5 C 8.5 11.5 8.9 11.9 8.9 12.4 C 8.9 12.9 8.5 13.3 8 13.3 C 7.5 13.3 7.1 12.9 7.1 12.4 C 7.1 11.9 7.5 11.5 8 11.5 Z"/>
+                <Label text="Lo que se hizo después de esa fecha se perderá."
+                       wrapText="true" HBox.hgrow="ALWAYS"
+                       styleClass="modal-restaurar-aviso-texto"/>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <SVGPath fill="#704214"
+                         content="M 8 1 L 2 3.6 L 2 8.2 C 2 11.8 4.6 15 8 16.2 C 11.4 15 14 11.8 14 8.2 L 14 3.6 Z"/>
+                <Label text="Antes de cambiar nada, el sistema guarda una copia de hoy."
+                       wrapText="true" HBox.hgrow="ALWAYS"
+                       styleClass="modal-restaurar-aviso-texto"/>
+            </HBox>
+        </VBox>
+
+        <!-- Banner de Error de Clave (oculto por defecto) -->
+        <HBox fx:id="boxClaveIncorrecta" alignment="CENTER_LEFT" spacing="10"
+              visible="false" managed="false"
+              styleClass="modal-restaurar-error-banner">
+            <SVGPath fill="#9A342B"
+                     content="M 10 2 L 1 18 L 19 18 Z M 9.2 8 L 10.8 8 L 10.6 13 L 9.4 13 Z M 10 14.3 C 10.6 14.3 11 14.7 11 15.3 C 11 15.9 10.6 16.3 10 16.3 C 9.4 16.3 9 15.9 9 15.3 C 9 14.7 9.4 14.3 10 14.3 Z"/>
+            <Label fx:id="lblClaveIncorrecta"
+                   text="La clave escrita no es correcta. Inténtelo de nuevo."
+                   wrapText="true" HBox.hgrow="ALWAYS"
+                   styleClass="modal-restaurar-error-texto"/>
+        </HBox>
+
+        <!-- Campo Obligatorio: Escriba su clave para confirmar -->
+        <VBox spacing="7">
+            <Label text="Escriba su clave para confirmar" styleClass="reg-usuario-label"/>
+            <HBox fx:id="boxClaveConfirmar" alignment="CENTER_LEFT"
+                  styleClass="reg-usuario-password-box">
+                <StackPane HBox.hgrow="ALWAYS">
+                    <PasswordField fx:id="txtClaveConfirmar"
+                                   promptText="••••••••"
+                                   styleClass="reg-usuario-password-inner"/>
+                    <TextField fx:id="txtClaveConfirmarVisible"
+                               promptText="••••••••"
+                               visible="false" managed="false"
+                               styleClass="reg-usuario-password-inner"/>
+                </StackPane>
+                <Button fx:id="btnVerClave" focusTraversable="false"
+                        onAction="#handleToggleVerClave"
+                        styleClass="reg-usuario-btn-ojo">
+                    <graphic>
+                        <SVGPath fx:id="svgOjoClave" fill="#46220F"
+                                 content="M 10 2 C 5.45 2 1.57 4.83 0 8.8 C 1.57 12.77 5.45 15.6 10 15.6 C 14.55 15.6 18.43 12.77 20 8.8 C 18.43 4.83 14.55 2 10 2 Z M 10 13.3 C 7.52 13.3 5.5 11.28 5.5 8.8 C 5.5 6.32 7.52 4.3 10 4.3 C 12.48 4.3 14.5 6.32 14.5 8.8 C 14.5 11.28 12.48 13.3 10 13.3 Z M 10 6.1 C 8.51 6.1 7.3 7.31 7.3 8.8 C 7.3 10.29 8.51 11.5 10 11.5 C 11.49 11.5 12.7 10.29 12.7 8.8 C 12.7 7.31 11.49 6.1 10 6.1 Z"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+
+        <!-- Botones Inferiores -->
+        <HBox spacing="12">
+            <padding>
+                <Insets top="4"/>
+            </padding>
+            <Button fx:id="btnNoVolver"
+                    text="←   No, volver"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    onAction="#handleCancelar"
+                    styleClass="modal-restaurar-btn-volver"/>
+            <Button fx:id="btnSiRestaurar"
+                    text="🔄   Sí, restaurar"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    defaultButton="true"
+                    onAction="#handleConfirmarRestaurar"
+                    styleClass="modal-restaurar-btn-confirmar"/>
+        </HBox>
+    </VBox>
+
+</StackPane>

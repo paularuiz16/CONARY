@@ -87,6 +87,7 @@ public class ProductosController {
     @FXML private TableColumn<Producto, Producto> colEstado;
 
     @FXML private Label lblConteo;
+    @FXML private Label lblPieGuardado;
     @FXML private Button btnAnteriorPagina;
     @FXML private Button btnSiguientePagina;
 
@@ -197,6 +198,11 @@ public class ProductosController {
             btnReactivar.setManaged(false);
             btnReactivar.setDisable(!esAdmin);
         }
+        if (lblPieGuardado != null) {
+            lblPieGuardado.setText(esAdmin
+                    ? "Datos guardados en este equipo"
+                    : "Datos guardados en este equipo  ·  Papelería de Rosita · CONARY v1.0");
+        }
     }
 
     private void configurarFiltros() {
@@ -232,9 +238,9 @@ public class ProductosController {
         }
         if (colExistencias != null) {
             if (modoVendedora) {
-                colExistencias.setPrefWidth(220);
-                colExistencias.setMinWidth(190);
-                colExistencias.setMaxWidth(260);
+                colExistencias.setPrefWidth(250);
+                colExistencias.setMinWidth(220);
+                colExistencias.setMaxWidth(300);
             } else {
                 colExistencias.setPrefWidth(115);
                 colExistencias.setMinWidth(95);
@@ -344,21 +350,31 @@ public class ProductosController {
                     setText(null);
                 } else if (modoVendedora) {
                     setAlignment(Pos.CENTER);
-                    Label lblNum = new Label(String.valueOf(prod.getStockActual()));
-                    lblNum.getStyleClass().add(prod.isStockBajo() ? "productos-cell-existencias-bajo" : "productos-cell-existencias");
+                    int stock = prod.getStockActual();
+                    Label lblNum = new Label(String.valueOf(stock));
+                    lblNum.getStyleClass().add("productos-cell-existencias-bajo");
 
-                    if (prod.isStockBajo()) {
+                    if (stock <= 0) {
+                        Label lblAgotado = new Label("Agotado");
+                        lblAgotado.getStyleClass().add("badge-agotado-text");
+
+                        HBox pill = new HBox(lblAgotado);
+                        pill.setAlignment(Pos.CENTER);
+                        pill.getStyleClass().add("badge-agotado");
+
+                        HBox contenedor = new HBox(10, lblNum, pill);
+                        contenedor.setAlignment(Pos.CENTER);
+                        setGraphic(contenedor);
+                        setText(null);
+                    } else if (prod.isStockBajo()) {
                         Label icon = new Label("\u26A0");
                         icon.getStyleClass().add("badge-pocas-existencias-icon");
-                        Label text = new Label("Pocas\nexistencias");
-                        text.setTextAlignment(TextAlignment.CENTER);
-                        text.setAlignment(Pos.CENTER);
+                        Label text = new Label("Pocas existencias");
                         text.getStyleClass().add("badge-pocas-existencias-text");
 
                         HBox pill = new HBox(6, icon, text);
                         pill.setAlignment(Pos.CENTER);
-                        pill.getStyleClass().add("badge-pocas-existencias");
-                        pill.setMaxWidth(128);
+                        pill.getStyleClass().add("badge-pocas-existencias-inline");
 
                         HBox contenedor = new HBox(10, lblNum, pill);
                         contenedor.setAlignment(Pos.CENTER);
@@ -366,9 +382,9 @@ public class ProductosController {
                         setText(null);
                     } else {
                         setGraphic(null);
-                        setText(String.valueOf(prod.getStockActual()));
+                        setText(String.valueOf(stock));
                         getStyleClass().removeAll("productos-cell-existencias", "productos-cell-existencias-bajo");
-                        getStyleClass().add("productos-cell-existencias");
+                        getStyleClass().add("productos-cell-existencias-bajo");
                     }
                 } else {
                     setGraphic(null);
