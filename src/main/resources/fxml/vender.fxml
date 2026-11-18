@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -97,15 +98,31 @@
                                 styleClass="vender-btn-clear-search"/>
                     </HBox>
 
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label text="Categoría:" styleClass="vender-cat-label"/>
-                        <ToggleButton fx:id="tbCatTodos" text="⊞  Todos" selected="true" styleClass="vender-cat-pill"/>
-                        <ToggleButton fx:id="tbCatCuadernos" text="📓  Cuadernos" styleClass="vender-cat-pill"/>
-                        <ToggleButton fx:id="tbCatEscritura" text="✎  Escritura" styleClass="vender-cat-pill"/>
-                        <ToggleButton fx:id="tbCatPapel" text="📄  Papel" styleClass="vender-cat-pill"/>
-                        <ToggleButton fx:id="tbCatOficina" text="🗂  Oficina" styleClass="vender-cat-pill"/>
-                        <ToggleButton fx:id="tbCatOtros" text="🏷  Otros" styleClass="vender-cat-pill"/>
-                    </HBox>
+                    <ScrollPane fitToHeight="true" vbarPolicy="NEVER" hbarPolicy="NEVER" pannable="true" styleClass="vender-cat-scroll">
+                        <content>
+                            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="vender-cat-box">
+                                <Label text="Categoría:" styleClass="vender-cat-label"/>
+                                <ToggleButton fx:id="tbCatTodos" text="⊞  Todos" selected="true" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Ver todos los productos del inventario"/></tooltip>
+                                </ToggleButton>
+                                <ToggleButton fx:id="tbCatCuadernos" text="📓  Cuadernos" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Cuadernos, libretas y agendas"/></tooltip>
+                                </ToggleButton>
+                                <ToggleButton fx:id="tbCatEscritura" text="✎  Escritura" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Bolígrafos, lápices, borradores y marcadores"/></tooltip>
+                                </ToggleButton>
+                                <ToggleButton fx:id="tbCatPapel" text="📄  Papel" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Resmas de papel, cartulinas y blocks"/></tooltip>
+                                </ToggleButton>
+                                <ToggleButton fx:id="tbCatOficina" text="🗂  Oficina" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Carpetas, cosedoras y útiles de oficina"/></tooltip>
+                                </ToggleButton>
+                                <ToggleButton fx:id="tbCatOtros" text="🏷  Otros" styleClass="vender-cat-pill">
+                                    <tooltip><Tooltip text="Pegantes, arte, geometría y otros"/></tooltip>
+                                </ToggleButton>
+                            </HBox>
+                        </content>
+                    </ScrollPane>
                 </VBox>
 
                 <!-- Tarjeta Inferior: Lista de Productos Encontrados -->
@@ -139,7 +156,7 @@
             <!-- ==========================================================
                  COLUMNA DERECHA: VENTA ACTUAL (CARRITO) Y FORMA DE PAGO
                  ========================================================== -->
-            <VBox spacing="10" prefWidth="455" minWidth="435" maxWidth="475"
+            <VBox spacing="10" prefWidth="400" minWidth="370" maxWidth="430"
                   styleClass="vender-cart-card">
 
                 <!-- Encabezado de Venta Actual -->

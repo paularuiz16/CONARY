@@ -3280,9 +3280,21 @@
 }
 
 .vender-cat-label {
-    -fx-font-size: 12.5px;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: #6B4C35;
+    -fx-min-width: -Infinity;
+}
+
+.vender-cat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 2px 0 3px 0;
+}
+
+.vender-cat-scroll > .viewport {
+    -fx-background-color: transparent;
 }
 
 .vender-cat-pill {
@@ -3292,20 +3304,32 @@
     -fx-background-radius: 16px;
     -fx-border-radius: 16px;
     -fx-text-fill: #46220F;
-    -fx-font-size: 12.5px;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
-    -fx-padding: 5px 14px 5px 14px;
+    -fx-padding: 5px 12px 5px 12px;
+    -fx-min-width: -Infinity;
     -fx-cursor: hand;
 }
 
 .vender-cat-pill:hover {
     -fx-background-color: #EFE1D0;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.22), 8, 0, 0, 2);
 }
 
 .vender-cat-pill:selected {
     -fx-background-color: #6B3A19;
     -fx-border-color: #6B3A19;
     -fx-text-fill: #FAF6F0;
+    -fx-min-width: -Infinity;
+}
+
+.vender-cat-pill:selected:hover {
+    -fx-background-color: #552E14;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 34, 15, 0.35), 8, 0, 0, 2);
 }
 
 /* Lista de Tarjetas de Productos */
