@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.conary.rosita.controller.ResultadoPasarExcelController"
+            fx:id="rootPane"
+            styleClass="clientes-root"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <!-- Cabecera limpia -->
+    <top>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="10" right="18" bottom="8" left="18"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14" styleClass="clientes-header-bar">
+                <Button fx:id="btnVolverHeader" text="←   Volver a Más opciones"
+                        onAction="#handleVolverMasOpciones"
+                        styleClass="clientes-btn-volver"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label text="Pasar datos del Excel" styleClass="clientes-header-title"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="clientes-user-pill">
+                    <StackPane>
+                        <Circle radius="14" fill="#5C300C"/>
+                        <SVGPath fill="#FAF6F0"
+                                 content="M 0 -5 C -2.2 -5 -4 -3.2 -4 -1 C -4 1.2 -2.2 3 0 3 C 2.2 3 4 1.2 4 -1 C 4 -3.2 2.2 -5 0 -5 Z M 0 5 C -3.5 5 -7 6.8 -7 9.5 L 7 9.5 C 7 6.8 3.5 5 0 5 Z"/>
+                    </StackPane>
+                    <Label fx:id="lblUsuarioHeader" text="Doña Rosita · Administradora"
+                           styleClass="clientes-user-text"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Tarjeta Blanca Centrada (~720px) -->
+    <center>
+        <StackPane alignment="CENTER">
+            <padding>
+                <Insets top="10" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <VBox alignment="CENTER" spacing="20" maxWidth="720" prefWidth="720" maxHeight="-Infinity"
+                  styleClass="resultado-excel-card">
+
+                <!-- Circulo verde suave con check -->
+                <StackPane styleClass="resultado-excel-check-circle">
+                    <Label text="✓" style="-fx-text-fill: #1E6B34; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+                </StackPane>
+
+                <Label text="¡Listo! Los datos ya están en el sistema"
+                       wrapText="true" styleClass="resultado-excel-title"/>
+
+                <!-- 3 Lineas grandes con icono -->
+                <VBox spacing="12" maxWidth="Infinity">
+                    <!-- 1. Carrito: ventas pasadas -->
+                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="resultado-excel-stat-row">
+                        <SVGPath fill="#704214"
+                                 content="M 4.5 14 C 3.67 14 3.01 14.67 3.01 15.5 C 3.01 16.33 3.67 17 4.5 17 C 5.33 17 6 16.33 6 15.5 C 6 14.67 5.33 14 4.5 14 Z M 0 1 L 0 2.5 L 1.5 2.5 L 4.2 8.2 L 3.2 10 C 3.07 10.22 3 10.48 3 10.75 C 3 11.58 3.67 12.25 4.5 12.25 L 13.5 12.25 L 13.5 10.75 L 4.82 10.75 C 4.71 10.75 4.63 10.67 4.63 10.56 L 4.65 10.47 L 5.33 9.25 L 10.92 9.25 C 11.48 9.25 11.97 8.94 12.23 8.48 L 14.91 3.61 C 14.97 3.5 15 3.38 15 3.25 C 15 2.83 14.66 2.5 14.25 2.5 L 3.16 2.5 L 2.45 1 L 0 1 Z M 12 14 C 11.17 14 10.51 14.67 10.51 15.5 C 10.51 16.33 11.17 17 12 17 C 12.83 17 13.5 16.33 13.5 15.5 C 13.5 14.67 12.83 14 12 14 Z"/>
+                        <Label fx:id="lblVentasPasadas" text="0 ventas pasadas"
+                               styleClass="resultado-excel-stat-text"/>
+                    </HBox>
+
+                    <!-- 2. Etiqueta de precio: productos nuevos creados -->
+                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="resultado-excel-stat-row">
+                        <SVGPath fill="transparent" stroke="#704214" strokeWidth="1.8"
+                                 content="M 8.5 1 L 2.5 1 C 1.67 1 1 1.67 1 2.5 L 1 8.5 C 1 9.05 1.22 9.55 1.59 9.91 L 7.59 15.91 C 8.37 16.69 9.63 16.69 10.41 15.91 L 15.91 10.41 C 16.69 9.63 16.69 8.37 15.91 7.59 L 9.91 1.59 C 9.55 1.22 9.05 1 8.5 1 Z M 4.25 5.5 C 3.56 5.5 3 4.94 3 4.25 C 3 3.56 3.56 3 4.25 3 C 4.94 3 5.5 3.56 5.5 4.25 C 5.5 4.94 4.94 5.5 4.25 5.5 Z"/>
+                        <Label fx:id="lblProductosNuevosCreados" text="0 productos nuevos creados"
+                               styleClass="resultado-excel-stat-text"/>
+                    </HBox>
+
+                    <!-- 3. Triangulo ambar: filas no se pasaron + enlace Ver cuales -->
+                    <HBox alignment="CENTER_LEFT" spacing="14" styleClass="resultado-excel-stat-row">
+                        <SVGPath fill="#704214"
+                                 content="M 10 2 L 1 18 L 19 18 Z M 9.2 8 L 10.8 8 L 10.6 13 L 9.4 13 Z M 10 14.3 C 10.6 14.3 11 14.7 11 15.3 C 11 15.9 10.6 16.3 10 16.3 C 9.4 16.3 9 15.9 9 15.3 C 9 14.7 9.4 14.3 10 14.3 Z"/>
+                        <Label fx:id="lblFilasNoPasadas" text="0 filas no se pasaron"
+                               styleClass="resultado-excel-stat-text"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnVerCuales" text="Ver cuáles"
+                                onAction="#handleVerCuales"
+                                visible="false" managed="false"
+                                styleClass="resultado-excel-link"/>
+                    </HBox>
+                </VBox>
+
+                <Label text="Ya no necesita el archivo de Excel para trabajar."
+                       wrapText="true" styleClass="excel-desc-18"/>
+
+                <!-- 2 Botones de 56px -->
+                <GridPane hgap="16" maxWidth="Infinity">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Button fx:id="btnVerProductos" text="  Ver productos"
+                            onAction="#handleVerProductos"
+                            maxWidth="Infinity" GridPane.columnIndex="0"
+                            styleClass="excel-btn-pasar">
+                        <graphic>
+                            <SVGPath fill="transparent" stroke="#FAF6F0" strokeWidth="1.7"
+                                     content="M 8.5 1 L 2.5 1 C 1.67 1 1 1.67 1 2.5 L 1 8.5 C 1 9.05 1.22 9.55 1.59 9.91 L 7.59 15.91 C 8.37 16.69 9.63 16.69 10.41 15.91 L 15.91 10.41 C 16.69 9.63 16.69 8.37 15.91 7.59 L 9.91 1.59 C 9.55 1.22 9.05 1 8.5 1 Z"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnVolverMasOpciones" text="Volver a Más opciones"
+                            onAction="#handleVolverMasOpciones"
+                            maxWidth="Infinity" minHeight="56" prefHeight="56"
+                            GridPane.columnIndex="1"
+                            styleClass="excel-btn-cancelar"/>
+                </GridPane>
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>

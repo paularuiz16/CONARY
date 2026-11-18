@@ -185,6 +185,102 @@ public class CajaDAO {
         return lista;
     }
 
+    /**
+     * DTO ligero con ventas validas de contado agrupadas por usuario en el turno actual.
+     */
+    public static class ResumenVentasUsuarioTurno {
+        private final String nombreUsuario;
+        private final int cantidadVentas;
+        private final BigDecimal totalVentas;
+
+        public ResumenVentasUsuarioTurno(String nombreUsuario, int cantidadVentas, BigDecimal totalVentas) {
+            this.nombreUsuario = nombreUsuario;
+            this.cantidadVentas = cantidadVentas;
+            this.totalVentas = totalVentas != null ? totalVentas : BigDecimal.ZERO;
+        }
+
+        public String getNombreUsuario() { return nombreUsuario; }
+        public int getCantidadVentas() { return cantidadVentas; }
+        public BigDecimal getTotalVentas() { return totalVentas; }
+    }
+
+    /**
+     * DTO ligero con cada venta valida de contado en orden cronologico tipo tirilla.
+     */
+    public static class VentaOrdenTirillaTurno {
+        private final int idMovimiento;
+        private final LocalDateTime fecha;
+        private final BigDecimal totalVenta;
+
+        public VentaOrdenTirillaTurno(int idMovimiento, LocalDateTime fecha, BigDecimal totalVenta) {
+            this.idMovimiento = idMovimiento;
+            this.fecha = fecha;
+            this.totalVenta = totalVenta != null ? totalVenta : BigDecimal.ZERO;
+        }
+
+        public int getIdMovimiento() { return idMovimiento; }
+        public LocalDateTime getFecha() { return fecha; }
+        public BigDecimal getTotalVenta() { return totalVenta; }
+    }
+
+    /**
+     * Consulta las ventas validas (no anuladas) de contado del turno agrupadas por usuario.
+     */
+    public List<ResumenVentasUsuarioTurno> listarVentasContadoPorPersonaTurno(int idCaja) throws SQLException {
+        List<ResumenVentasUsuarioTurno> resultado = new ArrayList<>();
+        String sql = "SELECT v.id_usuario, "
+                   + "COALESCE(NULLIF(TRIM(v.nombre_usuario), ''), 'Usuario') AS nombre_usuario, "
+                   + "COUNT(*) AS cantidad_ventas, "
+                   + "COALESCE(SUM(v.total_venta), 0.00) AS total_ventas "
+                   + "FROM v_total_venta v "
+                   + "WHERE v.id_caja = ? AND v.es_fiado = FALSE AND v.anulada = FALSE "
+                   + "GROUP BY v.id_usuario, v.nombre_usuario "
+                   + "ORDER BY total_ventas DESC, nombre_usuario ASC";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idCaja);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    resultado.add(new ResumenVentasUsuarioTurno(
+                            rs.getString("nombre_usuario"),
+                            rs.getInt("cantidad_ventas"),
+                            rs.getBigDecimal("total_ventas")
+                    ));
+                }
+            }
+        }
+        return resultado;
+    }
+
+    /**
+     * Consulta las ventas validas (no anuladas) de contado del turno en orden cronologico.
+     */
+    public List<VentaOrdenTirillaTurno> listarVentasContadoOrdenTirillaTurno(int idCaja) throws SQLException {
+        List<VentaOrdenTirillaTurno> resultado = new ArrayList<>();
+        String sql = "SELECT v.id_movimiento, v.fecha, COALESCE(v.total_venta, 0.00) AS total_venta "
+                   + "FROM v_total_venta v "
+                   + "WHERE v.id_caja = ? AND v.es_fiado = FALSE AND v.anulada = FALSE "
+                   + "ORDER BY v.fecha ASC, v.id_movimiento ASC";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idCaja);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Timestamp ts = rs.getTimestamp("fecha");
+                    LocalDateTime fecha = ts != null ? ts.toLocalDateTime() : LocalDateTime.now();
+                    resultado.add(new VentaOrdenTirillaTurno(
+                            rs.getInt("id_movimiento"),
+                            fecha,
+                            rs.getBigDecimal("total_venta")
+                    ));
+                }
+            }
+        }
+        return resultado;
+    }
+
     private Caja mapearCaja(ResultSet rs) throws SQLException {
         Caja c = new Caja();
         c.setIdCaja(rs.getInt("id_caja"));

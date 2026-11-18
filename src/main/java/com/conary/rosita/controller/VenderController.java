@@ -206,6 +206,8 @@ public class VenderController {
             }
             actualizarVisibilidadFormaPago();
         });
+
+        aplicarReglasFiadoPorRol();
     }
 
     private void configurarListeners() {
@@ -670,6 +672,15 @@ public class VenderController {
 
     private void aplicarReglasFiadoPorRol() {
         boolean bloqueadoVendedora = esModoVendedora();
+        if (tbPagoFiado != null) {
+            if (bloqueadoVendedora) {
+                if (!tbPagoFiado.getStyleClass().contains("vender-pago-toggle-bloqueado")) {
+                    tbPagoFiado.getStyleClass().add("vender-pago-toggle-bloqueado");
+                }
+            } else {
+                tbPagoFiado.getStyleClass().remove("vender-pago-toggle-bloqueado");
+            }
+        }
         configurarVisibilidadNodo(panelFiadoBloqueadoVendedora, bloqueadoVendedora);
         configurarVisibilidadNodo(boxBuscarClienteFiado, !bloqueadoVendedora);
         configurarVisibilidadNodo(cardClienteFiado, !bloqueadoVendedora);

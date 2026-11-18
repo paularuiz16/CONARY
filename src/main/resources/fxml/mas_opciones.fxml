@@ -60,7 +60,7 @@
                 <Insets top="12" right="28" bottom="24" left="28"/>
             </padding>
 
-            <VBox alignment="CENTER" spacing="28" maxWidth="840" maxHeight="-Infinity">
+            <VBox alignment="CENTER" spacing="28" maxWidth="1060" maxHeight="-Infinity">
                 <!-- Titulo y subtitulo centrados -->
                 <VBox alignment="CENTER" spacing="6">
                     <HBox alignment="CENTER" spacing="12">
@@ -72,11 +72,12 @@
                            styleClass="mas-opciones-subtitle"/>
                 </VBox>
 
-                <!-- 2 Tarjetas Grandes Lado a Lado -->
-                <GridPane hgap="24" maxWidth="820">
+                <!-- 3 Tarjetas Grandes Lado a Lado -->
+                <GridPane hgap="22" maxWidth="1040">
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
-                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.34" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.33" hgrow="ALWAYS"/>
                     </columnConstraints>
 
                     <!-- Tarjeta 1: Usuarios y claves -->
@@ -121,6 +122,27 @@
                         </Button>
                         <Label fx:id="lblUltimaCopia" text="🕒  Última copia: Sin copias registradas aún"
                                wrapText="true" styleClass="mas-opciones-backup-note"/>
+                    </VBox>
+
+                    <!-- Tarjeta 3: Pasar datos del Excel -->
+                    <VBox spacing="10" GridPane.columnIndex="2" alignment="TOP_CENTER">
+                        <Button fx:id="btnPasarDatosExcel" onAction="#handleAbrirPasarDatosExcel"
+                                maxWidth="Infinity" prefHeight="225"
+                                styleClass="mas-opciones-card-btn">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="14">
+                                    <StackPane styleClass="mas-opciones-icon-circle">
+                                        <SVGPath fill="transparent" stroke="#46220F" strokeWidth="1.8"
+                                                 content="M 3 1 L 11 1 L 15 5 L 15 16 C 15 16.8 14.3 17.5 13.5 17.5 L 3 17.5 C 2.2 17.5 1.5 16.8 1.5 16 L 1.5 2.5 C 1.5 1.7 2.2 1 3 1 Z M 11 1 L 11 5 L 15 5 M 4.5 9.5 L 10.5 9.5 M 8.5 7 L 11 9.5 L 8.5 12 M 5 14 L 12 14"/>
+                                    </StackPane>
+                                    <VBox alignment="CENTER" spacing="4">
+                                        <Label text="Pasar datos del Excel" styleClass="mas-opciones-card-title"/>
+                                        <Label text="Traer las ventas anteriores al sistema"
+                                               wrapText="true" styleClass="mas-opciones-card-desc"/>
+                                    </VBox>
+                                </VBox>
+                            </graphic>
+                        </Button>
                     </VBox>
                 </GridPane>
             </VBox>

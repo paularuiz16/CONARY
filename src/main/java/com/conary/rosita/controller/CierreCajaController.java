@@ -2,6 +2,8 @@ package com.conary.rosita.controller;
 
 import com.conary.rosita.dao.AbonoClienteDAO;
 import com.conary.rosita.dao.CajaDAO;
+import com.conary.rosita.dao.CajaDAO.ResumenVentasUsuarioTurno;
+import com.conary.rosita.dao.CajaDAO.VentaOrdenTirillaTurno;
 import com.conary.rosita.dao.ClienteDAO;
 import com.conary.rosita.dao.PagoProveedorDAO;
 import com.conary.rosita.dao.ProveedorDAO;
@@ -16,6 +18,8 @@ import com.conary.rosita.model.Venta;
 import com.conary.rosita.util.AlertaUtil;
 import com.conary.rosita.util.SesionUsuario;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -24,6 +28,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
@@ -96,8 +102,12 @@ public class CierreCajaController {
     @FXML private Label lblMontoPagosProveedores;
     @FXML private Label lblTotalEsperado;
     @FXML private Label lblNotaVentasFiado;
+    @FXML private VBox boxSeccionMovimientosHoy;
     @FXML private Button btnVerTodosMovimientos;
     @FXML private VBox boxMovimientosHoy;
+    @FXML private VBox boxParaEncontrarDiferencia;
+    @FXML private VBox boxVentasPorPersona;
+    @FXML private ListView<VentaOrdenTirillaTurno> lvOrdenTirilla;
 
     @FXML private TextField txtTotalTirilla;
     @FXML private TextField txtEfectivoContado;
@@ -125,16 +135,43 @@ public class CierreCajaController {
     private final PagoProveedorDAO pagoProveedorDAO = new PagoProveedorDAO();
 
     private Caja cajaActiva;
+    private int cantidadVentasContadoTurno = 0;
     private BigDecimal totalVentasContadoTurno = BigDecimal.ZERO;
     private BigDecimal totalEsperadoTurno = BigDecimal.ZERO;
     private final List<ItemMovimientoTurno> movimientosDelTurno = new ArrayList<ItemMovimientoTurno>();
+    private final List<ResumenVentasUsuarioTurno> ventasPorPersonaTurno = new ArrayList<ResumenVentasUsuarioTurno>();
+    private final ObservableList<VentaOrdenTirillaTurno> ventasOrdenTirilla = FXCollections.observableArrayList();
     private boolean mostrandoTodosMovimientos = false;
 
     @FXML
     public void initialize() {
         configurarEncabezadoUsuario();
+        configurarListaOrdenTirilla();
         configurarListenersEnTiempoReal();
         cargarDatosTurnoActivo();
+    }
+
+    private void configurarListaOrdenTirilla() {
+        if (lvOrdenTirilla == null) {
+            return;
+        }
+        final DateTimeFormatter fmtHora = DateTimeFormatter.ofPattern("HH:mm");
+        lvOrdenTirilla.setItems(ventasOrdenTirilla);
+        lvOrdenTirilla.setFixedCellSize(56.0);
+        lvOrdenTirilla.setCellFactory(listView -> new ListCell<VentaOrdenTirillaTurno>() {
+            @Override
+            protected void updateItem(VentaOrdenTirillaTurno item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    String hora = item.getFecha() != null ? item.getFecha().format(fmtHora) : "--:--";
+                    setText(hora + "  ·  $ " + formatearMoneda(item.getTotalVenta()));
+                    setGraphic(null);
+                }
+            }
+        });
     }
 
     private void configurarEncabezadoUsuario() {
@@ -319,6 +356,7 @@ public class CierreCajaController {
                 }
             }
 
+            cantidadVentasContadoTurno = cantidadVentasContado;
             totalVentasContadoTurno = sumaVentasContado;
             totalEsperadoTurno = base.add(sumaVentasContado).add(sumaAbonos).subtract(sumaPagosCaja);
 
@@ -342,6 +380,21 @@ public class CierreCajaController {
             if (lblNotaVentasFiado != null) {
                 lblNotaVentasFiado.setText("ⓘ   Ventas a fiado (no entran a la caja): $ " + formatearMoneda(sumaVentasFiado));
             }
+
+            // Cargar desglose para diferencia (Ventas por persona + Orden de la tirilla)
+            ventasPorPersonaTurno.clear();
+            List<ResumenVentasUsuarioTurno> porPersona = cajaDAO.listarVentasContadoPorPersonaTurno(idCaja);
+            if (porPersona != null) {
+                ventasPorPersonaTurno.addAll(porPersona);
+            }
+
+            List<VentaOrdenTirillaTurno> ordenTirilla = cajaDAO.listarVentasContadoOrdenTirillaTurno(idCaja);
+            if (ordenTirilla != null) {
+                ventasOrdenTirilla.setAll(ordenTirilla);
+            } else {
+                ventasOrdenTirilla.clear();
+            }
+            renderizarDesgloseDiferencia();
 
             // Ordenar y renderizar lista de movimientos
             Collections.sort(movimientosDelTurno, new Comparator<ItemMovimientoTurno>() {
@@ -423,6 +476,58 @@ public class CierreCajaController {
         renderizarListaMovimientos();
     }
 
+    private void renderizarDesgloseDiferencia() {
+        if (boxVentasPorPersona == null) {
+            return;
+        }
+        boxVentasPorPersona.getChildren().clear();
+
+        if (ventasPorPersonaTurno.isEmpty()) {
+            Label lblVacio = new Label("No hay ventas de contado registradas por usuario en este turno.");
+            lblVacio.getStyleClass().add("cierre-caja-diff-empty");
+            lblVacio.setWrapText(true);
+            boxVentasPorPersona.getChildren().add(lblVacio);
+            return;
+        }
+
+        int sumaCantidad = 0;
+        BigDecimal sumaTotal = BigDecimal.ZERO;
+
+        for (ResumenVentasUsuarioTurno r : ventasPorPersonaTurno) {
+            sumaCantidad += r.getCantidadVentas();
+            sumaTotal = sumaTotal.add(r.getTotalVentas());
+
+            HBox fila = new HBox(8);
+            fila.setAlignment(Pos.CENTER_LEFT);
+            fila.getStyleClass().add("cierre-caja-diff-person-row");
+
+            String sufijoVentas = r.getCantidadVentas() == 1 ? " venta" : " ventas";
+            Label lblPersona = new Label("👤  " + r.getNombreUsuario() + " · "
+                    + r.getCantidadVentas() + sufijoVentas + " · $ " + formatearMoneda(r.getTotalVentas()));
+            lblPersona.getStyleClass().add("cierre-caja-diff-person-text");
+            lblPersona.setWrapText(true);
+
+            fila.getChildren().add(lblPersona);
+            boxVentasPorPersona.getChildren().add(fila);
+        }
+
+        int totalVentasMostrar = Math.max(cantidadVentasContadoTurno, sumaCantidad);
+        BigDecimal montoTotalMostrar = totalVentasContadoTurno.compareTo(BigDecimal.ZERO) > 0
+                ? totalVentasContadoTurno
+                : sumaTotal;
+
+        HBox filaTotal = new HBox(8);
+        filaTotal.setAlignment(Pos.CENTER_LEFT);
+        filaTotal.getStyleClass().add("cierre-caja-diff-total-row");
+
+        Label lblTotal = new Label("Total · " + totalVentasMostrar
+                + (totalVentasMostrar == 1 ? " venta" : " ventas")
+                + " · $ " + formatearMoneda(montoTotalMostrar));
+        lblTotal.getStyleClass().add("cierre-caja-diff-person-text");
+        filaTotal.getChildren().add(lblTotal);
+        boxVentasPorPersona.getChildren().add(filaTotal);
+    }
+
     private void recalcularValidacionEnTiempoReal() {
         if (boxResultadoArqueo == null || lblEstadoCuadreCaja == null || lblEstadoCuadreTirilla == null) {
             return;
@@ -430,6 +535,9 @@ public class CierreCajaController {
 
         BigDecimal contado = parsearMonto(txtEfectivoContado != null ? txtEfectivoContado.getText() : null);
         BigDecimal tirilla = parsearMonto(txtTotalTirilla != null ? txtTotalTirilla.getText() : null);
+        boolean hayDiferencia = contado != null
+                && contado.compareTo(BigDecimal.ZERO) >= 0
+                && contado.compareTo(totalEsperadoTurno) != 0;
 
         // 1. Evaluar cuadre del efectivo fisico vs total esperado
         if (contado == null || contado.compareTo(BigDecimal.ZERO) < 0) {
@@ -455,16 +563,32 @@ public class CierreCajaController {
             }
         }
 
-        // 2. Evaluar segunda linea: tirilla de la registradora vs ventas de contado del sistema
-        if (tirilla == null) {
-            lblEstadoCuadreTirilla.setText("✓  La tirilla coincide con el sistema");
+        // 2. Segunda linea de tirilla (oculta por completo cuando hay diferencia en efectivo)
+        if (hayDiferencia) {
+            setVisibilidadNodo(lblEstadoCuadreTirilla, false);
         } else {
-            BigDecimal diffTirilla = tirilla.subtract(totalVentasContadoTurno);
-            if (diffTirilla.compareTo(BigDecimal.ZERO) == 0) {
+            setVisibilidadNodo(lblEstadoCuadreTirilla, true);
+            if (tirilla == null) {
                 lblEstadoCuadreTirilla.setText("✓  La tirilla coincide con el sistema");
             } else {
-                lblEstadoCuadreTirilla.setText("⚠  La tirilla difiere por $ " + formatearMoneda(diffTirilla.abs()));
+                BigDecimal diffTirilla = tirilla.subtract(totalVentasContadoTurno);
+                if (diffTirilla.compareTo(BigDecimal.ZERO) == 0) {
+                    lblEstadoCuadreTirilla.setText("✓  La tirilla coincide con el sistema");
+                } else {
+                    lblEstadoCuadreTirilla.setText("⚠  La tirilla difiere por $ " + formatearMoneda(diffTirilla.abs()));
+                }
             }
+        }
+
+        // 3. Alternar bloque izquierdo: "Movimientos de hoy" vs "Para encontrar la diferencia"
+        setVisibilidadNodo(boxSeccionMovimientosHoy, !hayDiferencia);
+        setVisibilidadNodo(boxParaEncontrarDiferencia, hayDiferencia);
+    }
+
+    private void setVisibilidadNodo(Node node, boolean visible) {
+        if (node != null) {
+            node.setVisible(visible);
+            node.setManaged(visible);
         }
     }
 

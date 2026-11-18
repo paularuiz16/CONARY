@@ -261,6 +261,7 @@ public class MenuPrincipalController {
         }
 
         if (gridModulos != null) {
+            gridModulos.setVgap(esAdmin ? 14.0 : 0.0);
             gridModulos.requestLayout();
         }
     }
@@ -675,7 +676,9 @@ public class MenuPrincipalController {
                     || "/fxml/mas_opciones.fxml".equals(fxmlPath)
                     || "/fxml/usuarios.fxml".equals(fxmlPath)
                     || "/fxml/registrar_usuario.fxml".equals(fxmlPath)
-                    || "/fxml/copias_seguridad.fxml".equals(fxmlPath);
+                    || "/fxml/copias_seguridad.fxml".equals(fxmlPath)
+                    || "/fxml/pasar_datos_excel.fxml".equals(fxmlPath)
+                    || "/fxml/resultado_pasar_excel.fxml".equals(fxmlPath);
             if (headerPrincipal != null) {
                 headerPrincipal.setVisible(!usaHeaderPropio);
                 headerPrincipal.setManaged(!usaHeaderPropio);

@@ -25,6 +25,7 @@ public class MasOpcionesController {
     @FXML private Label lblUsuarioRol;
     @FXML private Button btnUsuariosClaves;
     @FXML private Button btnCopiasSeguridad;
+    @FXML private Button btnPasarDatosExcel;
     @FXML private Label lblUltimaCopia;
 
     private final RespaldoService respaldoService = new RespaldoService();
@@ -90,6 +91,19 @@ public class MasOpcionesController {
         MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
         if (menu != null) {
             menu.cargarVistaEnContenido("/fxml/copias_seguridad.fxml");
+        }
+    }
+
+    @FXML
+    public void handleAbrirPasarDatosExcel() {
+        if (SesionUsuario.haySesionActiva() && !SesionUsuario.esAdministrador()) {
+            AlertaUtil.mostrarAdvertencia("Acceso Restringido",
+                    "Solo Doña Rosita (Administradora) puede pasar ventas anteriores desde Excel.");
+            return;
+        }
+        MenuPrincipalController menu = MenuPrincipalController.getInstanciaActiva();
+        if (menu != null) {
+            menu.cargarVistaEnContenido("/fxml/pasar_datos_excel.fxml");
         }
     }
 

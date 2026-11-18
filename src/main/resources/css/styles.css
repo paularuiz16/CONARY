@@ -2748,6 +2748,78 @@
     -fx-padding: 8px 4px 8px 4px;
 }
 
+/* Bloque dinamico "Para encontrar la diferencia" (BPMN 13) */
+.cierre-caja-diff-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.cierre-caja-diff-subtitle {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.cierre-caja-diff-help {
+    -fx-font-size: 16px;
+    -fx-text-fill: #704214;
+}
+
+.cierre-caja-diff-person-row {
+    -fx-background-color: #FAF4EC;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+}
+
+.cierre-caja-diff-person-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.cierre-caja-diff-total-row {
+    -fx-background-color: #EFE2D2;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px 12px;
+}
+
+.cierre-caja-diff-list {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 2px;
+}
+
+.cierre-caja-diff-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0 12px 0 12px;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+    -fx-border-color: transparent transparent #F2E8DC transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.cierre-caja-diff-list .list-cell:odd {
+    -fx-background-color: #FAF6F0;
+}
+
+.cierre-caja-diff-list .list-cell:empty {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.cierre-caja-diff-empty {
+    -fx-font-size: 16px;
+    -fx-text-fill: #704214;
+}
+
 .cierre-caja-field-label {
     -fx-font-size: 12.5px;
     -fx-font-weight: bold;
@@ -3548,6 +3620,13 @@
     -fx-background-color: #6B3A19;
     -fx-border-color: #6B3A19;
     -fx-text-fill: #FAF6F0;
+}
+
+.vender-pago-toggle-bloqueado:selected {
+    -fx-background-color: #FAF1E6;
+    -fx-border-color: #704214;
+    -fx-border-width: 1.5px;
+    -fx-text-fill: #46220F;
 }
 
 /* Modo Contado */
@@ -7401,6 +7480,256 @@
 .modal-restaurar-btn-confirmar:hover {
     -fx-background-color: #A82020;
 }
+
+/* =========================================================
+ * PASAR DATOS DEL EXCEL Y RESULTADO
+ * ========================================================= */
+
+.excel-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20px;
+    -fx-border-color: #EBDDD0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-padding: 20px 24px;
+    -fx-effect: dropshadow(gaussian, rgba(70, 34, 15, 0.06), 14, 0.08, 0, 3);
+}
+
+.excel-section-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.excel-desc-18 {
+    -fx-font-size: 18px;
+    -fx-text-fill: #46220F;
+    -fx-line-spacing: 3px;
+}
+
+.excel-help-16 {
+    -fx-font-size: 16px;
+    -fx-text-fill: #704214;
+}
+
+.excel-btn-elegir {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #704214;
+    -fx-border-width: 2px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-min-height: 56px;
+    -fx-pref-height: 56px;
+    -fx-padding: 0 20px;
+    -fx-cursor: hand;
+}
+
+.excel-btn-elegir:hover {
+    -fx-background-color: #FDF5EE;
+}
+
+.excel-archivo-ok-box {
+    -fx-background-color: #EAF7EC;
+    -fx-border-color: #B8DFC0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px;
+}
+
+.excel-archivo-ok-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E6B34;
+}
+
+.excel-kpi-pill {
+    -fx-background-color: #FAF4EC;
+    -fx-border-color: #E8D9CA;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8px 12px;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.excel-kpi-pill-warn {
+    -fx-background-color: #FDF3DF;
+    -fx-border-color: #E8CE9D;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 8px 12px;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #704214;
+}
+
+.excel-subtitulo-tabla {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.excel-preview-table {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E8DDD0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.excel-preview-table .column-header-background {
+    -fx-background-color: #FCEEE5;
+}
+
+.excel-preview-table .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 10px 8px;
+}
+
+.excel-preview-table .column-header .label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.excel-preview-table .table-cell {
+    -fx-font-size: 16px;
+    -fx-text-fill: #46220F;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 10px;
+}
+
+.excel-preview-table .table-row-cell:odd {
+    -fx-background-color: #FAF6F0;
+}
+
+.excel-errores-box {
+    -fx-background-color: #FDF3DF;
+    -fx-border-color: #E8CE9D;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 14px;
+}
+
+.excel-errores-titulo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.excel-errores-item {
+    -fx-font-size: 16px;
+    -fx-text-fill: #704214;
+}
+
+.excel-btn-pasar {
+    -fx-background-color: #704214;
+    -fx-background-radius: 12px;
+    -fx-text-fill: #FAF6F0;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-min-height: 56px;
+    -fx-pref-height: 56px;
+    -fx-cursor: hand;
+}
+
+.excel-btn-pasar:hover {
+    -fx-background-color: #46220F;
+}
+
+.excel-btn-pasar:disabled {
+    -fx-opacity: 0.48;
+}
+
+.excel-btn-cancelar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #AA7444;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-text-fill: #46220F;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-height: 48px;
+    -fx-pref-height: 48px;
+    -fx-cursor: hand;
+}
+
+.excel-btn-cancelar:hover {
+    -fx-background-color: #FDF5EE;
+}
+
+/* Resultado Pasar Excel */
+.resultado-excel-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 22px;
+    -fx-border-color: #EBDDD0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 22px;
+    -fx-padding: 32px 38px;
+    -fx-effect: dropshadow(gaussian, rgba(70, 34, 15, 0.08), 18, 0.1, 0, 4);
+}
+
+.resultado-excel-check-circle {
+    -fx-background-color: #EAF7EC;
+    -fx-border-color: #B8DFC0;
+    -fx-border-width: 2px;
+    -fx-background-radius: 36px;
+    -fx-border-radius: 36px;
+    -fx-min-width: 72px;
+    -fx-max-width: 72px;
+    -fx-min-height: 72px;
+    -fx-max-height: 72px;
+}
+
+.resultado-excel-title {
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.resultado-excel-stat-row {
+    -fx-background-color: #FAF6F0;
+    -fx-border-color: #EFE0D3;
+    -fx-border-width: 1px;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 12px 18px;
+}
+
+.resultado-excel-stat-text {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #46220F;
+}
+
+.resultado-excel-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #704214;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-padding: 2px 6px;
+}
+
+.resultado-excel-link:hover {
+    -fx-text-fill: #46220F;
+}
+
 
 
 
